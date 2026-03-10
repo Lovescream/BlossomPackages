@@ -2,6 +2,7 @@
 	"name": "Blossom.Monetization.IAP.Editor",
 	"references": [
 		"Blossom.Common",
+		"Blossom.Common.Editor",
 		"Blossom.Monetization.IAP",
 		"Unity.Services.Core",
 		"UnityEngine.Purchasing"

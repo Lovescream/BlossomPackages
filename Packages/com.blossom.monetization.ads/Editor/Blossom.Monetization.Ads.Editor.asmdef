@@ -2,6 +2,7 @@
 	"name": "Blossom.Monetization.Ads.Editor",
 	"references": [
 		"Blossom.Common",
+		"Blossom.Common.Editor",
 		"Blossom.Monetization.Ads"
 	]
 }

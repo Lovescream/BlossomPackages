@@ -1,0 +1,14 @@
+{
+  "name": "com.blossom.package-manager",
+  "displayName": "Blossom-PackageManager",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom PackageManager",
+  "keywords": [
+  ],
+  "category": "Blossom"
+}

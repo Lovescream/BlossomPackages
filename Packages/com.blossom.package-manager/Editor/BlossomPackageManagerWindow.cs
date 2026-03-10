@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -16,15 +17,82 @@ namespace Blossom.PackageManager.Editor {
         private bool _isRefreshing;
         private string _statusMessage;
 
+        private GUIStyle _titleStyle;
+        private GUIStyle _packageNameStyle;
+        private GUIStyle _groupHeaderStyle;
+        private GUIStyle _groupHeaderButtonStyle;
+        private GUIStyle _groupBoxStyle;
+        private GUIStyle _cardStyle;
+        private GUIStyle _miniLabelStyle;
+
+        private static readonly Color InstalledColor = new(0.2f, 0.7f, 0.25f);
+        private static readonly Color MissingColor = new(0.85f, 0.25f, 0.25f);
+
+        private static readonly Color GroupHeaderBg = new(0.18f, 0.18f, 0.18f, 1f);
+
+        private static readonly Color CardBgMissingRequired = new(0.30f, 0.18f, 0.18f, 0.45f);
+        private static readonly Color CardBgReadyToInstall = new(0.22f, 0.22f, 0.22f, 0.35f);
+        private static readonly Color CardBgInstalledUpdatable = new(0.35f, 0.28f, 0.12f, 0.45f);
+        private static readonly Color CardBgInstalledLatest = new(0.16f, 0.28f, 0.18f, 0.45f);
+
         [MenuItem("Blossom/Package Manager")]
         public static void Open() {
-            BlossomPackageManagerWindow window = GetWindow<BlossomPackageManagerWindow>("Blossom Package Manager");
-            window.minSize = new(640f, 720f);
+            var window = GetWindow<BlossomPackageManagerWindow>("Blossom Package Manager");
+            window.minSize = new Vector2(780f, 720f);
             window.Refresh();
         }
 
         private void OnEnable() {
             Refresh();
+        }
+        private void InitializeStyles() {
+            if (_titleStyle == null) {
+                _titleStyle = new GUIStyle(EditorStyles.boldLabel) {
+                    fontSize = 15,
+                    richText = true
+                };
+            }
+
+            if (_packageNameStyle == null) {
+                _packageNameStyle = new GUIStyle(EditorStyles.label) {
+                    richText = true
+                };
+            }
+
+            if (_groupHeaderStyle == null) {
+                _groupHeaderStyle = new GUIStyle(EditorStyles.boldLabel) {
+                    fontSize = 13,
+                    alignment = TextAnchor.MiddleLeft,
+                    padding = new RectOffset(10, 10, 6, 6)
+                };
+            }
+
+            if (_groupHeaderButtonStyle == null) {
+                _groupHeaderButtonStyle = new GUIStyle(GUI.skin.button) {
+                    alignment = TextAnchor.MiddleCenter
+                };
+            }
+
+            if (_groupBoxStyle == null) {
+                _groupBoxStyle = new GUIStyle("box") {
+                    padding = new RectOffset(10, 10, 8, 8),
+                    margin = new RectOffset(0, 0, 8, 14)
+                };
+            }
+
+            if (_cardStyle == null) {
+                _cardStyle = new GUIStyle("box") {
+                    padding = new RectOffset(10, 10, 8, 8),
+                    margin = new RectOffset(0, 0, 4, 6)
+                };
+            }
+
+            if (_miniLabelStyle == null) {
+                _miniLabelStyle = new GUIStyle(EditorStyles.miniLabel) {
+                    richText = true,
+                    wordWrap = true
+                };
+            }
         }
 
         private void Refresh() {
@@ -42,13 +110,13 @@ namespace Blossom.PackageManager.Editor {
                     return;
                 }
 
-                _packages = new(BlossomPackageCatalog.Packages);
-                _groups = new(BlossomPackageCatalog.Groups);
+                _packages = new List<BlossomPackageInfo>(BlossomPackageCatalog.Packages);
+                _groups = new List<BlossomPackageGroupInfo>(BlossomPackageCatalog.Groups);
 
                 _statusMessage = "Scanning installed packages...";
 
                 BlossomPackageInstaller.RefreshInstalledPackages((names, versions) => {
-                    _installed = new(names);
+                    _installed = new HashSet<string>(names);
                     _installedVersions = versions ?? new Dictionary<string, string>();
 
                     _isRefreshing = false;
@@ -59,6 +127,8 @@ namespace Blossom.PackageManager.Editor {
         }
 
         private void OnGUI() {
+            InitializeStyles();
+
             DrawHeader();
 
             if (_isRefreshing) {
@@ -82,208 +152,399 @@ namespace Blossom.PackageManager.Editor {
             EditorGUILayout.LabelField("Install and manage Blossom packages.");
 
             EditorGUILayout.Space(6);
-            EditorGUILayout.BeginHorizontal();
 
-            GUI.enabled = !_isRefreshing;
-            if (GUILayout.Button("Refresh", GUILayout.Height(26))) {
-                Refresh();
+            using (new EditorGUILayout.HorizontalScope()) {
+                GUI.enabled = !_isRefreshing;
+                if (GUILayout.Button("Refresh", GUILayout.Height(26), GUILayout.Width(100))) {
+                    Refresh();
+                }
+
+                GUI.enabled = true;
             }
 
-            GUI.enabled = true;
-
-            EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(10);
         }
 
         private void DrawRequiredSection() {
-            List<BlossomPackageInfo> requiredPackages = _packages.Where(p => p.IsRequired).ToList();
+            var requiredPackages = _packages.Where(p => p.IsRequired).ToList();
             if (requiredPackages.Count == 0) return;
 
-            EditorGUILayout.LabelField("Required", EditorStyles.boldLabel);
-            EditorGUILayout.Space(4);
+            DrawGroupHeader("Required Packages", false, null);
 
-            foreach (BlossomPackageInfo package in requiredPackages) {
-                DrawPackageCard(package);
+            using (new EditorGUILayout.VerticalScope(_groupBoxStyle)) {
+                foreach (var package in requiredPackages) {
+                    DrawPackageCard(package);
+                }
+
+                EditorGUILayout.Space(4);
+
+                GUI.enabled = !_isRefreshing;
+                if (GUILayout.Button("Install Required Packages", GUILayout.Height(28))) {
+                    InstallRequiredPackages();
+                }
+
+                GUI.enabled = true;
             }
 
-            EditorGUILayout.Space(4);
-
-            GUI.enabled = !_isRefreshing;
-            if (GUILayout.Button("Install Required Packages", GUILayout.Height(28))) {
-                InstallRequiredPackages();
-            }
-
-            GUI.enabled = true;
-
-            EditorGUILayout.Space(14);
+            EditorGUILayout.Space(8);
         }
 
         private void DrawGroupSections() {
-            foreach (BlossomPackageGroupInfo group in _groups) {
+            foreach (var group in _groups) {
                 if (group.Name == "Required") continue;
 
-                List<BlossomPackageInfo> groupPackages = _packages
+                var groupPackages = _packages
                     .Where(p => !p.IsRequired && p.Group == group.Name)
                     .ToList();
 
                 if (groupPackages.Count == 0) continue;
 
-                EditorGUILayout.LabelField(group.DisplayName, EditorStyles.boldLabel);
-                EditorGUILayout.Space(4);
+                DrawGroupHeader(
+                    group.DisplayName,
+                    group.InstallAll,
+                    () => InstallGroup(group.Name));
 
-                if (group.InstallAll) {
-                    GUI.enabled = !_isRefreshing;
-                    if (GUILayout.Button($"Install {group.DisplayName} All", GUILayout.Height(26))) {
-                        InstallGroup(group.Name);
+                using (new EditorGUILayout.VerticalScope(_groupBoxStyle)) {
+                    foreach (var package in groupPackages) {
+                        DrawPackageCard(package);
                     }
-
-                    GUI.enabled = true;
-
-                    EditorGUILayout.Space(6);
                 }
 
-                foreach (BlossomPackageInfo package in groupPackages) {
-                    DrawPackageCard(package);
-                }
-
-                EditorGUILayout.Space(14);
+                EditorGUILayout.Space(8);
             }
+        }
+
+        private void DrawGroupHeader(string title, bool showInstallAll, Action onInstallAll) {
+            Rect rect = EditorGUILayout.GetControlRect(false, 30f);
+            EditorGUI.DrawRect(rect, GroupHeaderBg);
+
+            Rect labelRect = new Rect(rect.x + 8f, rect.y, rect.width - 16f, rect.height);
+            GUI.Label(labelRect, title, _groupHeaderStyle);
+
+            if (!showInstallAll || onInstallAll == null) return;
+
+            float buttonWidth = 130f;
+            Rect buttonRect = new Rect(rect.xMax - buttonWidth - 8f, rect.y + 3f, buttonWidth, rect.height - 6f);
+
+            GUI.enabled = !_isRefreshing;
+            if (GUI.Button(buttonRect, $"Install {title} All", _groupHeaderButtonStyle)) {
+                onInstallAll.Invoke();
+            }
+
+            GUI.enabled = true;
         }
 
         private void DrawPackageCard(BlossomPackageInfo package) {
             bool isInstalled = _installed.Contains(package.Name);
-            string installedVersion = _installedVersions.TryGetValue(package.Name, out string version) ? version : "-";
+            string installedVersion = _installedVersions.TryGetValue(package.Name, out var version)
+                ? version
+                : string.Empty;
 
-            EditorGUILayout.BeginVertical("box");
+            BlossomPackageVisualState state = GetVisualState(package, isInstalled, installedVersion);
 
-            EditorGUILayout.LabelField(package.DisplayName, EditorStyles.boldLabel);
-            EditorGUILayout.LabelField($"Package: {package.Name}");
-            EditorGUILayout.LabelField($"Catalog Version: {package.Version}");
-            EditorGUILayout.LabelField($"Installed Version: {installedVersion}");
+            Rect bgRect = EditorGUILayout.BeginVertical(_cardStyle);
+            DrawCardBackground(bgRect, state);
 
-            if (package.RequiredDependencies.Count > 0) {
-                EditorGUILayout.LabelField(
-                    $"Required: {string.Join(", ", package.RequiredDependencies.Select(d => d.DisplayName))}");
-            }
+            DrawTopLine(package, state);
+            DrawPackageNameLine(package, isInstalled);
+            DrawDependencyLine("Required", package.RequiredDependencies);
+            DrawDependencyLine("Optional", package.OptionalDependencies);
 
-            if (package.OptionalDependencies.Count > 0) {
-                EditorGUILayout.LabelField(
-                    $"Optional: {string.Join(", ", package.OptionalDependencies.Select(d => d.DisplayName))}");
-            }
-
-            EditorGUILayout.Space(6);
-            EditorGUILayout.BeginHorizontal();
-
-            GUI.enabled = !_isRefreshing;
-
-            if (!isInstalled) {
-                if (GUILayout.Button("Install", GUILayout.Height(24))) {
-                    TryInstallPackage(package);
-                }
-            }
-            else {
-                GUILayout.Label("Installed", GUILayout.Width(70));
-                if (GUILayout.Button("Remove", GUILayout.Height(24))) {
-                    TryRemovePackage(package);
-                }
-            }
-
-            GUI.enabled = true;
-            EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
         }
 
+        private void DrawCardBackground(Rect rect, BlossomPackageVisualState state) {
+            EditorGUI.DrawRect(rect, GetCardBackgroundColor(state));
+        }
+
+        private Color GetCardBackgroundColor(BlossomPackageVisualState state) {
+            return state switch {
+                BlossomPackageVisualState.NotInstalledMissingRequired => CardBgMissingRequired,
+                BlossomPackageVisualState.NotInstalledReady => CardBgReadyToInstall,
+                BlossomPackageVisualState.InstalledUpdatable => CardBgInstalledUpdatable,
+                BlossomPackageVisualState.InstalledLatest => CardBgInstalledLatest,
+                _ => CardBgReadyToInstall
+            };
+        }
+
+        private void DrawTopLine(BlossomPackageInfo package, BlossomPackageVisualState state) {
+            using (new EditorGUILayout.HorizontalScope()) {
+                GUILayout.Label($"{package.DisplayName} ({package.Version})", _titleStyle);
+
+                GUILayout.FlexibleSpace();
+
+                GUI.enabled = !_isRefreshing;
+
+                switch (state) {
+                    case BlossomPackageVisualState.NotInstalledMissingRequired:
+                        if (GUILayout.Button("Install Required", GUILayout.Width(130), GUILayout.Height(24))) {
+                            InstallMissingRequiredFor(package, false);
+                        }
+
+                        break;
+
+                    case BlossomPackageVisualState.NotInstalledReady:
+                        if (GUILayout.Button("Install", GUILayout.Width(100), GUILayout.Height(24))) {
+                            TryInstallPackage(package);
+                        }
+
+                        break;
+
+                    case BlossomPackageVisualState.InstalledUpdatable:
+                        if (GUILayout.Button("Update", GUILayout.Width(100), GUILayout.Height(24))) {
+                            TryUpdatePackage(package);
+                        }
+
+                        break;
+
+                    case BlossomPackageVisualState.InstalledLatest:
+                        if (GUILayout.Button("Remove", GUILayout.Width(100), GUILayout.Height(24))) {
+                            TryRemovePackage(package);
+                        }
+
+                        break;
+                }
+
+                if (HasMissingOptionalDependencies(package)) {
+                    if (GUILayout.Button("Install Optional", GUILayout.Width(120), GUILayout.Height(24))) {
+                        InstallMissingOptionalFor(package);
+                    }
+                }
+
+                GUI.enabled = true;
+            }
+
+            if (state == BlossomPackageVisualState.InstalledUpdatable) {
+                using (new EditorGUILayout.HorizontalScope()) {
+                    GUILayout.FlexibleSpace();
+
+                    GUI.enabled = !_isRefreshing;
+                    if (GUILayout.Button("Remove", GUILayout.Width(100), GUILayout.Height(22))) {
+                        TryRemovePackage(package);
+                    }
+
+                    GUI.enabled = true;
+                }
+            }
+        }
+
+        private void DrawPackageNameLine(BlossomPackageInfo package, bool isInstalled) {
+            string colorHex = isInstalled ? ToHtmlColor(InstalledColor) : "#FFFFFF";
+            EditorGUILayout.LabelField($"<color={colorHex}>{package.Name}</color>", _packageNameStyle);
+        }
+
+        private void DrawDependencyLine(string label, List<BlossomPackageDependencyInfo> dependencies) {
+            if (dependencies == null || dependencies.Count == 0) return;
+
+            string joined = string.Join(", ", dependencies.Select(FormatDependencyText));
+            EditorGUILayout.LabelField($"{label}: {joined}", _miniLabelStyle);
+        }
+
+        private string FormatDependencyText(BlossomPackageDependencyInfo dependency) {
+            bool installed = _installed.Contains(dependency.Name);
+            string colorHex = installed ? ToHtmlColor(InstalledColor) : ToHtmlColor(MissingColor);
+            return $"<color={colorHex}>{dependency.DisplayName}</color>";
+        }
+
+        private BlossomPackageVisualState GetVisualState(
+            BlossomPackageInfo package,
+            bool isInstalled,
+            string installedVersion) {
+
+            if (!isInstalled) {
+                bool missingRequired = package.RequiredDependencies.Any(dep => !_installed.Contains(dep.Name));
+                return missingRequired
+                    ? BlossomPackageVisualState.NotInstalledMissingRequired
+                    : BlossomPackageVisualState.NotInstalledReady;
+            }
+
+            bool hasUpdate = IsVersionLower(installedVersion, package.Version);
+            return hasUpdate
+                ? BlossomPackageVisualState.InstalledUpdatable
+                : BlossomPackageVisualState.InstalledLatest;
+        }
+
+        private bool IsVersionLower(string installedVersion, string catalogVersion) {
+            if (string.IsNullOrWhiteSpace(installedVersion)) return true;
+            if (string.IsNullOrWhiteSpace(catalogVersion)) return false;
+
+            Version installedParsed = ParseVersion(installedVersion);
+            Version catalogParsed = ParseVersion(catalogVersion);
+            return installedParsed < catalogParsed;
+        }
+
+        private Version ParseVersion(string version) {
+            if (string.IsNullOrWhiteSpace(version)) return new Version(0, 0, 0);
+
+            string[] parts = version.Split('.');
+            int major = parts.Length > 0 && int.TryParse(parts[0], out int a) ? a : 0;
+            int minor = parts.Length > 1 && int.TryParse(parts[1], out int b) ? b : 0;
+            int build = parts.Length > 2 && int.TryParse(parts[2], out int c) ? c : 0;
+
+            return new Version(major, minor, build);
+        }
+
+        private string ToHtmlColor(Color color) {
+            return $"#{ColorUtility.ToHtmlStringRGB(color)}";
+        }
+
+        private bool HasMissingOptionalDependencies(BlossomPackageInfo package) {
+            return package.OptionalDependencies.Any(dep => !_installed.Contains(dep.Name));
+        }
+
         private void InstallRequiredPackages() {
-            foreach (BlossomPackageInfo package in _packages.Where(p => p.IsRequired)) {
-                if (_installed.Contains(package.Name)) continue;
-                TryInstallPackage(package);
+            var missingRequired = _packages
+                .Where(p => p.IsRequired && !_installed.Contains(p.Name))
+                .ToList();
+
+            if (missingRequired.Count == 0) {
+                EditorUtility.DisplayDialog("Info", "All required packages are already installed.", "OK");
                 return;
             }
 
-            EditorUtility.DisplayDialog("Info", "All required packages are already installed.", "OK");
+            InstallPackageSequence(missingRequired, 0, Refresh);
         }
 
         private void InstallGroup(string groupName) {
-            List<BlossomPackageInfo> groupPackages = _packages
-                .Where(p => !p.IsRequired && p.Group == groupName)
+            var groupPackages = _packages
+                .Where(p => !p.IsRequired && p.Group == groupName && !_installed.Contains(p.Name))
                 .ToList();
 
-            foreach (BlossomPackageInfo package in groupPackages) {
-                if (_installed.Contains(package.Name)) continue;
-                TryInstallPackage(package);
+            if (groupPackages.Count == 0) {
+                EditorUtility.DisplayDialog("Info", $"All packages in {groupName} are already installed.", "OK");
                 return;
             }
 
-            EditorUtility.DisplayDialog("Info", $"All packages in {groupName} are already installed.", "OK");
+            InstallPackageSequence(groupPackages, 0, Refresh);
         }
 
-        private void TryInstallPackage(BlossomPackageInfo package) {
-            List<BlossomPackageDependencyInfo> missingRequired = package.RequiredDependencies
+        private void InstallMissingRequiredFor(BlossomPackageInfo package, bool installTargetAfterDependencies) {
+            var missingRequired = package.RequiredDependencies
                 .Where(dep => !_installed.Contains(dep.Name))
                 .ToList();
 
-            if (missingRequired.Count > 0) {
-                List<BlossomPackageInfo> dependencyPackageInfos = missingRequired
-                    .Select(dep => BlossomPackageCatalog.FindPackage(dep.Name))
-                    .Where(info => info != null)
-                    .ToList();
-
-                if (dependencyPackageInfos.Count > 0) {
-                    bool installDependencies = EditorUtility.DisplayDialog(
-                        "Required Dependencies",
-                        $"{package.DisplayName}를 설치하려면 먼저 다음 패키지가 필요합니다.\n\n- " +
-                        $"{string.Join("\n- ", dependencyPackageInfos.Select(p => p.DisplayName))}\n\n" +
-                        $"먼저 설치할까요?",
-                        "설치",
-                        "취소");
-
-                    if (!installDependencies) return;
-
-                    InstallPackageSequence(dependencyPackageInfos, 0, () => { InstallSinglePackage(package); });
-
-                    return;
+            if (missingRequired.Count == 0) {
+                if (installTargetAfterDependencies) {
+                    TryInstallPackage(package);
                 }
 
+                return;
+            }
+
+            var autoInstallable = missingRequired
+                .Where(IsDependencyAutoInstallable)
+                .ToList();
+
+            var manual = missingRequired
+                .Where(dep => !IsDependencyAutoInstallable(dep))
+                .ToList();
+
+            if (manual.Count > 0) {
                 EditorUtility.DisplayDialog(
                     "Required Dependencies",
-                    $"{package.DisplayName}를 설치하려면 다음 패키지가 먼저 필요합니다.\n\n- " +
-                    $"{string.Join("\n- ", missingRequired.Select(d => d.DisplayName))}\n\n" +
-                    $"현재 자동 설치할 수 없는 항목이 포함되어 있어 설치를 중단합니다.",
+                    $"{package.DisplayName}에는 자동 설치할 수 없는 필수 의존성이 있습니다.\n\n" +
+                    string.Join("\n", manual.Select(d => $"- {d.DisplayName}: {GetDependencyInstallMessage(d)}")),
                     "OK");
                 return;
             }
 
-            List<BlossomPackageDependencyInfo> missingOptional = package.OptionalDependencies
+            bool ok = EditorUtility.DisplayDialog(
+                "Install Required Dependencies",
+                $"{package.DisplayName}를 위해 다음 필수 의존성을 설치할까요?\n\n- " +
+                $"{string.Join("\n- ", autoInstallable.Select(d => d.DisplayName))}",
+                "설치",
+                "취소");
+
+            if (!ok) return;
+
+            InstallDependencySequence(autoInstallable, 0, () => {
+                if (installTargetAfterDependencies) {
+                    TryInstallPackage(package);
+                }
+                else {
+                    Refresh();
+                }
+            });
+        }
+
+        private void InstallMissingOptionalFor(BlossomPackageInfo package) {
+            var missingOptional = package.OptionalDependencies
                 .Where(dep => !_installed.Contains(dep.Name))
                 .ToList();
 
-            List<BlossomPackageInfo> optionalPackageInfos = missingOptional
-                .Select(dep => BlossomPackageCatalog.FindPackage(dep.Name))
-                .Where(info => info != null)
+            if (missingOptional.Count == 0) {
+                EditorUtility.DisplayDialog("Info", "All optional dependencies are already installed.", "OK");
+                return;
+            }
+
+            var autoInstallable = missingOptional
+                .Where(IsDependencyAutoInstallable)
                 .ToList();
 
-            if (optionalPackageInfos.Count > 0) {
+            var manual = missingOptional
+                .Where(dep => !IsDependencyAutoInstallable(dep))
+                .ToList();
+
+            if (autoInstallable.Count > 0) {
+                bool ok = EditorUtility.DisplayDialog(
+                    "Install Optional Dependencies",
+                    $"{package.DisplayName}의 선택 의존성을 설치할까요?\n\n- " +
+                    $"{string.Join("\n- ", autoInstallable.Select(d => d.DisplayName))}",
+                    "설치",
+                    "취소");
+
+                if (ok) {
+                    InstallDependencySequence(autoInstallable, 0, () => {
+                        ShowManualDependencyDialogIfNeeded("Optional Dependencies", manual);
+                        Refresh();
+                    });
+                    return;
+                }
+            }
+
+            ShowManualDependencyDialogIfNeeded("Optional Dependencies", manual);
+        }
+
+        private void TryInstallPackage(BlossomPackageInfo package) {
+            var missingRequired = package.RequiredDependencies
+                .Where(dep => !_installed.Contains(dep.Name))
+                .ToList();
+
+            if (missingRequired.Count > 0) {
+                InstallMissingRequiredFor(package, false);
+                return;
+            }
+
+            var missingOptional = package.OptionalDependencies
+                .Where(dep => !_installed.Contains(dep.Name))
+                .ToList();
+
+            if (missingOptional.Count > 0) {
                 bool installOptional = EditorUtility.DisplayDialog(
                     "Optional Dependencies",
-                    $"{package.DisplayName}는 다음 패키지와 함께 쓰면 좋습니다.\n\n- " +
-                    $"{string.Join("\n- ", optionalPackageInfos.Select(p => p.DisplayName))}\n\n" +
-                    $"함께 설치할까요?",
+                    $"{package.DisplayName}는 선택 의존성이 있습니다.\n\n- " +
+                    $"{string.Join("\n- ", missingOptional.Select(d => d.DisplayName))}\n\n" +
+                    "선택 의존성을 함께 설치할까요?",
                     "함께 설치",
                     "건너뛰기");
 
                 if (installOptional) {
-                    InstallPackageSequence(optionalPackageInfos, 0, () => { InstallSinglePackage(package); });
+                    InstallMissingOptionalFor(package);
                     return;
                 }
             }
-            else if (missingOptional.Count > 0) {
-                EditorUtility.DisplayDialog(
-                    "Optional Dependencies",
-                    $"{package.DisplayName}는 다음 외부 패키지와 함께 쓰면 좋습니다.\n\n- " +
-                    $"{string.Join("\n- ", missingOptional.Select(d => d.DisplayName))}\n\n" +
-                    $"이 패키지들은 자동 설치 대상이 아니므로, 필요하다면 별도로 설치해주세요.",
-                    "확인");
-            }
+
+            InstallSinglePackage(package);
+        }
+
+        private void TryUpdatePackage(BlossomPackageInfo package) {
+            bool ok = EditorUtility.DisplayDialog(
+                "Update Package",
+                $"{package.DisplayName} 패키지를 catalog 버전 {package.Version}으로 업데이트할까요?",
+                "업데이트",
+                "취소");
+
+            if (!ok) return;
 
             InstallSinglePackage(package);
         }
@@ -313,45 +574,113 @@ namespace Blossom.PackageManager.Editor {
             });
         }
 
-        private void InstallPackageSequence(List<BlossomPackageInfo> packages, int index, System.Action onComplete) {
+        private void InstallPackageSequence(List<BlossomPackageInfo> packages, int index, Action onComplete) {
             if (packages == null || packages.Count == 0 || index >= packages.Count) {
                 onComplete?.Invoke();
                 return;
             }
 
-            BlossomPackageInfo package = packages[index];
+            var package = packages[index];
 
             if (_installed.Contains(package.Name)) {
                 InstallPackageSequence(packages, index + 1, onComplete);
                 return;
             }
 
+            InstallSinglePackageFromSequence(package,
+                () => { InstallPackageSequence(packages, index + 1, onComplete); });
+        }
+
+        private void InstallSinglePackageFromSequence(BlossomPackageInfo package, Action onComplete) {
             string installId = package.BuildInstallId(
                 BlossomPackageCatalog.Owner,
                 BlossomPackageCatalog.Repo,
                 BlossomPackageCatalog.DefaultRef);
 
             _isRefreshing = true;
-            _statusMessage = $"Installing dependency {package.DisplayName}...";
+            _statusMessage = $"Installing {package.DisplayName}...";
 
             BlossomPackageInstaller.Install(installId, (success, error) => {
                 _isRefreshing = false;
 
                 if (!success) {
                     EditorUtility.DisplayDialog(
-                        "Dependency Install Failed",
-                        error ?? $"Failed to install dependency: {package.DisplayName}",
+                        "Install Failed",
+                        error ?? $"Failed to install {package.DisplayName}.",
                         "OK");
                     Refresh();
                     return;
                 }
 
-                RefreshAndContinue(() => { InstallPackageSequence(packages, index + 1, onComplete); });
+                RefreshAndContinue(onComplete);
             });
         }
 
+        private void InstallDependencySequence(
+            List<BlossomPackageDependencyInfo> dependencies,
+            int index,
+            Action onComplete) {
+
+            if (dependencies == null || dependencies.Count == 0 || index >= dependencies.Count) {
+                onComplete?.Invoke();
+                return;
+            }
+
+            var dependency = dependencies[index];
+
+            if (_installed.Contains(dependency.Name)) {
+                InstallDependencySequence(dependencies, index + 1, onComplete);
+                return;
+            }
+
+            _isRefreshing = true;
+            _statusMessage = $"Installing {dependency.DisplayName}...";
+
+            BlossomDependencyInstaller.Install(dependency, (success, error) => {
+                _isRefreshing = false;
+
+                if (!success) {
+                    EditorUtility.DisplayDialog(
+                        "Dependency Install Failed",
+                        error ?? $"Failed to install {dependency.DisplayName}.",
+                        "OK");
+                    Refresh();
+                    return;
+                }
+
+                RefreshAndContinue(() => { InstallDependencySequence(dependencies, index + 1, onComplete); });
+            });
+        }
+
+        private bool IsDependencyAutoInstallable(BlossomPackageDependencyInfo dependency) {
+            if (dependency == null || !dependency.AutoInstall) return false;
+
+            return dependency.InstallMode == "CatalogPackage" ||
+                   dependency.InstallMode == "UnityPackage" ||
+                   dependency.InstallMode == "GitPackage";
+        }
+
+        private string GetDependencyInstallMessage(BlossomPackageDependencyInfo dependency) {
+            return string.IsNullOrWhiteSpace(dependency.Note)
+                ? $"Install mode: {dependency.InstallMode}"
+                : dependency.Note;
+        }
+
+        private void ShowManualDependencyDialogIfNeeded(
+            string title,
+            List<BlossomPackageDependencyInfo> manualDependencies) {
+
+            if (manualDependencies == null || manualDependencies.Count == 0) return;
+
+            EditorUtility.DisplayDialog(
+                title,
+                string.Join("\n", manualDependencies.Select(
+                    d => $"- {d.DisplayName}: {GetDependencyInstallMessage(d)}")),
+                "OK");
+        }
+
         private void TryRemovePackage(BlossomPackageInfo package) {
-            List<BlossomPackageInfo> dependents = _packages
+            var dependents = _packages
                 .Where(p =>
                     _installed.Contains(p.Name) &&
                     p.RequiredDependencies.Any(dep => dep.Name == package.Name))
@@ -362,7 +691,7 @@ namespace Blossom.PackageManager.Editor {
                     "Remove Blocked",
                     $"{package.DisplayName}는 현재 다음 패키지에서 사용 중입니다.\n\n- " +
                     $"{string.Join("\n- ", dependents.Select(p => p.DisplayName))}\n\n" +
-                    $"먼저 해당 패키지를 제거해주세요.",
+                    "먼저 해당 패키지를 제거해주세요.",
                     "확인");
                 return;
             }
@@ -394,7 +723,7 @@ namespace Blossom.PackageManager.Editor {
             });
         }
 
-        private void RefreshAndContinue(System.Action onRefreshed) {
+        private void RefreshAndContinue(Action onRefreshed) {
             BlossomPackageCatalog.Load((catalogSuccess, catalogMessage) => {
                 if (!catalogSuccess) {
                     _isRefreshing = false;
@@ -403,11 +732,11 @@ namespace Blossom.PackageManager.Editor {
                     return;
                 }
 
-                _packages = new(BlossomPackageCatalog.Packages);
-                _groups = new(BlossomPackageCatalog.Groups);
+                _packages = new List<BlossomPackageInfo>(BlossomPackageCatalog.Packages);
+                _groups = new List<BlossomPackageGroupInfo>(BlossomPackageCatalog.Groups);
 
                 BlossomPackageInstaller.RefreshInstalledPackages((names, versions) => {
-                    _installed = new(names);
+                    _installed = new HashSet<string>(names);
                     _installedVersions = versions ?? new Dictionary<string, string>();
 
                     _isRefreshing = false;

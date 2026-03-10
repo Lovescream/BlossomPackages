@@ -1,0 +1,6 @@
+{
+	"name": "Blossom.Networking.Online",
+	"references": [
+		"Blossom.Common"
+	]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "com.blossom.platform.applovinmax",
+  "displayName": "Blossom-AppLovinMax",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom AppLovinMax",
+  "keywords": [
+  ],
+  "category": "Blossom"
+}

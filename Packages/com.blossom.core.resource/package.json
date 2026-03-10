@@ -1,0 +1,14 @@
+{
+  "name": "com.blossom.core.resource",
+  "displayName": "Blossom-Resource",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom Resource",
+  "keywords": [
+  ],
+  "category": "Blossom"
+}

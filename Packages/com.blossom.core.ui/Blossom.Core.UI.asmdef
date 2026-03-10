@@ -1,0 +1,7 @@
+{
+	"name": "Blossom.Core.UI",
+	"references": [
+		"Blossom.Common",
+		"Unity.TextMeshPro"
+	]
+}

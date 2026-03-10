@@ -1,0 +1,15 @@
+{
+	"name": "Blossom.Monetization.IAP",
+	"references": [
+		"Blossom.Common",
+		"Blossom.Networking.Online",
+		"Unity.Services.Core",
+		"Unity.Services.Core.Environments",
+		"UnityEngine.Purchasing",
+		"UnityEngine.Purchasing.Stores",
+		"UnityEngine.Purchasing.Security",
+		"UnityEngine.Purchasing.SecurityCore",
+		"UnityEngine.Purchasing.SecurityStub",
+		"UniTask"
+	]
+}

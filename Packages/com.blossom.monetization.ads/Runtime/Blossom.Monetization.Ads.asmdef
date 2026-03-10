@@ -1,0 +1,8 @@
+{
+	"name": "Blossom.Monetization.Ads",
+	"references": [
+		"Blossom.Common",
+		"Blossom.Networking.Online",
+		"UniTask"
+	]
+}

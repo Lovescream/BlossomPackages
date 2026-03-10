@@ -1,0 +1,14 @@
+{
+  "name": "com.blossom.core.entities",
+  "displayName": "Blossom-Entities",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom Entities",
+  "keywords": [
+  ],
+  "category": "Blossom"
+}

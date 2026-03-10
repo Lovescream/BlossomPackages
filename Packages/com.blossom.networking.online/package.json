@@ -1,0 +1,17 @@
+{
+  "name": "com.blossom.networking.online",
+  "displayName": "Blossom-Online",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom Online",
+  "keywords": [
+  ],
+  "dependencies": {
+    "com.blossom.common": "0.0.0"
+  },
+  "category": "Blossom"
+}

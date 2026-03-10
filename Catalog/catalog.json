@@ -1,0 +1,211 @@
+{
+  "owner": "your-github-name",
+  "repo": "BlossomPackages",
+  "defaultRef": "main",
+  "groups": [
+    {
+      "name": "Required",
+      "displayName": "Required",
+      "installAll": false
+    },
+    {
+      "name": "Core",
+      "displayName": "Core",
+      "installAll": true
+    },
+    {
+      "name": "Persistence",
+      "displayName": "Persistence",
+      "installAll": false
+    },
+    {
+      "name": "Networking",
+      "displayName": "Networking",
+      "installAll": false
+    },
+    {
+      "name": "Platform",
+      "displayName": "Platform",
+      "installAll": false
+    },
+    {
+      "name": "Monetization",
+      "displayName": "Monetization",
+      "installAll": true
+    }
+  ],
+  "packages": [
+    {
+      "name": "com.blossom.common",
+      "displayName": "Blossom.Common",
+      "version": "0.0.1",
+      "group": "Required",
+      "isRequired": true,
+      "path": "Packages/com.blossom.common",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.editor",
+      "displayName": "Blossom.Editor",
+      "version": "0.0.1",
+      "group": "Required",
+      "isRequired": true,
+      "path": "Packages/com.blossom.editor",
+      "refName": "",
+      "requiredDependencies": [
+        "com.blossom.common"
+      ],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.core.entities",
+      "displayName": "Core.Entities",
+      "version": "0.0.1",
+      "group": "Core",
+      "isRequired": false,
+      "path": "Packages/com.blossom.core.entities",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.core.pooling",
+      "displayName": "Core.Pooling",
+      "version": "0.0.1",
+      "group": "Core",
+      "isRequired": false,
+      "path": "Packages/com.blossom.core.pooling",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.core.resource",
+      "displayName": "Core.Resource",
+      "version": "0.0.1",
+      "group": "Core",
+      "isRequired": false,
+      "path": "Packages/com.blossom.core.resource",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.core.scenes",
+      "displayName": "Core.Scenes",
+      "version": "0.0.1",
+      "group": "Core",
+      "isRequired": false,
+      "path": "Packages/com.blossom.core.scenes",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.core.ui",
+      "displayName": "Core.UI",
+      "version": "0.0.1",
+      "group": "Core",
+      "isRequired": false,
+      "path": "Packages/com.blossom.core.ui",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": [
+        {
+          "name": "com.demigiant.dotween",
+          "displayName": "DOTween"
+        }
+      ]
+    },
+    {
+      "name": "com.blossom.networking.online",
+      "displayName": "Networking.Online",
+      "version": "0.0.1",
+      "group": "Networking",
+      "isRequired": false,
+      "path": "Packages/com.blossom.networking.online",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.persistence.akiv",
+      "displayName": "Persistence.Akiv",
+      "version": "0.0.1",
+      "group": "Persistence",
+      "isRequired": false,
+      "path": "Packages/com.blossom.persistence.akiv",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.platform.applovinmax",
+      "displayName": "Platform.AppLovinMax",
+      "version": "0.0.1",
+      "group": "Platform",
+      "isRequired": false,
+      "path": "Packages/com.blossom.platform.applovinmax",
+      "refName": "",
+      "requiredDependencies": [
+        {
+          "name": "com.blossom.common",
+          "displayName": "Blossom.Common"
+        }
+      ],
+      "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.monetization.ads",
+      "displayName": "Monetization.Ads",
+      "version": "0.0.1",
+      "group": "Monetization",
+      "isRequired": false,
+      "path": "Packages/com.blossom.monetization.ads",
+      "refName": "",
+      "requiredDependencies": [
+        {
+          "name": "com.blossom.common",
+          "displayName": "Blossom.Common"
+        }
+      ],
+      "optionalDependencies": [
+        {
+          "name": "com.cysharp.unitask",
+          "displayName": "UniTask"
+        },
+        {
+          "name": "com.blossom.platform.applovinmax",
+          "displayName": "Platform.AppLovinMax"
+        }
+      ]
+    },
+    {
+      "name": "com.blossom.monetization.iap",
+      "displayName": "Monetization.IAP",
+      "version": "0.0.1",
+      "group": "Monetization",
+      "isRequired": false,
+      "path": "Packages/com.blossom.monetization.iap",
+      "refName": "",
+      "requiredDependencies": [
+        {
+          "name": "com.blossom.common",
+          "displayName": "Blossom.Common"
+        },
+        {
+          "name": "com.blossom.networking.online",
+          "displayName": "Networking.Online"
+        }
+      ],
+      "optionalDependencies": [
+        {
+          "name": "com.cysharp.unitask",
+          "displayName": "UniTask"
+        }
+      ]
+    }
+  ]
+}

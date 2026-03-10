@@ -105,7 +105,9 @@
           "installMode": "Manual",
           "installId": "",
           "autoInstall": false,
-          "note": "DOTween must be installed manually before using Core.UI."
+          "note": "DOTween must be installed manually and setup via Tools > DOTween Utility Panel > Setup DOTween...",
+          "detectMode": "TypeExists",
+          "detectValue": "DG.Tweening.DOTween|DG.Tweening.ShortcutExtensions"
         }
       ],
       "optionalDependencies": []

@@ -45,6 +45,7 @@ namespace Blossom.PackageManager.Editor {
         private void OnEnable() {
             Refresh();
         }
+
         private void InitializeStyles() {
             if (_titleStyle == null) {
                 _titleStyle = new GUIStyle(EditorStyles.boldLabel) {
@@ -341,7 +342,7 @@ namespace Blossom.PackageManager.Editor {
         }
 
         private string FormatDependencyText(BlossomPackageDependencyInfo dependency) {
-            bool installed = _installed.Contains(dependency.Name);
+            bool installed = IsDependencyInstalled(dependency);
             string colorHex = installed ? ToHtmlColor(InstalledColor) : ToHtmlColor(MissingColor);
             return $"<color={colorHex}>{dependency.DisplayName}</color>";
         }
@@ -352,7 +353,7 @@ namespace Blossom.PackageManager.Editor {
             string installedVersion) {
 
             if (!isInstalled) {
-                bool missingRequired = package.RequiredDependencies.Any(dep => !_installed.Contains(dep.Name));
+                bool missingRequired = package.RequiredDependencies.Any(dep => !IsDependencyInstalled(dep));
                 return missingRequired
                     ? BlossomPackageVisualState.NotInstalledMissingRequired
                     : BlossomPackageVisualState.NotInstalledReady;
@@ -388,8 +389,12 @@ namespace Blossom.PackageManager.Editor {
             return $"#{ColorUtility.ToHtmlStringRGB(color)}";
         }
 
+        private bool IsDependencyInstalled(BlossomPackageDependencyInfo dependency) {
+            return BlossomDependencyDetector.IsInstalled(dependency, _installed);
+        }
+
         private bool HasMissingOptionalDependencies(BlossomPackageInfo package) {
-            return package.OptionalDependencies.Any(dep => !_installed.Contains(dep.Name));
+            return package.OptionalDependencies.Any(dep => !IsDependencyInstalled(dep));
         }
 
         private void InstallRequiredPackages() {
@@ -420,7 +425,7 @@ namespace Blossom.PackageManager.Editor {
 
         private void InstallMissingRequiredFor(BlossomPackageInfo package, bool installTargetAfterDependencies) {
             var missingRequired = package.RequiredDependencies
-                .Where(dep => !_installed.Contains(dep.Name))
+                .Where(dep => !IsDependencyInstalled(dep))
                 .ToList();
 
             if (missingRequired.Count == 0) {
@@ -469,7 +474,7 @@ namespace Blossom.PackageManager.Editor {
 
         private void InstallMissingOptionalFor(BlossomPackageInfo package) {
             var missingOptional = package.OptionalDependencies
-                .Where(dep => !_installed.Contains(dep.Name))
+                .Where(dep => !IsDependencyInstalled(dep))
                 .ToList();
 
             if (missingOptional.Count == 0) {
@@ -507,7 +512,7 @@ namespace Blossom.PackageManager.Editor {
 
         private void TryInstallPackage(BlossomPackageInfo package) {
             var missingRequired = package.RequiredDependencies
-                .Where(dep => !_installed.Contains(dep.Name))
+                .Where(dep => !IsDependencyInstalled(dep))
                 .ToList();
 
             if (missingRequired.Count > 0) {
@@ -516,7 +521,7 @@ namespace Blossom.PackageManager.Editor {
             }
 
             var missingOptional = package.OptionalDependencies
-                .Where(dep => !_installed.Contains(dep.Name))
+                .Where(dep => !IsDependencyInstalled(dep))
                 .ToList();
 
             if (missingOptional.Count > 0) {
@@ -628,7 +633,7 @@ namespace Blossom.PackageManager.Editor {
 
             var dependency = dependencies[index];
 
-            if (_installed.Contains(dependency.Name)) {
+            if (IsDependencyInstalled(dependency)) {
                 InstallDependencySequence(dependencies, index + 1, onComplete);
                 return;
             }

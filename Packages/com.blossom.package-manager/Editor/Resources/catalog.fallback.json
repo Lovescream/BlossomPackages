@@ -1,7 +1,7 @@
 {
-  "owner": "your-github-name",
+  "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "main",
+  "defaultRef": "V0.0.4",
   "groups": [
     {
       "name": "Required",
@@ -44,19 +44,6 @@
       "path": "Packages/com.blossom.common",
       "refName": "",
       "requiredDependencies": [],
-      "optionalDependencies": []
-    },
-    {
-      "name": "com.blossom.editor",
-      "displayName": "Blossom.Editor",
-      "version": "0.0.1",
-      "group": "Required",
-      "isRequired": true,
-      "path": "Packages/com.blossom.editor",
-      "refName": "",
-      "requiredDependencies": [
-        "com.blossom.common"
-      ],
       "optionalDependencies": []
     },
     {
@@ -111,13 +98,17 @@
       "isRequired": false,
       "path": "Packages/com.blossom.core.ui",
       "refName": "",
-      "requiredDependencies": [],
-      "optionalDependencies": [
+      "requiredDependencies": [
         {
-          "name": "com.demigiant.dotween",
-          "displayName": "DOTween"
+          "name": "dotween",
+          "displayName": "DOTween",
+          "installMode": "Manual",
+          "installId": "",
+          "autoInstall": false,
+          "note": "DOTween must be installed manually before using Core.UI."
         }
-      ]
+      ],
+      "optionalDependencies": []
     },
     {
       "name": "com.blossom.networking.online",
@@ -138,7 +129,16 @@
       "isRequired": false,
       "path": "Packages/com.blossom.persistence.akiv",
       "refName": "",
-      "requiredDependencies": [],
+      "requiredDependencies": [
+        {
+          "name": "com.unity.nuget.newtonsoft-json",
+          "displayName": "Newtonsoft Json",
+          "installMode": "UnityPackage",
+          "installId": "com.unity.nuget.newtonsoft-json",
+          "autoInstall": true,
+          "note": ""
+        }
+      ],
       "optionalDependencies": []
     },
     {
@@ -152,10 +152,23 @@
       "requiredDependencies": [
         {
           "name": "com.blossom.common",
-          "displayName": "Blossom.Common"
+          "displayName": "Blossom.Common",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
         }
       ],
-      "optionalDependencies": []
+      "optionalDependencies": [
+        {
+          "name": "com.applovin.mediation.ads",
+          "displayName": "AppLovin MAX",
+          "installMode": "ScopedRegistry",
+          "installId": "com.applovin.mediation.ads",
+          "autoInstall": false,
+          "note": "AppLovin MAX requires scoped registry setup."
+        }
+      ]
     },
     {
       "name": "com.blossom.monetization.ads",
@@ -168,17 +181,37 @@
       "requiredDependencies": [
         {
           "name": "com.blossom.common",
-          "displayName": "Blossom.Common"
+          "displayName": "Blossom.Common",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
+        {
+          "name": "com.blossom.platform.applovinmax",
+          "displayName": "Platform.AppLovinMax",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
+        {
+          "name": "com.cysharp.unitask",
+          "displayName": "UniTask",
+          "installMode": "GitPackage",
+          "installId": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+          "autoInstall": true,
+          "note": ""
         }
       ],
       "optionalDependencies": [
         {
-          "name": "com.cysharp.unitask",
-          "displayName": "UniTask"
-        },
-        {
-          "name": "com.blossom.platform.applovinmax",
-          "displayName": "Platform.AppLovinMax"
+          "name": "com.applovin.mediation.ads",
+          "displayName": "AppLovin MAX",
+          "installMode": "ScopedRegistry",
+          "installId": "com.applovin.mediation.ads",
+          "autoInstall": false,
+          "note": "AppLovin MAX requires scoped registry setup."
         }
       ]
     },
@@ -193,19 +226,30 @@
       "requiredDependencies": [
         {
           "name": "com.blossom.common",
-          "displayName": "Blossom.Common"
+          "displayName": "Blossom.Common",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
         },
         {
           "name": "com.blossom.networking.online",
-          "displayName": "Networking.Online"
-        }
-      ],
-      "optionalDependencies": [
+          "displayName": "Networking.Online",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
         {
           "name": "com.cysharp.unitask",
-          "displayName": "UniTask"
+          "displayName": "UniTask",
+          "installMode": "GitPackage",
+          "installId": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+          "autoInstall": true,
+          "note": ""
         }
-      ]
+      ],
+      "optionalDependencies": []
     }
   ]
 }

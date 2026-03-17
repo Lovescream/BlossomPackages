@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.0.7",
+  "defaultRef": "V0.0.8",
   "groups": [
     {
       "name": "Required",
@@ -38,7 +38,7 @@
     {
       "name": "com.blossom.common",
       "displayName": "Blossom.Common",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Required",
       "isRequired": true,
       "path": "Packages/com.blossom.common",
@@ -49,7 +49,7 @@
     {
       "name": "com.blossom.core.entities",
       "displayName": "Core.Entities",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.entities",
@@ -60,7 +60,7 @@
     {
       "name": "com.blossom.core.pooling",
       "displayName": "Core.Pooling",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.pooling",
@@ -71,7 +71,7 @@
     {
       "name": "com.blossom.core.resource",
       "displayName": "Core.Resource",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.resource",
@@ -82,7 +82,7 @@
     {
       "name": "com.blossom.core.scenes",
       "displayName": "Core.Scenes",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.scenes",
@@ -93,7 +93,7 @@
     {
       "name": "com.blossom.core.ui",
       "displayName": "Core.UI",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.ui",
@@ -115,7 +115,7 @@
     {
       "name": "com.blossom.networking.online",
       "displayName": "Networking.Online",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Networking",
       "isRequired": false,
       "path": "Packages/com.blossom.networking.online",
@@ -126,7 +126,7 @@
     {
       "name": "com.blossom.persistence.akiv",
       "displayName": "Persistence.Akiv",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Persistence",
       "isRequired": false,
       "path": "Packages/com.blossom.persistence.akiv",
@@ -146,7 +146,7 @@
     {
       "name": "com.blossom.platform.applovinmax",
       "displayName": "Platform.AppLovinMax",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.applovinmax",
@@ -193,7 +193,7 @@
     {
       "name": "com.blossom.monetization.ads",
       "displayName": "Monetization.Ads",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Monetization",
       "isRequired": false,
       "path": "Packages/com.blossom.monetization.ads",
@@ -264,7 +264,7 @@
     {
       "name": "com.blossom.monetization.iap",
       "displayName": "Monetization.IAP",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Monetization",
       "isRequired": false,
       "path": "Packages/com.blossom.monetization.iap",

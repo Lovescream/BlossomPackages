@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Blossom.PackageManager.Editor {
     [Serializable]
@@ -10,8 +11,9 @@ namespace Blossom.PackageManager.Editor {
         public bool AutoInstall => autoInstall;
         public string Note => note;
         public string DetectMode => detectMode;
-        public string DetectValue => detectValue; 
-        
+        public string DetectValue => detectValue;
+        public List<BlossomScopedRegistryInfo> Registries => registries ??= new();
+
         public string name;
         public string displayName;
         public string installMode;  // CatalogPackage / UnityPackage / GitPackage / ScopedRegistry / Manual
@@ -20,5 +22,6 @@ namespace Blossom.PackageManager.Editor {
         public string note;         // manual 또는 scoped registry 보완 설명.
         public string detectMode;   // PackageList, TypeExists, DefineSymbol, AssetPathAny
         public string detectValue;  // 타입명 / define symbol / 경로들
+        public List<BlossomScopedRegistryInfo> registries = new();
     }
 }

@@ -279,7 +279,7 @@ namespace Blossom.PackageManager.Editor {
                 switch (state) {
                     case BlossomPackageVisualState.NotInstalledMissingRequired:
                         if (GUILayout.Button("Install Required", GUILayout.Width(130), GUILayout.Height(24))) {
-                            InstallMissingRequiredFor(package, false);
+                            InstallMissingRequiredFor(package, true);
                         }
 
                         break;
@@ -411,16 +411,47 @@ namespace Blossom.PackageManager.Editor {
         }
 
         private void InstallGroup(string groupName) {
-            var groupPackages = _packages
+            var targets = _packages
                 .Where(p => !p.IsRequired && p.Group == groupName && !_installed.Contains(p.Name))
                 .ToList();
 
-            if (groupPackages.Count == 0) {
+            if (targets.Count == 0) {
                 EditorUtility.DisplayDialog("Info", $"All packages in {groupName} are already installed.", "OK");
                 return;
             }
 
-            InstallPackageSequence(groupPackages, 0, Refresh);
+            InstallPlan plan = BuildInstallPlan(targets);
+
+            if (plan.ManualDependencies.Count > 0) {
+                EditorUtility.DisplayDialog(
+                    "Required Dependencies",
+                    $"다음 필수 의존성은 자동 설치할 수 없습니다.\n\n" +
+                    string.Join("\n", plan.ManualDependencies.Select(
+                        d => $"- {d.DisplayName}: {GetDependencyInstallMessage(d)}")),
+                    "OK");
+                return;
+            }
+
+            string message =
+                $"[{groupName}] 그룹 설치를 진행합니다.\n\n" +
+                (plan.DirectDependencies.Count > 0
+                    ? "[외부 의존성]\n" + string.Join("\n", plan.DirectDependencies.Select(d => $"- {d.DisplayName}")) + "\n\n"
+                    : "") +
+                (plan.CatalogPackages.Count > 0
+                    ? "[Blossom 패키지]\n" + string.Join("\n", plan.CatalogPackages.Select(p => $"- {p.DisplayName}")) + "\n\n"
+                    : "");
+
+            bool ok = EditorUtility.DisplayDialog(
+                "Install Group",
+                message,
+                "설치",
+                "취소");
+
+            if (!ok) return;
+
+            InstallDependencySequence(plan.DirectDependencies, 0, () => {
+                InstallPackageSequence(plan.CatalogPackages, 0, Refresh);
+            });
         }
 
         private void InstallMissingRequiredFor(BlossomPackageInfo package, bool installTargetAfterDependencies) {
@@ -472,6 +503,118 @@ namespace Blossom.PackageManager.Editor {
             });
         }
 
+        private InstallPlan BuildInstallPlan(IEnumerable<BlossomPackageInfo> targets) {
+            InstallPlan plan = new();
+
+            HashSet<string> visitedPackages = new();
+            HashSet<string> addedCatalogPackages = new();
+            HashSet<string> addedDirectDependencies = new();
+            HashSet<string> addedManualDependencies = new();
+
+            foreach (BlossomPackageInfo target in targets) {
+                ResolvePackageRecursive(
+                    target,
+                    plan,
+                    visitedPackages,
+                    addedCatalogPackages,
+                    addedDirectDependencies,
+                    addedManualDependencies);
+            }
+
+            return plan;
+        }
+
+        private void ResolvePackageRecursive(
+            BlossomPackageInfo package,
+            InstallPlan plan,
+            HashSet<string> visitedPackages,
+            HashSet<string> addedCatalogPackages,
+            HashSet<string> addedDirectDependencies,
+            HashSet<string> addedManualDependencies) {
+
+            if (package == null) return;
+            if (_installed.Contains(package.Name)) return;
+            if (!visitedPackages.Add(package.Name)) return;
+
+            foreach (BlossomPackageDependencyInfo dependency in package.RequiredDependencies) {
+                if (IsDependencyInstalled(dependency)) continue;
+
+                switch (dependency.InstallMode) {
+                    case "CatalogPackage": {
+                            BlossomPackageInfo dependencyPackage = BlossomPackageCatalog.FindPackage(dependency.Name);
+
+                            if (dependencyPackage == null) {
+                                if (addedManualDependencies.Add(dependency.Name)) {
+                                    plan.ManualDependencies.Add(new BlossomPackageDependencyInfo {
+                                        name = dependency.Name,
+                                        displayName = dependency.DisplayName,
+                                        installMode = dependency.InstallMode,
+                                        autoInstall = false,
+                                        note = $"Catalog package not found: {dependency.Name}"
+                                    });
+                                }
+
+                                break;
+                            }
+
+                            ResolvePackageRecursive(
+                                dependencyPackage,
+                                plan,
+                                visitedPackages,
+                                addedCatalogPackages,
+                                addedDirectDependencies,
+                                addedManualDependencies);
+
+                            break;
+                        }
+
+                    case "UnityPackage":
+                    case "GitPackage": {
+                            if (dependency.AutoInstall) {
+                                if (addedDirectDependencies.Add(dependency.Name)) {
+                                    plan.DirectDependencies.Add(dependency);
+                                }
+                            }
+                            else {
+                                if (addedManualDependencies.Add(dependency.Name)) {
+                                    plan.ManualDependencies.Add(dependency);
+                                }
+                            }
+
+                            break;
+                        }
+
+                    case "ScopedRegistry": {
+                            if (dependency.AutoInstall) {
+                                if (addedDirectDependencies.Add(dependency.Name)) {
+                                    plan.DirectDependencies.Add(dependency);
+                                }
+                            }
+                            else {
+                                if (addedManualDependencies.Add(dependency.Name)) {
+                                    plan.ManualDependencies.Add(dependency);
+                                }
+                            }
+
+                            break;
+                        }
+
+                    case "Manual":
+                    default: {
+                            if (addedManualDependencies.Add(dependency.Name)) {
+                                plan.ManualDependencies.Add(dependency);
+                            }
+
+                            break;
+                        }
+                }
+            }
+
+            if (addedCatalogPackages.Add(package.Name)) {
+                plan.CatalogPackages.Add(package);
+            }
+        }
+
         private void InstallMissingOptionalFor(BlossomPackageInfo package) {
             var missingOptional = package.OptionalDependencies
                 .Where(dep => !IsDependencyInstalled(dep))
@@ -516,7 +659,7 @@ namespace Blossom.PackageManager.Editor {
                 .ToList();
 
             if (missingRequired.Count > 0) {
-                InstallMissingRequiredFor(package, false);
+                InstallMissingRequiredFor(package, true);
                 return;
             }
 
@@ -585,7 +728,7 @@ namespace Blossom.PackageManager.Editor {
                 return;
             }
 
-            var package = packages[index];
+            BlossomPackageInfo package = packages[index];
 
             if (_installed.Contains(package.Name)) {
                 InstallPackageSequence(packages, index + 1, onComplete);
@@ -631,7 +774,7 @@ namespace Blossom.PackageManager.Editor {
                 return;
             }
 
-            var dependency = dependencies[index];
+            BlossomPackageDependencyInfo dependency = dependencies[index];
 
             if (IsDependencyInstalled(dependency)) {
                 InstallDependencySequence(dependencies, index + 1, onComplete);
@@ -662,7 +805,8 @@ namespace Blossom.PackageManager.Editor {
 
             return dependency.InstallMode == "CatalogPackage" ||
                    dependency.InstallMode == "UnityPackage" ||
-                   dependency.InstallMode == "GitPackage";
+                   dependency.InstallMode == "GitPackage" ||
+                   dependency.InstallMode == "ScopedRegistry";
         }
 
         private string GetDependencyInstallMessage(BlossomPackageDependencyInfo dependency) {
@@ -751,6 +895,12 @@ namespace Blossom.PackageManager.Editor {
                     onRefreshed?.Invoke();
                 });
             });
+        }
+
+        private sealed class InstallPlan {
+            public readonly List<BlossomPackageInfo> CatalogPackages = new();
+            public readonly List<BlossomPackageDependencyInfo> DirectDependencies = new();
+            public readonly List<BlossomPackageDependencyInfo> ManualDependencies = new();
         }
     }
 }

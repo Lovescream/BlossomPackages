@@ -23,10 +23,7 @@ namespace Blossom.PackageManager.Editor {
                     return;
 
                 case "ScopedRegistry":
-                    onComplete?.Invoke(false,
-                        string.IsNullOrWhiteSpace(dependency.Note)
-                            ? "Scoped registry setup is required."
-                            : dependency.Note);
+                    InstallScopedRegistryPackage(dependency, onComplete);
                     return;
 
                 case "Manual":
@@ -46,7 +43,7 @@ namespace Blossom.PackageManager.Editor {
             BlossomPackageDependencyInfo dependency,
             Action<bool, string> onComplete) {
 
-            var package = BlossomPackageCatalog.FindPackage(dependency.Name);
+            BlossomPackageInfo package = BlossomPackageCatalog.FindPackage(dependency.Name);
             if (package == null) {
                 onComplete?.Invoke(false, $"Catalog package not found: {dependency.Name}");
                 return;
@@ -70,6 +67,13 @@ namespace Blossom.PackageManager.Editor {
             }
 
             BlossomPackageInstaller.Install(dependency.InstallId, onComplete);
+        }
+
+        private static void InstallScopedRegistryPackage(
+            BlossomPackageDependencyInfo dependency,
+            Action<bool, string> onComplete) {
+
+            BlossomScopedRegistryInstaller.Install(dependency, onComplete);
         }
     }
 }

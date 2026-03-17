@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.0.4",
+  "defaultRef": "V0.0.6",
   "groups": [
     {
       "name": "Required",
@@ -105,7 +105,9 @@
           "installMode": "Manual",
           "installId": "",
           "autoInstall": false,
-          "note": "DOTween must be installed manually before using Core.UI."
+          "note": "DOTween must be installed manually and setup via Tools > DOTween Utility Panel > Setup DOTween...",
+          "detectMode": "TypeExists",
+          "detectValue": "DG.Tweening.DOTween|DG.Tweening.ShortcutExtensions"
         }
       ],
       "optionalDependencies": []
@@ -165,8 +167,26 @@
           "displayName": "AppLovin MAX",
           "installMode": "ScopedRegistry",
           "installId": "com.applovin.mediation.ads",
-          "autoInstall": false,
-          "note": "AppLovin MAX requires scoped registry setup."
+          "autoInstall": true,
+          "note": "AppLovin MAX scoped registries will be added automatically.",
+          "registries": [
+            {
+              "name": "AppLovin MAX Unity",
+              "url": "https://unity.packages.applovin.com/",
+              "scopes": [
+                "com.applovin.mediation.ads",
+                "com.applovin.mediation.adapters",
+                "com.applovin.mediation.dsp"
+              ]
+            },
+            {
+              "name": "package.openupm.com",
+              "url": "https://package.openupm.com",
+              "scopes": [
+                "com.google.external-dependency-manager"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -200,6 +220,14 @@
           "displayName": "UniTask",
           "installMode": "GitPackage",
           "installId": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+          "autoInstall": true,
+          "note": ""
+        },
+        {
+          "name": "com.blossom.networking.online",
+          "displayName": "Networking.Online",
+          "installMode": "CatalogPackage",
+          "installId": "",
           "autoInstall": true,
           "note": ""
         }

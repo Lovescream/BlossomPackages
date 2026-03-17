@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.0.6",
+  "defaultRef": "V0.0.7",
   "groups": [
     {
       "name": "Required",
@@ -238,8 +238,26 @@
           "displayName": "AppLovin MAX",
           "installMode": "ScopedRegistry",
           "installId": "com.applovin.mediation.ads",
-          "autoInstall": false,
-          "note": "AppLovin MAX requires scoped registry setup."
+          "autoInstall": true,
+          "note": "AppLovin MAX scoped registries will be added automatically.",
+          "registries": [
+            {
+              "name": "AppLovin MAX Unity",
+              "url": "https://unity.packages.applovin.com/",
+              "scopes": [
+                "com.applovin.mediation.ads",
+                "com.applovin.mediation.adapters",
+                "com.applovin.mediation.dsp"
+              ]
+            },
+            {
+              "name": "package.openupm.com",
+              "url": "https://package.openupm.com",
+              "scopes": [
+                "com.google.external-dependency-manager"
+              ]
+            }
+          ]
         }
       ]
     },

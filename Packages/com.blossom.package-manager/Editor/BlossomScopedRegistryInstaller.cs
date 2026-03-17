@@ -70,10 +70,21 @@ namespace Blossom.PackageManager.Editor {
                             return;
                         }
 
-                        BlossomPackageInstaller.Resolve(() => { onComplete?.Invoke(true, null); });
+                        BlossomPackageInstaller.Resolve(() => {
+                            ApplyPostInstallActions(dependency);
+                            onComplete?.Invoke(true, null);
+                        });
                     });
                 });
             });
+        }
+
+        private static void ApplyPostInstallActions(BlossomPackageDependencyInfo dependency) {
+            if (dependency == null) return;
+
+            if (string.Equals(dependency.Name, "com.applovin.mediation.ads", StringComparison.Ordinal)) {
+                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget("SDK_APPLOVINMAX");
+            }
         }
     }
 }

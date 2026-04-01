@@ -38,7 +38,7 @@ namespace Blossom.Core.Scenes {
                 return;
             }
             Scene fromScene = SceneManager.GetActiveScene();
-            _transitionHandler.OnBeforeSceneChange(fromScene.name, sceneName);
+            _transitionHandler.OnBeforeSceneLoaded(fromScene.name, sceneName);
             
             SceneManager.LoadScene(sceneName);
         }
@@ -50,7 +50,7 @@ namespace Blossom.Core.Scenes {
                 return;
             }
             Scene fromScene = SceneManager.GetActiveScene();
-            _transitionHandler.OnBeforeSceneChange(fromScene.name, fromScene.name);
+            _transitionHandler.OnBeforeSceneLoaded(fromScene.name, fromScene.name);
             
             SceneManager.LoadScene(current.buildIndex);
         }

@@ -8,6 +8,8 @@ namespace Blossom.Core.Scenes {
     /// </summary>
     public interface ISceneTransitionHandler {
 
+        void OnBeforeSceneLoaded(string fromSceneName, string toSceneName);
+        
         /// <summary>
         /// 씬 전환이 시작되기 직전에 호출됨.
         /// 로딩 UI 표시, 게임 정지, 매니저 정리 등의 작업에 사용.

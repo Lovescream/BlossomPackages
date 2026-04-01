@@ -24,6 +24,7 @@ namespace Blossom.Core.UI {
         
         public virtual bool Initialize() {
             if (_initialized) return false;
+            _initialized = true;
 
             if (this.TryGetComponent<Canvas>(out _)) {
                 _rect = this.transform.childCount > 0
@@ -33,7 +34,6 @@ namespace Blossom.Core.UI {
             else _rect = this.GetComponent<RectTransform>();
             
             OnInitialize();
-            _initialized = true;
             return true;
         }
         

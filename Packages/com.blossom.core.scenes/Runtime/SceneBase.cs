@@ -18,7 +18,7 @@ namespace Blossom.Core.Scenes {
         }
 
         protected virtual bool Initialize() {
-            if (!_initialized) return false;
+            if (_initialized) return false;
             _initialized = true;
 
             SceneController.Current = this;

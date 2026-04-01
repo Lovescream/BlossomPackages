@@ -37,7 +37,9 @@ namespace Blossom.Core.Scenes {
                 Debug.LogError($"[Blossom:Scene] Load({sceneName}): SceneName is null or empty.");
                 return;
             }
-
+            Scene fromScene = SceneManager.GetActiveScene();
+            _transitionHandler.OnBeforeSceneChange(fromScene.name, sceneName);
+            
             SceneManager.LoadScene(sceneName);
         }
 
@@ -47,7 +49,9 @@ namespace Blossom.Core.Scenes {
                 Debug.LogError($"[Blossom:Scene] Reload(): Active scene is invalid.");
                 return;
             }
-
+            Scene fromScene = SceneManager.GetActiveScene();
+            _transitionHandler.OnBeforeSceneChange(fromScene.name, fromScene.name);
+            
             SceneManager.LoadScene(current.buildIndex);
         }
 

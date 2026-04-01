@@ -155,7 +155,7 @@ namespace Blossom.PackageManager.Editor {
             EditorGUILayout.Space(6);
 
             using (new EditorGUILayout.HorizontalScope()) {
-                GUI.enabled = !_isRefreshing;
+                GUI.enabled = !_isRefreshing && !BlossomInstallRunner.IsRunning;
                 if (GUILayout.Button("Refresh", GUILayout.Height(26), GUILayout.Width(100))) {
                     Refresh();
                 }
@@ -178,8 +178,8 @@ namespace Blossom.PackageManager.Editor {
                 }
 
                 EditorGUILayout.Space(4);
-
-                GUI.enabled = !_isRefreshing;
+                
+                GUI.enabled = !_isRefreshing && !BlossomInstallRunner.IsRunning;
                 if (GUILayout.Button("Install Required Packages", GUILayout.Height(28))) {
                     InstallRequiredPackages();
                 }
@@ -226,8 +226,8 @@ namespace Blossom.PackageManager.Editor {
 
             float buttonWidth = 130f;
             Rect buttonRect = new Rect(rect.xMax - buttonWidth - 8f, rect.y + 3f, buttonWidth, rect.height - 6f);
-
-            GUI.enabled = !_isRefreshing;
+            
+            GUI.enabled = !_isRefreshing && !BlossomInstallRunner.IsRunning;
             if (GUI.Button(buttonRect, $"Install {title} All", _groupHeaderButtonStyle)) {
                 onInstallAll.Invoke();
             }
@@ -274,7 +274,7 @@ namespace Blossom.PackageManager.Editor {
 
                 GUILayout.FlexibleSpace();
 
-                GUI.enabled = !_isRefreshing;
+                GUI.enabled = !_isRefreshing && !BlossomInstallRunner.IsRunning;
 
                 switch (state) {
                     case BlossomPackageVisualState.NotInstalledMissingRequired:
@@ -319,7 +319,7 @@ namespace Blossom.PackageManager.Editor {
                 using (new EditorGUILayout.HorizontalScope()) {
                     GUILayout.FlexibleSpace();
 
-                    GUI.enabled = !_isRefreshing;
+                    GUI.enabled = !_isRefreshing && !BlossomInstallRunner.IsRunning;
                     if (GUILayout.Button("Remove", GUILayout.Width(100), GUILayout.Height(22))) {
                         TryRemovePackage(package);
                     }
@@ -406,8 +406,9 @@ namespace Blossom.PackageManager.Editor {
                 EditorUtility.DisplayDialog("Info", "All required packages are already installed.", "OK");
                 return;
             }
-
-            InstallPackageSequence(missingRequired, 0, Refresh);
+            
+            BlossomInstallRunner.Start(new List<BlossomPackageDependencyInfo>(), missingRequired);
+            Refresh();
         }
 
         private void InstallGroup(string groupName) {
@@ -449,11 +450,9 @@ namespace Blossom.PackageManager.Editor {
 
             if (!ok) return;
 
-            InstallDependencySequence(plan.DirectDependencies, 0, () => {
-                InstallPackageSequence(plan.CatalogPackages, 0, Refresh);
-            });
+            BlossomInstallRunner.Start(plan.DirectDependencies, plan.CatalogPackages);
+            Refresh();
         }
-
         private void InstallMissingRequiredFor(BlossomPackageInfo package, bool installTargetAfterDependencies) {
             var missingRequired = package.RequiredDependencies
                 .Where(dep => !IsDependencyInstalled(dep))
@@ -462,6 +461,9 @@ namespace Blossom.PackageManager.Editor {
             if (missingRequired.Count == 0) {
                 if (installTargetAfterDependencies) {
                     TryInstallPackage(package);
+                }
+                else {
+                    Refresh();
                 }
 
                 return;
@@ -493,14 +495,12 @@ namespace Blossom.PackageManager.Editor {
 
             if (!ok) return;
 
-            InstallDependencySequence(autoInstallable, 0, () => {
-                if (installTargetAfterDependencies) {
-                    TryInstallPackage(package);
-                }
-                else {
-                    Refresh();
-                }
-            });
+            List<BlossomPackageInfo> targetPackages = installTargetAfterDependencies
+                ? new List<BlossomPackageInfo> { package }
+                : new List<BlossomPackageInfo>();
+
+            BlossomInstallRunner.Start(autoInstallable, targetPackages);
+            Refresh();
         }
 
         private InstallPlan BuildInstallPlan(IEnumerable<BlossomPackageInfo> targets) {
@@ -614,7 +614,6 @@ namespace Blossom.PackageManager.Editor {
                 plan.CatalogPackages.Add(package);
             }
         }
-
         private void InstallMissingOptionalFor(BlossomPackageInfo package) {
             var missingOptional = package.OptionalDependencies
                 .Where(dep => !IsDependencyInstalled(dep))
@@ -622,6 +621,7 @@ namespace Blossom.PackageManager.Editor {
 
             if (missingOptional.Count == 0) {
                 EditorUtility.DisplayDialog("Info", "All optional dependencies are already installed.", "OK");
+                Refresh();
                 return;
             }
 
@@ -642,15 +642,15 @@ namespace Blossom.PackageManager.Editor {
                     "취소");
 
                 if (ok) {
-                    InstallDependencySequence(autoInstallable, 0, () => {
-                        ShowManualDependencyDialogIfNeeded("Optional Dependencies", manual);
-                        Refresh();
-                    });
+                    BlossomInstallRunner.Start(autoInstallable, new List<BlossomPackageInfo>());
+                    ShowManualDependencyDialogIfNeeded("Optional Dependencies", manual);
+                    Refresh();
                     return;
                 }
             }
 
             ShowManualDependencyDialogIfNeeded("Optional Dependencies", manual);
+            Refresh();
         }
 
         private void TryInstallPackage(BlossomPackageInfo package) {
@@ -719,84 +719,6 @@ namespace Blossom.PackageManager.Editor {
                 }
 
                 Refresh();
-            });
-        }
-
-        private void InstallPackageSequence(List<BlossomPackageInfo> packages, int index, Action onComplete) {
-            if (packages == null || packages.Count == 0 || index >= packages.Count) {
-                onComplete?.Invoke();
-                return;
-            }
-
-            BlossomPackageInfo package = packages[index];
-
-            if (_installed.Contains(package.Name)) {
-                InstallPackageSequence(packages, index + 1, onComplete);
-                return;
-            }
-
-            InstallSinglePackageFromSequence(package,
-                () => { InstallPackageSequence(packages, index + 1, onComplete); });
-        }
-
-        private void InstallSinglePackageFromSequence(BlossomPackageInfo package, Action onComplete) {
-            string installId = package.BuildInstallId(
-                BlossomPackageCatalog.Owner,
-                BlossomPackageCatalog.Repo,
-                BlossomPackageCatalog.DefaultRef);
-
-            _isRefreshing = true;
-            _statusMessage = $"Installing {package.DisplayName}...";
-
-            BlossomPackageInstaller.Install(installId, (success, error) => {
-                _isRefreshing = false;
-
-                if (!success) {
-                    EditorUtility.DisplayDialog(
-                        "Install Failed",
-                        error ?? $"Failed to install {package.DisplayName}.",
-                        "OK");
-                    Refresh();
-                    return;
-                }
-
-                RefreshAndContinue(onComplete);
-            });
-        }
-
-        private void InstallDependencySequence(
-            List<BlossomPackageDependencyInfo> dependencies,
-            int index,
-            Action onComplete) {
-
-            if (dependencies == null || dependencies.Count == 0 || index >= dependencies.Count) {
-                onComplete?.Invoke();
-                return;
-            }
-
-            BlossomPackageDependencyInfo dependency = dependencies[index];
-
-            if (IsDependencyInstalled(dependency)) {
-                InstallDependencySequence(dependencies, index + 1, onComplete);
-                return;
-            }
-
-            _isRefreshing = true;
-            _statusMessage = $"Installing {dependency.DisplayName}...";
-
-            BlossomDependencyInstaller.Install(dependency, (success, error) => {
-                _isRefreshing = false;
-
-                if (!success) {
-                    EditorUtility.DisplayDialog(
-                        "Dependency Install Failed",
-                        error ?? $"Failed to install {dependency.DisplayName}.",
-                        "OK");
-                    Refresh();
-                    return;
-                }
-
-                RefreshAndContinue(() => { InstallDependencySequence(dependencies, index + 1, onComplete); });
             });
         }
 
@@ -869,31 +791,6 @@ namespace Blossom.PackageManager.Editor {
                 }
 
                 Refresh();
-            });
-        }
-
-        private void RefreshAndContinue(Action onRefreshed) {
-            BlossomPackageCatalog.Load((catalogSuccess, catalogMessage) => {
-                if (!catalogSuccess) {
-                    _isRefreshing = false;
-                    _statusMessage = catalogMessage ?? "Catalog load failed.";
-                    Repaint();
-                    return;
-                }
-
-                _packages = new List<BlossomPackageInfo>(BlossomPackageCatalog.Packages);
-                _groups = new List<BlossomPackageGroupInfo>(BlossomPackageCatalog.Groups);
-
-                BlossomPackageInstaller.RefreshInstalledPackages((names, versions) => {
-                    _installed = new HashSet<string>(names);
-                    _installedVersions = versions ?? new Dictionary<string, string>();
-
-                    _isRefreshing = false;
-                    _statusMessage = catalogMessage;
-                    Repaint();
-
-                    onRefreshed?.Invoke();
-                });
             });
         }
 

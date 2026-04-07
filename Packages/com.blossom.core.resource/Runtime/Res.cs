@@ -15,6 +15,7 @@ namespace Blossom.Core.Resource {
             Load<GameObject>("Prefabs");
             Load<Material>("Materials");
             Load<AudioClip>("AudioClips");
+            Load<Mesh>("Meshes");
             
             IsInitialized = true;
         }

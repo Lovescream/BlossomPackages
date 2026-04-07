@@ -40,7 +40,7 @@ namespace Blossom.Core.Scenes {
         /// <param name="onProgress">로딩 진행률 콜백 (0-1)</param>
         /// <returns>시작된 코루틴. 실패 시 null</returns>
         public static Coroutine LoadAsync(MonoBehaviour runner, string sceneName, Action<float> onProgress = null)
-            => SceneController.SwitchAsync(runner, sceneName, onProgress);
+            => SceneController.LoadAsync(runner, sceneName, onProgress);
         
         /// <summary>
         /// 지정한 씬으로 비동기 전환 시작.

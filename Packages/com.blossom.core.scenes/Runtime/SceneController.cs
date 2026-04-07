@@ -135,7 +135,7 @@ namespace Blossom.Core.Scenes {
             }
 
             Scene current = SceneManager.GetActiveScene();
-            if (_transitionHandler != null) yield return _transitionHandler.OnAfterSceneLoaded(current);
+            if (_transitionHandler != null) yield return _transitionHandler.OnAfterSceneChanged(current);
         }
 
         #endregion

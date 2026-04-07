@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.1.0",
+  "defaultRef": "V0.1.1",
   "groups": [
     {
       "name": "Required",
@@ -71,7 +71,7 @@
     {
       "name": "com.blossom.core.resource",
       "displayName": "Core.Resource",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.resource",
@@ -82,7 +82,7 @@
     {
       "name": "com.blossom.core.scenes",
       "displayName": "Core.Scenes",
-      "version": "0.0.4",
+      "version": "0.0.5",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.scenes",

@@ -150,6 +150,11 @@ namespace Blossom.Core.UI.Internal {
         #endregion
 
         #region Panel
+        
+        internal static T GetPanel<T>() where T : UIPanel {
+            foreach (UIPanel panel in _panels) if (panel is T p) return p;
+            return null;
+        }
 
         internal static T OpenPanel<T>() where T : UIPanel {
             CheckInitialized();
@@ -226,6 +231,11 @@ namespace Blossom.Core.UI.Internal {
         #endregion
 
         #region Popup
+        
+        internal static T GetPopup<T>() where T : UIPopup {
+            foreach (UIPopup popup in _popups) if (popup is T p) return p;
+            return null;
+        }
 
         internal static T OpenPopup<T>() where T : UIPopup {
             CheckInitialized();

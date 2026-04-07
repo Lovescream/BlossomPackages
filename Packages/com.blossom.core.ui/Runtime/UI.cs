@@ -137,6 +137,13 @@ namespace Blossom.Core.UI {
         #region Panel
 
         /// <summary>
+        /// 지정한 타입의 패널 찾기.
+        /// </summary>
+        /// <typeparam name="T">찾을 패널 타입</typeparam>
+        /// <returns>찾은 패널 인스턴스. 실패하면 null.</returns>
+        public static T GetPanel<T>() where T : UIPanel => UISystem.GetPanel<T>();
+        
+        /// <summary>
         /// 지정한 타입의 패널 열기. 중복이 허용되지 않은 패널이 이미 열려있다면, 맨 앞으로 이동.
         /// </summary>
         /// <typeparam name="T">열 패널 타입</typeparam>
@@ -170,6 +177,13 @@ namespace Blossom.Core.UI {
 
         #region Popup
 
+        /// <summary>
+        /// 지정한 타입의 팝업 찾기.
+        /// </summary>
+        /// <typeparam name="T">찾을 팝업 타입</typeparam>
+        /// <returns>찾은 팝업 인스턴스. 실패하면 null.</returns>
+        public static T GetPopup<T>() where T : UIPopup => UISystem.GetPopup<T>();
+        
         /// <summary>
         /// 지정한 타입의 팝업 열기. 중복이 허용되지 않은 팝업이 이미 열려있다면, 맨 앞으로 이동.
         /// </summary>

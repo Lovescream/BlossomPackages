@@ -1,0 +1,7 @@
+{
+	"name": "Blossom.Presentation.Receive",
+	"references": [
+		"Blossom.Common",
+		"Unity.TextMeshPro"
+	]
+}

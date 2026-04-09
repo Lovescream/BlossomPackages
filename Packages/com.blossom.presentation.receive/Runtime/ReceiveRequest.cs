@@ -1,0 +1,25 @@
+using System;
+using UnityEngine;
+
+namespace Blossom.Presentation.Receive {
+    public readonly struct ReceiveRequest {
+
+        public ReceiveKey Key { get; }
+        public int Amount { get; }
+        public Vector3 StartPosition { get; }
+        public ReceiveSpace Space { get; }
+        public ReceiveArcDirection ArcDirection { get; }
+        public Action OnCompleted { get; }
+
+        public ReceiveRequest(ReceiveKey key, int amount, Vector3 startPosition, ReceiveSpace space,
+            ReceiveArcDirection arcDirection, Action onCompleted = null) {
+            Key = key;
+            Amount = amount;
+            StartPosition = startPosition;
+            Space = space;
+            ArcDirection = arcDirection;
+            OnCompleted = onCompleted;
+        }
+        
+    }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Blossom.Platform.GameAnalytics",
+  "references": [
+    "GameAnalyticsSDK"
+  ]
+}

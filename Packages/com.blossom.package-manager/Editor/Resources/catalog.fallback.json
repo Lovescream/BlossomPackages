@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.1.3",
+  "defaultRef": "V0.1.4",
   "groups": [
     {
       "name": "Required",
@@ -189,6 +189,33 @@
               "url": "https://package.openupm.com",
               "scopes": [
                 "com.google.external-dependency-manager"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "com.blossom.platform.gameanalytics",
+      "displayName": "Blossom-GameAnalytics",
+      "version": "0.0.1",
+      "group": "Platform",
+      "isRequired": false,
+      "path": "Packages/com.blossom.platform.gameanalytics",
+      "requiredDependencies": [
+        {
+          "name": "com.gameanalytics.sdk",
+          "displayName": "GameAnalytics",
+          "installMode": "ScopedRegistry",
+          "installId": "com.gameanalytics.sdk",
+          "autoInstall": true,
+          "note": "OpenUPM scoped registry가 필요합니다.",
+          "registries": [
+            {
+              "name": "package.openupm.com",
+              "url": "https://package.openupm.com",
+              "scopes": [
+                "com.gameanalytics"
               ]
             }
           ]

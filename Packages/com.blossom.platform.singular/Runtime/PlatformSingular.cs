@@ -1,3 +1,5 @@
+#if SDK_SINGULAR
+
 using System;
 using Blossom.Platform.Singular.Internal;
 
@@ -9,3 +11,5 @@ namespace Blossom.Platform.Singular {
             SingularInitializer.Initialize(settings, onComplete);
     }
 }
+
+#endif

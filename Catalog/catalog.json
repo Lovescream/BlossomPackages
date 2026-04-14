@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.1.8",
+  "defaultRef": "V0.1.9",
   "groups": [
     {
       "name": "Required",
@@ -259,7 +259,7 @@
     {
       "name": "com.blossom.platform.singular",
       "displayName": "Blossom-Singular",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.singular",

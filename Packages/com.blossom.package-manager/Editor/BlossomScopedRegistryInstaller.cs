@@ -90,6 +90,10 @@ namespace Blossom.PackageManager.Editor {
             if (string.Equals(dependency.Name, "com.gameanalytics.sdk", StringComparison.Ordinal)) {
                 BlossomDefineSymbolUtility.AddSymbolToCurrentTarget("gameanalytics_max_enabled");
             }
+
+            if (string.Equals(dependency.Name, "singular-unity-package", StringComparison.Ordinal)) {
+                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget("SDK_SINGULAR");
+            }
         }
     }
 }

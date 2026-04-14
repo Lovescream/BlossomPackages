@@ -1,7 +1,7 @@
+#if SDK_SINGULAR
+
 using Blossom.Common;
 using UnityEngine;
-
-#if SDK_SINGULAR
 
 namespace Blossom.Platform.Singular {
     public class SingularSettingsSO : SettingsSOBase {

@@ -84,6 +84,11 @@ namespace Blossom.PackageManager.Editor {
 
             if (string.Equals(dependency.Name, "com.applovin.mediation.ads", StringComparison.Ordinal)) {
                 BlossomDefineSymbolUtility.AddSymbolToCurrentTarget("SDK_APPLOVINMAX");
+                return;
+            }
+
+            if (string.Equals(dependency.Name, "com.gameanalytics.sdk", StringComparison.Ordinal)) {
+                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget("gameanalytics_max_enabled");
             }
         }
     }

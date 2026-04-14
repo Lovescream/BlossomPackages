@@ -1,6 +1,7 @@
 {
   "name": "Blossom.Platform.GameAnalytics",
   "references": [
-    "GameAnalyticsSDK"
+    "GameAnalyticsSDK",
+    "UniTask"
   ]
 }

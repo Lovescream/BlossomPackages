@@ -1,0 +1,19 @@
+{
+  "name": "com.blossom.platform.singular",
+  "displayName": "Blossom-Singular",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom Singular",
+  "keywords": [
+  ],
+  "dependencies": {
+    "com.blossom.common": "0.0.0",
+    "singular-unity-package": "5.7.0",
+    "com.cysharp.unitask": "2.5.10"
+  },
+  "category": "Blossom"
+}

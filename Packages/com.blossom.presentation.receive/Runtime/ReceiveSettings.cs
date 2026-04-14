@@ -14,6 +14,6 @@ namespace Blossom.Presentation.Receive {
         [SerializeField] private float defaultWorldDepth = 10f;
         [SerializeField] private bool showAmountText = true;
         [SerializeField] private int showAmountTextMinAmount = 5;
-        [SerializeField] private Vector2 referenceResolution;
+        [SerializeField] private Vector2 referenceResolution = new(1080f, 1920f);
     }
 }

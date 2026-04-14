@@ -1,0 +1,8 @@
+{
+  "name": "Blossom.Platform.Singular.Editor",
+  "references": [
+    "Blossom.Common",
+    "Blossom.Common.Editor",
+    "Blossom.Platform.Singular"
+  ]
+}

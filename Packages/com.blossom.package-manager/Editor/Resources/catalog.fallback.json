@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.1.4",
+  "defaultRef": "V0.1.5",
   "groups": [
     {
       "name": "Required",
@@ -209,13 +209,14 @@
           "installMode": "ScopedRegistry",
           "installId": "com.gameanalytics.sdk",
           "autoInstall": true,
-          "note": "OpenUPM scoped registry가 필요합니다.",
+          "note": "OpenUPM scoped registry와 External Dependency Manager scope가 필요합니다.",
           "registries": [
             {
               "name": "package.openupm.com",
               "url": "https://package.openupm.com",
               "scopes": [
-                "com.gameanalytics"
+                "com.gameanalytics",
+                "com.google.external-dependency-manager"
               ]
             }
           ]

@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.2.0",
+  "defaultRef": "V0.2.1",
   "groups": [
     {
       "name": "Required",
@@ -326,8 +326,8 @@
         {
           "name": "com.google.firebase.app",
           "displayName": "Firebase App",
-          "installMode": "UnityPackage",
-          "installId": "com.google.firebase.app",
+          "installMode": "GitPackage",
+          "installId": "https://github.com/GameWorkstore/com.google.firebase.app.git",
           "autoInstall": true,
           "note": "",
           "detectMode": "PackageList",
@@ -354,8 +354,8 @@
         {
           "name": "com.google.firebase.analytics",
           "displayName": "Analytics",
-          "installMode": "UnityPackage",
-          "installId": "com.google.firebase.analytics",
+          "installMode": "GitPackage",
+          "installId": "https://github.com/GameWorkstore/com.google.firebase.analytics.git",
           "autoInstall": true,
           "note": "",
           "detectMode": "PackageAndDefineSymbol",
@@ -371,8 +371,8 @@
         {
           "name": "com.google.firebase.auth",
           "displayName": "Auth",
-          "installMode": "UnityPackage",
-          "installId": "com.google.firebase.auth",
+          "installMode": "GitPackage",
+          "installId": "https://github.com/GameWorkstore/com.google.firebase.auth.git",
           "autoInstall": true,
           "note": "",
           "detectMode": "PackageAndDefineSymbol",
@@ -388,8 +388,8 @@
         {
           "name": "com.google.firebase.crashlytics",
           "displayName": "Crashlytics",
-          "installMode": "UnityPackage",
-          "installId": "com.google.firebase.crashlytics",
+          "installMode": "GitPackage",
+          "installId": "https://github.com/GameWorkstore/com.google.firebase.crashlytics.git",
           "autoInstall": true,
           "note": "",
           "detectMode": "PackageAndDefineSymbol",

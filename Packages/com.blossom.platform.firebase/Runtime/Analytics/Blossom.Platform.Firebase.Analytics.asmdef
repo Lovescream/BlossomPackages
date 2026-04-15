@@ -2,6 +2,7 @@
   "name": "Blossom.Platform.Firebase.Analytics",
   "rootNamespace": "Blossom.Platform.Firebase",
   "references": [
+    "Blossom.Analytics",
     "Blossom.Platform.Firebase",
     "Firebase.App",
     "Firebase.Analytics",

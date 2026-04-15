@@ -5,7 +5,7 @@
     "name": "Lovescream",
     "url": ""
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "unity": "6000.2",
   "description": "Blossom IAP",
   "keywords": [
@@ -13,6 +13,7 @@
   "dependencies": {
     "com.blossom.common": "0.0.0",
     "com.blossom.networking.online": "0.0.0",
+    "com.blossom.analytics": "0.0.0",
     "com.unity.services.core": "1.14.0",
     "com.unity.purchasing": "4.14.2",
     "com.cysharp.unitask": "2.5.10"

@@ -1,8 +1,9 @@
 {
-	"name": "Blossom.Monetization.Ads",
-	"references": [
-		"Blossom.Common",
-		"Blossom.Networking.Online",
-		"UniTask"
-	]
+  "name": "Blossom.Monetization.Ads",
+  "references": [
+    "Blossom.Common",
+    "Blossom.Networking.Online",
+    "Blossom.Analytics",
+    "UniTask"
+  ]
 }

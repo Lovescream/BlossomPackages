@@ -3,6 +3,7 @@
 	"references": [
 		"Blossom.Common",
 		"Blossom.Networking.Online",
+      "Blossom.Analytics",
 		"Unity.Services.Core",
 		"Unity.Services.Core.Environments",
 		"UnityEngine.Purchasing",

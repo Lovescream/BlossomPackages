@@ -1,0 +1,7 @@
+{
+  "name": "Blossom.Analytics",
+  "references": [
+    "Blossom.Common",
+    "UnityEngine.Purchasing"
+  ]
+}

@@ -5,13 +5,15 @@
     "name": "Lovescream",
     "url": ""
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "unity": "6000.2",
   "description": "Blossom Singular",
   "keywords": [
   ],
   "dependencies": {
     "com.blossom.common": "0.0.0",
+    "com.blossom.analytics": "0.0.0",
+    "com.unity.purchasing": "4.14.2",
     "singular-unity-package": "5.7.0",
     "com.cysharp.unitask": "2.5.10"
   },

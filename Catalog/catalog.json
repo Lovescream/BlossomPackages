@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.2.2",
+  "defaultRef": "V0.2.3",
   "groups": [
     {
       "name": "Required",
@@ -21,6 +21,11 @@
     {
       "name": "Networking",
       "displayName": "Networking",
+      "installAll": false
+    },
+    {
+      "name": "Analytics",
+      "displayName": "Analytics",
       "installAll": false
     },
     {
@@ -206,12 +211,20 @@
     {
       "name": "com.blossom.platform.gameanalytics",
       "displayName": "Blossom-GameAnalytics",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.gameanalytics",
       "refName": "",
       "requiredDependencies": [
+        {
+          "name": "com.blossom.analytics",
+          "displayName": "Blossom-Analytics",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
         {
           "name": "com.google.external-dependency-manager",
           "displayName": "External Dependency Manager for Unity",
@@ -275,12 +288,20 @@
     {
       "name": "com.blossom.platform.singular",
       "displayName": "Blossom-Singular",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.singular",
       "refName": "",
       "requiredDependencies": [
+        {
+          "name": "com.blossom.analytics",
+          "displayName": "Blossom-Analytics",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
         {
           "name": "singular-unity-package",
           "displayName": "Singular",
@@ -311,7 +332,7 @@
     {
       "name": "com.blossom.platform.firebase",
       "displayName": "Blossom-Firebase",
-      "version": "0.0.1",
+      "version": "0.0.2",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.firebase",
@@ -326,6 +347,14 @@
         "SDK_FIREBASE_CRASHLYTICS"
       ],
       "requiredDependencies": [
+        {
+          "name": "com.blossom.analytics",
+          "displayName": "Blossom-Analytics",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
         {
           "name": "com.google.external-dependency-manager",
           "displayName": "External Dependency Manager for Unity",
@@ -431,7 +460,7 @@
     {
       "name": "com.blossom.monetization.ads",
       "displayName": "Monetization.Ads",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Monetization",
       "isRequired": false,
       "path": "Packages/com.blossom.monetization.ads",
@@ -440,6 +469,22 @@
         {
           "name": "com.blossom.common",
           "displayName": "Blossom.Common",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
+        {
+          "name": "com.blossom.networking.online",
+          "displayName": "Networking.Online",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
+        {
+          "name": "com.blossom.analytics",
+          "displayName": "Blossom-Analytics",
           "installMode": "CatalogPackage",
           "installId": "",
           "autoInstall": true,
@@ -460,14 +505,6 @@
           "installId": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
           "autoInstall": true,
           "note": ""
-        },
-        {
-          "name": "com.blossom.networking.online",
-          "displayName": "Networking.Online",
-          "installMode": "CatalogPackage",
-          "installId": "",
-          "autoInstall": true,
-          "note": ""
         }
       ],
       "optionalDependencies": [
@@ -478,6 +515,14 @@
           "installId": "com.applovin.mediation.ads",
           "autoInstall": true,
           "note": "AppLovin MAX scoped registries will be added automatically.",
+          "detectMode": "PackageAndDefineSymbol",
+          "detectValue": "SDK_APPLOVINMAX",
+          "installDefineSymbols": [
+            "SDK_APPLOVINMAX"
+          ],
+          "removeDefineSymbols": [
+            "SDK_APPLOVINMAX"
+          ],
           "registries": [
             {
               "name": "AppLovin MAX Unity",
@@ -502,7 +547,7 @@
     {
       "name": "com.blossom.monetization.iap",
       "displayName": "Monetization.IAP",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Monetization",
       "isRequired": false,
       "path": "Packages/com.blossom.monetization.iap",
@@ -519,6 +564,14 @@
         {
           "name": "com.blossom.networking.online",
           "displayName": "Networking.Online",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
+        {
+          "name": "com.blossom.analytics",
+          "displayName": "Blossom-Analytics",
           "installMode": "CatalogPackage",
           "installId": "",
           "autoInstall": true,

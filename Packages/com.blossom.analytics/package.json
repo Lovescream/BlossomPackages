@@ -1,0 +1,18 @@
+{
+  "name": "com.blossom.analytics",
+  "displayName": "Blossom-Analytics",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.2",
+  "unity": "6000.2",
+  "description": "Blossom Analytics",
+  "keywords": [
+  ],
+  "dependencies": {
+    "com.blossom.common": "0.0.0",
+    "com.unity.purchasing": "4.14.2"
+  },
+  "category": "Blossom"
+}

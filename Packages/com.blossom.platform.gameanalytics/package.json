@@ -5,12 +5,14 @@
     "name": "Lovescream",
     "url": ""
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "unity": "6000.2",
   "description": "Blossom GameAnalytics",
   "keywords": [
   ],
   "dependencies": {
+    "com.blossom.analytics": "0.0.0",
+    "com.unity.purchasing": "4.14.2",
     "com.gameanalytics.sdk": "7.10.6",
     "com.cysharp.unitask": "2.5.10"
   },

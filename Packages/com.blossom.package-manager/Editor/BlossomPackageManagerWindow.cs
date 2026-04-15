@@ -6,6 +6,10 @@ using UnityEngine;
 
 namespace Blossom.PackageManager.Editor {
     internal sealed class BlossomPackageManagerWindow : EditorWindow {
+        
+        private const string BpmPackageName = "com.blossom.package-manager";
+        private static readonly Color CatalogGreen = new(0.2f, 0.8f, 0.3f);
+        private static readonly Color CatalogRed = new(0.85f, 0.25f, 0.25f);
 
         private List<BlossomPackageInfo> _packages = new();
         private List<BlossomPackageGroupInfo> _groups = new();
@@ -149,8 +153,17 @@ namespace Blossom.PackageManager.Editor {
 
         private void DrawHeader() {
             EditorGUILayout.Space(10);
-            EditorGUILayout.LabelField("Blossom Package Manager", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Install and manage Blossom packages.");
+
+            using (new EditorGUILayout.HorizontalScope()) {
+                using (new EditorGUILayout.VerticalScope()) {
+                    EditorGUILayout.LabelField("Blossom Package Manager", EditorStyles.boldLabel);
+                    EditorGUILayout.LabelField("Install and manage Blossom packages.");
+                }
+
+                GUILayout.FlexibleSpace();
+
+                DrawTopRightStatus();
+            }
 
             EditorGUILayout.Space(6);
 
@@ -164,6 +177,46 @@ namespace Blossom.PackageManager.Editor {
             }
 
             EditorGUILayout.Space(10);
+        }
+        
+        private void DrawTopRightStatus() {
+            string installedBpmVersion = GetInstalledBpmVersion();
+            BlossomPackageInfo bpmCatalogPackage = GetCatalogBpmPackage();
+
+            string bpmLabel = string.IsNullOrWhiteSpace(installedBpmVersion)
+                ? "BPM: -"
+                : $"BPM: {installedBpmVersion}";
+
+            GUILayout.BeginVertical(GUILayout.Width(220f));
+            GUILayout.Label(bpmLabel, _miniLabelStyle);
+
+            if (CanUpdateBpm(out BlossomPackageInfo package, out string installedVersion)) {
+                GUI.enabled = !_isRefreshing && !BlossomInstallRunner.IsRunning;
+                if (GUILayout.Button($"Update BPM → {package.Version}", GUILayout.Height(20))) {
+                    TryUpdateBpm();
+                }
+                GUI.enabled = true;
+            }
+            else if (bpmCatalogPackage != null) {
+                GUILayout.Label($"Latest: {bpmCatalogPackage.Version}", _miniLabelStyle);
+            }
+
+            DrawCatalogStatus();
+
+            GUILayout.EndVertical();
+        }
+        
+        private void DrawCatalogStatus() {
+            string catalogVersion = BlossomPackageCatalog.Version;
+            string sourceLabel = BlossomPackageCatalog.SourceLabel;
+            Color color = BlossomPackageCatalog.IsFallbackCatalog ? CatalogRed : CatalogGreen;
+
+            string colorHex = ToHtmlColor(color);
+            string versionText = string.IsNullOrWhiteSpace(catalogVersion) ? "-" : catalogVersion;
+
+            GUILayout.Label(
+                $"<color={colorHex}>{sourceLabel}: {versionText}</color>",
+                _miniLabelStyle);
         }
 
         private void DrawRequiredSection() {
@@ -412,9 +465,8 @@ namespace Blossom.PackageManager.Editor {
             _statusMessage = $"Removing {dependency.DisplayName}...";
 
             BlossomPackageInstaller.Remove(packageName, (success, error) => {
-                _isRefreshing = false;
-
                 if (!success) {
+                    _isRefreshing = false;
                     EditorUtility.DisplayDialog(
                         "Remove Failed",
                         error ?? $"Failed to remove {dependency.DisplayName}.",
@@ -424,7 +476,11 @@ namespace Blossom.PackageManager.Editor {
                 }
 
                 BlossomDependencyInstaller.ApplyPostRemoveActions(dependency);
-                Refresh();
+
+                BlossomPackageInstaller.Resolve(() => {
+                    _isRefreshing = false;
+                    Refresh();
+                });
             });
         }
 
@@ -794,9 +850,8 @@ namespace Blossom.PackageManager.Editor {
             _statusMessage = $"Installing {package.DisplayName}...";
 
             BlossomPackageInstaller.Install(installId, (success, error) => {
-                _isRefreshing = false;
-
                 if (!success) {
+                    _isRefreshing = false;
                     EditorUtility.DisplayDialog(
                         "Install Failed",
                         error ?? $"Failed to install {package.DisplayName}.",
@@ -806,7 +861,11 @@ namespace Blossom.PackageManager.Editor {
                 }
 
                 ApplyPackagePostInstallActions(package);
-                Refresh();
+
+                BlossomPackageInstaller.Resolve(() => {
+                    _isRefreshing = false;
+                    Refresh();
+                });
             });
         }
         
@@ -846,7 +905,7 @@ namespace Blossom.PackageManager.Editor {
                     d => $"- {d.DisplayName}: {GetDependencyInstallMessage(d)}")),
                 "OK");
         }
-
+        
         private void TryRemovePackage(BlossomPackageInfo package) {
             var dependents = _packages
                 .Where(p =>
@@ -876,9 +935,8 @@ namespace Blossom.PackageManager.Editor {
             _statusMessage = $"Removing {package.DisplayName}...";
 
             BlossomPackageInstaller.Remove(package.Name, (success, error) => {
-                _isRefreshing = false;
-
                 if (!success) {
+                    _isRefreshing = false;
                     EditorUtility.DisplayDialog(
                         "Remove Failed",
                         error ?? $"Failed to remove {package.DisplayName}.",
@@ -886,9 +944,13 @@ namespace Blossom.PackageManager.Editor {
                     Refresh();
                     return;
                 }
-                
+
                 ApplyPackagePostRemoveActions(package);
-                Refresh();
+
+                BlossomPackageInstaller.Resolve(() => {
+                    _isRefreshing = false;
+                    Refresh();
+                });
             });
         }
         
@@ -899,6 +961,44 @@ namespace Blossom.PackageManager.Editor {
                 if (string.IsNullOrWhiteSpace(symbol)) continue;
                 BlossomDefineSymbolUtility.RemoveSymbolFromCurrentTarget(symbol);
             }
+        }
+        
+        private string GetInstalledBpmVersion() {
+            return _installedVersions.TryGetValue(BpmPackageName, out string version)
+                ? version
+                : string.Empty;
+        }
+
+        private BlossomPackageInfo GetCatalogBpmPackage() {
+            return _packages.FirstOrDefault(x => x.Name == BpmPackageName);
+        }
+
+        private bool CanUpdateBpm(out BlossomPackageInfo bpmPackage, out string installedVersion) {
+            bpmPackage = GetCatalogBpmPackage();
+            installedVersion = GetInstalledBpmVersion();
+
+            if (bpmPackage == null) return false;
+            if (!_installed.Contains(BpmPackageName)) return false;
+
+            return IsVersionLower(installedVersion, bpmPackage.Version);
+        }
+
+        private void TryUpdateBpm() {
+            BlossomPackageInfo bpmPackage = GetCatalogBpmPackage();
+            if (bpmPackage == null) {
+                EditorUtility.DisplayDialog("BPM Update", "Catalog package not found: com.blossom.package-manager", "OK");
+                return;
+            }
+
+            bool ok = EditorUtility.DisplayDialog(
+                "Update BPM",
+                $"BPM을 {bpmPackage.Version} 버전으로 업데이트할까요?",
+                "업데이트",
+                "취소");
+
+            if (!ok) return;
+
+            InstallSinglePackage(bpmPackage);
         }
 
         private sealed class InstallPlan {

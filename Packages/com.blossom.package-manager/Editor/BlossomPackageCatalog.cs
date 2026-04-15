@@ -16,6 +16,9 @@ namespace Blossom.PackageManager.Editor {
         public static string Owner => _cachedData?.owner ?? string.Empty;
         public static string Repo => _cachedData?.repo ?? string.Empty;
         public static string DefaultRef => _cachedData?.defaultRef ?? "main";
+        public static string Version => _cachedData?.DefaultRef ?? string.Empty;
+        public static bool IsFallbackCatalog { get; private set; }
+        public static string SourceLabel => IsFallbackCatalog ? "catalog.fallback" : "catalog";
         public static IReadOnlyList<BlossomPackageInfo> Packages => _cachedData?.Packages ?? new();
         public static IReadOnlyList<BlossomPackageGroupInfo> Groups => _cachedData?.Groups ?? new();
         
@@ -38,12 +41,14 @@ namespace Blossom.PackageManager.Editor {
 
                 if (remoteSuccess) {
                     _cachedData = remoteData;
+                    IsFallbackCatalog = false;
                     cbOnComplete?.Invoke(true, null);
                     return;
                 }
 
                 if (TryLoadFallback(out BlossomPackageCatalogData fallbackData, out string fallbackError)) {
                     _cachedData = fallbackData;
+                    IsFallbackCatalog = true;
                     cbOnComplete?.Invoke(true, "Remote catalog load failed. Fallback catalog loaded.");
                     return;
                 }

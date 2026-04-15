@@ -71,29 +71,11 @@ namespace Blossom.PackageManager.Editor {
                         }
 
                         BlossomPackageInstaller.Resolve(() => {
-                            ApplyPostInstallActions(dependency);
                             onComplete?.Invoke(true, null);
                         });
                     });
                 });
             });
-        }
-
-        private static void ApplyPostInstallActions(BlossomPackageDependencyInfo dependency) {
-            if (dependency == null) return;
-
-            if (string.Equals(dependency.Name, "com.applovin.mediation.ads", StringComparison.Ordinal)) {
-                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget("SDK_APPLOVINMAX");
-                return;
-            }
-
-            if (string.Equals(dependency.Name, "com.gameanalytics.sdk", StringComparison.Ordinal)) {
-                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget("gameanalytics_max_enabled");
-            }
-
-            if (string.Equals(dependency.Name, "singular-unity-package", StringComparison.Ordinal)) {
-                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget("SDK_SINGULAR");
-            }
         }
     }
 }

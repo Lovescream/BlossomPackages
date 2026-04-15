@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.2.4",
+  "defaultRef": "V0.2.5",
   "groups": [
     {
       "name": "Required",
@@ -222,7 +222,7 @@
     {
       "name": "com.blossom.platform.gameanalytics",
       "displayName": "Blossom-GameAnalytics",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.gameanalytics",
@@ -261,12 +261,12 @@
           "autoInstall": true,
           "note": "EDM4U 설치 후 GameAnalytics를 설치합니다.",
           "detectMode": "PackageAndDefineSymbol",
-          "detectValue": "gameanalytics_max_enabled",
+          "detectValue": "SDK_GAMEANALYTICS",
           "installDefineSymbols": [
-            "gameanalytics_max_enabled"
+            "SDK_GAMEANALYTICS"
           ],
           "removeDefineSymbols": [
-            "gameanalytics_max_enabled"
+            "SDK_GAMEANALYTICS"
           ],
           "registries": [
             {

@@ -1,4 +1,4 @@
-#if gameanalytics_max_enabled
+#if SDK_GAMEANALYTICS
 
 using System;
 using System.Collections.Generic;

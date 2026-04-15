@@ -1,0 +1,10 @@
+{
+  "name": "Blossom.Platform.Firebase.Crashlytics",
+  "rootNamespace": "Blossom.Platform.Firebase",
+  "references": [
+    "Blossom.Platform.Firebase",
+    "Firebase.App",
+    "Firebase.Crashlytics",
+    "UniTask"
+  ]
+}

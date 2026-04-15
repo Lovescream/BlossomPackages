@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.1.9",
+  "defaultRef": "V0.2.0",
   "groups": [
     {
       "name": "Required",
@@ -259,7 +259,7 @@
     {
       "name": "com.blossom.platform.singular",
       "displayName": "Blossom-Singular",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.singular",
@@ -283,6 +283,126 @@
         }
       ],
       "optionalDependencies": []
+    },
+    {
+      "name": "com.blossom.platform.firebase",
+      "displayName": "Blossom-Firebase",
+      "version": "0.0.1",
+      "group": "Platform",
+      "isRequired": false,
+      "path": "Packages/com.blossom.platform.firebase",
+      "refName": "",
+      "installDefineSymbols": [
+        "SDK_FIREBASE"
+      ],
+      "removeDefineSymbols": [
+        "SDK_FIREBASE",
+        "SDK_FIREBASE_ANALYTICS",
+        "SDK_FIREBASE_AUTH",
+        "SDK_FIREBASE_CRASHLYTICS"
+      ],
+      "requiredDependencies": [
+        {
+          "name": "com.google.external-dependency-manager",
+          "displayName": "External Dependency Manager for Unity",
+          "installMode": "ScopedRegistry",
+          "installId": "com.google.external-dependency-manager",
+          "autoInstall": true,
+          "note": "Firebase 설치 전에 EDM4U를 먼저 설치합니다.",
+          "detectMode": "PackageList",
+          "detectValue": "",
+          "installDefineSymbols": [],
+          "removeDefineSymbols": [],
+          "registries": [
+            {
+              "name": "package.openupm.com",
+              "url": "https://package.openupm.com",
+              "scopes": [
+                "com.google.external-dependency-manager"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "com.google.firebase.app",
+          "displayName": "Firebase App",
+          "installMode": "UnityPackage",
+          "installId": "com.google.firebase.app",
+          "autoInstall": true,
+          "note": "",
+          "detectMode": "PackageList",
+          "detectValue": "",
+          "installDefineSymbols": [],
+          "removeDefineSymbols": [],
+          "registries": []
+        },
+        {
+          "name": "com.cysharp.unitask",
+          "displayName": "UniTask",
+          "installMode": "GitPackage",
+          "installId": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+          "autoInstall": true,
+          "note": "",
+          "detectMode": "PackageList",
+          "detectValue": "",
+          "installDefineSymbols": [],
+          "removeDefineSymbols": [],
+          "registries": []
+        }
+      ],
+      "optionalDependencies": [
+        {
+          "name": "com.google.firebase.analytics",
+          "displayName": "Analytics",
+          "installMode": "UnityPackage",
+          "installId": "com.google.firebase.analytics",
+          "autoInstall": true,
+          "note": "",
+          "detectMode": "PackageAndDefineSymbol",
+          "detectValue": "SDK_FIREBASE_ANALYTICS",
+          "installDefineSymbols": [
+            "SDK_FIREBASE_ANALYTICS"
+          ],
+          "removeDefineSymbols": [
+            "SDK_FIREBASE_ANALYTICS"
+          ],
+          "registries": []
+        },
+        {
+          "name": "com.google.firebase.auth",
+          "displayName": "Auth",
+          "installMode": "UnityPackage",
+          "installId": "com.google.firebase.auth",
+          "autoInstall": true,
+          "note": "",
+          "detectMode": "PackageAndDefineSymbol",
+          "detectValue": "SDK_FIREBASE_AUTH",
+          "installDefineSymbols": [
+            "SDK_FIREBASE_AUTH"
+          ],
+          "removeDefineSymbols": [
+            "SDK_FIREBASE_AUTH"
+          ],
+          "registries": []
+        },
+        {
+          "name": "com.google.firebase.crashlytics",
+          "displayName": "Crashlytics",
+          "installMode": "UnityPackage",
+          "installId": "com.google.firebase.crashlytics",
+          "autoInstall": true,
+          "note": "",
+          "detectMode": "PackageAndDefineSymbol",
+          "detectValue": "SDK_FIREBASE_CRASHLYTICS",
+          "installDefineSymbols": [
+            "SDK_FIREBASE_CRASHLYTICS"
+          ],
+          "removeDefineSymbols": [
+            "SDK_FIREBASE_CRASHLYTICS"
+          ],
+          "registries": []
+        }
+      ]
     },
     {
       "name": "com.blossom.monetization.ads",

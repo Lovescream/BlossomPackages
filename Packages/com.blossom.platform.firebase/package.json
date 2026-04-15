@@ -1,0 +1,19 @@
+{
+  "name": "com.blossom.platform.firebase",
+  "displayName": "Blossom-Firebase",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom Firebase",
+  "keywords": [
+  ],
+  "dependencies": {
+    "com.google.external-dependency-manager": "1.2.186",
+    "com.google.firebase.app": "12.10.1",
+    "com.cysharp.unitask": "2.5.10"
+  },
+  "category": "Blossom"
+}

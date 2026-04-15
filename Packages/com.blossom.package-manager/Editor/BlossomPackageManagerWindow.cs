@@ -250,7 +250,8 @@ namespace Blossom.PackageManager.Editor {
             DrawPackageNameLine(package, isInstalled);
             DrawDependencyLine("Required", package.RequiredDependencies);
             DrawDependencyLine("Optional", package.OptionalDependencies);
-
+            DrawOptionalDependencyActions(package);
+            
             EditorGUILayout.EndVertical();
         }
 
@@ -306,12 +307,6 @@ namespace Blossom.PackageManager.Editor {
                         break;
                 }
 
-                if (HasMissingOptionalDependencies(package)) {
-                    if (GUILayout.Button("Install Optional", GUILayout.Width(120), GUILayout.Height(24))) {
-                        InstallMissingOptionalFor(package);
-                    }
-                }
-
                 GUI.enabled = true;
             }
 
@@ -339,6 +334,98 @@ namespace Blossom.PackageManager.Editor {
 
             string joined = string.Join(", ", dependencies.Select(FormatDependencyText));
             EditorGUILayout.LabelField($"{label}: {joined}", _miniLabelStyle);
+        }
+        
+        private void DrawOptionalDependencyActions(BlossomPackageInfo package) {
+            if (package == null || package.OptionalDependencies == null || package.OptionalDependencies.Count == 0) return;
+
+            EditorGUILayout.Space(4f);
+            EditorGUILayout.LabelField("Optional Actions", _miniLabelStyle);
+
+            foreach (BlossomPackageDependencyInfo dependency in package.OptionalDependencies) {
+                bool installed = IsDependencyInstalled(dependency);
+
+                using (new EditorGUILayout.HorizontalScope()) {
+                    GUILayout.Label($"- {dependency.DisplayName}", _miniLabelStyle);
+                    GUILayout.FlexibleSpace();
+
+                    GUI.enabled = !_isRefreshing && !BlossomInstallRunner.IsRunning;
+
+                    if (!installed) {
+                        if (GUILayout.Button($"Install {dependency.DisplayName}", GUILayout.Width(160), GUILayout.Height(22))) {
+                            InstallOptionalDependency(dependency);
+                        }
+                    }
+                    else {
+                        if (GUILayout.Button($"Remove {dependency.DisplayName}", GUILayout.Width(160), GUILayout.Height(22))) {
+                            RemoveOptionalDependency(dependency);
+                        }
+                    }
+
+                    GUI.enabled = true;
+                }
+            }
+        }
+        
+        private void InstallOptionalDependency(BlossomPackageDependencyInfo dependency) {
+            if (dependency == null) return;
+
+            if (!IsDependencyAutoInstallable(dependency)) {
+                EditorUtility.DisplayDialog(
+                    "Optional Dependency",
+                    GetDependencyInstallMessage(dependency),
+                    "OK");
+                return;
+            }
+
+            bool ok = EditorUtility.DisplayDialog(
+                "Install Optional Dependency",
+                $"{dependency.DisplayName} 를 설치할까요?",
+                "설치",
+                "취소");
+
+            if (!ok) return;
+
+            BlossomInstallRunner.Start(
+                new List<BlossomPackageDependencyInfo> { dependency },
+                new List<BlossomPackageInfo>());
+
+            Refresh();
+        }
+        
+        private void RemoveOptionalDependency(BlossomPackageDependencyInfo dependency) {
+            if (dependency == null) return;
+
+            string packageName = string.IsNullOrWhiteSpace(dependency.InstallId)
+                ? dependency.Name
+                : dependency.InstallId;
+
+            bool ok = EditorUtility.DisplayDialog(
+                "Remove Optional Dependency",
+                $"{dependency.DisplayName} 를 제거할까요?",
+                "제거",
+                "취소");
+
+            if (!ok) return;
+
+            _isRefreshing = true;
+            _statusMessage = $"Removing {dependency.DisplayName}...";
+
+            BlossomPackageInstaller.Remove(packageName, (success, error) => {
+                _isRefreshing = false;
+
+                if (!success) {
+                    EditorUtility.DisplayDialog(
+                        "Remove Failed",
+                        error ?? $"Failed to remove {dependency.DisplayName}.",
+                        "OK");
+                    Refresh();
+                    return;
+                }
+
+                BlossomDependencyInstaller.ApplyPostRemoveActions(dependency);
+                Refresh();
+            });
         }
 
         private string FormatDependencyText(BlossomPackageDependencyInfo dependency) {
@@ -718,8 +805,18 @@ namespace Blossom.PackageManager.Editor {
                     return;
                 }
 
+                ApplyPackagePostInstallActions(package);
                 Refresh();
             });
+        }
+        
+        private void ApplyPackagePostInstallActions(BlossomPackageInfo package) {
+            if (package == null || package.InstallDefineSymbols == null) return;
+
+            foreach (string symbol in package.InstallDefineSymbols) {
+                if (string.IsNullOrWhiteSpace(symbol)) continue;
+                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget(symbol);
+            }
         }
 
         private bool IsDependencyAutoInstallable(BlossomPackageDependencyInfo dependency) {
@@ -789,9 +886,19 @@ namespace Blossom.PackageManager.Editor {
                     Refresh();
                     return;
                 }
-
+                
+                ApplyPackagePostRemoveActions(package);
                 Refresh();
             });
+        }
+        
+        private void ApplyPackagePostRemoveActions(BlossomPackageInfo package) {
+            if (package == null || package.RemoveDefineSymbols == null) return;
+
+            foreach (string symbol in package.RemoveDefineSymbols) {
+                if (string.IsNullOrWhiteSpace(symbol)) continue;
+                BlossomDefineSymbolUtility.RemoveSymbolFromCurrentTarget(symbol);
+            }
         }
 
         private sealed class InstallPlan {

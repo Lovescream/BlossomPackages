@@ -17,7 +17,8 @@ namespace Blossom.PackageManager.Editor {
             // 1. 기본적으로 UPM/Git/UnityPackage 류는 package list 먼저 확인
             if (installedPackages != null &&
                 !string.IsNullOrWhiteSpace(dependency.Name) &&
-                installedPackages.Contains(dependency.Name)) {
+                installedPackages.Contains(dependency.Name) &&
+                dependency.DetectMode != "PackageAndDefineSymbol") {
                 return true;
             }
 
@@ -31,6 +32,12 @@ namespace Blossom.PackageManager.Editor {
 
                 case "AssetPathAny":
                     return DetectAssetPathAny(dependency.DetectValue);
+
+                case "PackageAndDefineSymbol":
+                    return installedPackages != null &&
+                           !string.IsNullOrWhiteSpace(dependency.Name) &&
+                           installedPackages.Contains(dependency.Name) &&
+                           DetectDefineSymbol(dependency.DetectValue);
 
                 case "PackageList":
                 default:
@@ -49,13 +56,11 @@ namespace Blossom.PackageManager.Editor {
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToArray();
 
-            // 1차: Type.GetType 직접 시도
             foreach (string candidate in candidates) {
                 Type type = Type.GetType(candidate);
                 if (type != null) return true;
             }
 
-            // 2차: 로드된 어셈블리 전체 탐색
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()) {
                 foreach (string candidate in candidates) {
                     string fullName = candidate;

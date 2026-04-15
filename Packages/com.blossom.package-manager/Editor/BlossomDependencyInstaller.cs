@@ -54,7 +54,10 @@ namespace Blossom.PackageManager.Editor {
                 BlossomPackageCatalog.Repo,
                 BlossomPackageCatalog.DefaultRef);
 
-            BlossomPackageInstaller.Install(installId, onComplete);
+            BlossomPackageInstaller.Install(installId, (success, error) => {
+                if (success) ApplyPostInstallActions(dependency);
+                onComplete?.Invoke(success, error);
+            });
         }
 
         private static void InstallDirectPackage(
@@ -66,14 +69,38 @@ namespace Blossom.PackageManager.Editor {
                 return;
             }
 
-            BlossomPackageInstaller.Install(dependency.InstallId, onComplete);
+            BlossomPackageInstaller.Install(dependency.InstallId, (success, error) => {
+                if (success) ApplyPostInstallActions(dependency);
+                onComplete?.Invoke(success, error);
+            });
         }
 
         private static void InstallScopedRegistryPackage(
             BlossomPackageDependencyInfo dependency,
             Action<bool, string> onComplete) {
 
-            BlossomScopedRegistryInstaller.Install(dependency, onComplete);
+            BlossomScopedRegistryInstaller.Install(dependency, (success, error) => {
+                if (success) ApplyPostInstallActions(dependency);
+                onComplete?.Invoke(success, error);
+            });
+        }
+
+        internal static void ApplyPostInstallActions(BlossomPackageDependencyInfo dependency) {
+            if (dependency == null || dependency.InstallDefineSymbols == null) return;
+
+            foreach (string symbol in dependency.InstallDefineSymbols) {
+                if (string.IsNullOrWhiteSpace(symbol)) continue;
+                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget(symbol);
+            }
+        }
+
+        internal static void ApplyPostRemoveActions(BlossomPackageDependencyInfo dependency) {
+            if (dependency == null || dependency.RemoveDefineSymbols == null) return;
+
+            foreach (string symbol in dependency.RemoveDefineSymbols) {
+                if (string.IsNullOrWhiteSpace(symbol)) continue;
+                BlossomDefineSymbolUtility.RemoveSymbolFromCurrentTarget(symbol);
+            }
         }
     }
 }

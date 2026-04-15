@@ -13,7 +13,9 @@ namespace Blossom.PackageManager.Editor {
         public string RefName => refName;
         public List<BlossomPackageDependencyInfo> RequiredDependencies => requiredDependencies ??= new();
         public List<BlossomPackageDependencyInfo> OptionalDependencies => optionalDependencies ??= new();
-        
+        public List<string> InstallDefineSymbols => installDefineSymbols ??= new();
+        public List<string> RemoveDefineSymbols => removeDefineSymbols ??= new();
+
         public string name;
         public string displayName;
         public string version;
@@ -23,6 +25,8 @@ namespace Blossom.PackageManager.Editor {
         public string refName;
         public List<BlossomPackageDependencyInfo> requiredDependencies = new();
         public List<BlossomPackageDependencyInfo> optionalDependencies = new();
+        public List<string> installDefineSymbols = new();
+        public List<string> removeDefineSymbols = new();
 
         public string BuildInstallId(string owner, string repo, string defaultRef) {
             string gitRef = string.IsNullOrEmpty(RefName) ? defaultRef : RefName;

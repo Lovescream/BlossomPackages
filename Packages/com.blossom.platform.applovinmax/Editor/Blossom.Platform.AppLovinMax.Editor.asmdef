@@ -1,3 +1,8 @@
 {
-	"name": "Blossom.Platform.AppLovinMax.Editor"
+  "name": "Blossom.Platform.AppLovinMax.Editor",
+  "references": [
+    "Blossom.Common",
+    "Blossom.Common.Editor",
+    "Blossom.Platform.AppLovinMax"
+  ]
 }

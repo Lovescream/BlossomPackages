@@ -5,10 +5,14 @@
     "name": "Lovescream",
     "url": ""
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "unity": "6000.2",
   "description": "Blossom AppLovinMax",
   "keywords": [
   ],
+  "dependencies": {
+    "com.blossom.common": "0.0.0",
+    "com.applovin.mediation.ads": "0.0.0"
+  },
   "category": "Blossom"
 }

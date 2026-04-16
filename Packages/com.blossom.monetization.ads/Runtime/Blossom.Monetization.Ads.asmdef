@@ -4,6 +4,8 @@
     "Blossom.Common",
     "Blossom.Networking.Online",
     "Blossom.Analytics",
+    "Blossom.Platform.AppLovinMax",
+    "MaxSdk.Scripts",
     "UniTask"
   ]
 }

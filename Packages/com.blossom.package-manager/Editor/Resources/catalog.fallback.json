@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.2.5",
+  "defaultRef": "V0.2.6",
   "groups": [
     {
       "name": "Required",
@@ -167,7 +167,7 @@
     {
       "name": "com.blossom.platform.applovinmax",
       "displayName": "Platform.AppLovinMax",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.applovinmax",
@@ -471,7 +471,7 @@
     {
       "name": "com.blossom.monetization.ads",
       "displayName": "Monetization.Ads",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "group": "Monetization",
       "isRequired": false,
       "path": "Packages/com.blossom.monetization.ads",

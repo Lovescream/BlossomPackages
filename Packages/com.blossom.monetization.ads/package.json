@@ -5,7 +5,7 @@
     "name": "Lovescream",
     "url": ""
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "unity": "6000.2",
   "description": "Blossom Ads",
   "keywords": [
@@ -14,6 +14,7 @@
     "com.blossom.common": "0.0.0",
     "com.blossom.networking.online": "0.0.0",
     "com.blossom.analytics": "0.0.0",
+    "com.blossom.platform.applobinmax": "0.0.0",
     "com.cysharp.unitask": "2.5.10"
   },
   "category": "Blossom"

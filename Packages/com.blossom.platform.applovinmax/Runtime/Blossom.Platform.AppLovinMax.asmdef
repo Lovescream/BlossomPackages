@@ -1,3 +1,7 @@
 {
-	"name": "Blossom.Platform.AppLovinMax"
+  "name": "Blossom.Platform.AppLovinMax",
+  "references": [
+    "Blossom.Common",
+    "MaxSdk.Scripts"
+  ]
 }

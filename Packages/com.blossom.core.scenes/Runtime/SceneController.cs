@@ -99,7 +99,7 @@ namespace Blossom.Core.Scenes {
             onProgress?.Invoke(1f);
 
             void OnLoaded(Scene scene, LoadSceneMode mode) {
-                if (scene.name == sceneName) return;
+                if (scene.name != sceneName) return;
                 SceneManager.SetActiveScene(scene);
                 SceneManager.sceneLoaded -= OnLoaded;
             }

@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using Blossom.Analytics;
-using UnityEngine;
-
 namespace Blossom.Monetization.IAP {
+    using System.Collections.Generic;
+    using Analytics;
+    using UnityEngine;
+    
     public static class IAPAnalytics {
 
         private static bool _registered;
@@ -45,7 +45,7 @@ namespace Blossom.Monetization.IAP {
             AnalyticsIAPRevenueData data = new AnalyticsIAPRevenueData.Builder(storeKey, args.Product)
                 .SetRevenue(revenue).SetAttributes(attributes).Build();
 
-            Analytics.Analytics.LogIAPRevenue(data);
+            Analytics.LogIAPRevenue(data);
         }
 
         private static string GetStoreKey() {

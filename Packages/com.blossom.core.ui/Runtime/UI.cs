@@ -21,12 +21,12 @@ namespace Blossom.Core.UI {
         /// <summary>
         /// 현재 열린 패널 목록.
         /// </summary>
-        public static IReadOnlyList<UIPanel> Panels => UISystem.Panels;
+        public static IReadOnlyList<UI_Panel> Panels => UISystem.Panels;
 
         /// <summary>
         /// 현재 열린 팝업 목록.
         /// </summary>
-        public static IReadOnlyList<UIPopup> Popups => UISystem.Popups;
+        public static IReadOnlyList<UI_Popup> Popups => UISystem.Popups;
 
         /// <summary>
         /// UI 기준 해상도.
@@ -49,7 +49,7 @@ namespace Blossom.Core.UI {
         /// <summary>
         /// 패널이 열렸을 때의 이벤트.
         /// </summary>
-        public static event Action<UIPanel> OnPanelOpened {
+        public static event Action<UI_Panel> OnPanelOpened {
             add => UISystem.OnPanelOpened += value;
             remove => UISystem.OnPanelOpened -= value;
         }
@@ -57,7 +57,7 @@ namespace Blossom.Core.UI {
         /// <summary>
         /// 패널이 닫혔을 때의 이벤트.
         /// </summary>
-        public static event Action<UIPanel> OnPanelClosed {
+        public static event Action<UI_Panel> OnPanelClosed {
             add => UISystem.OnPanelClosed += value;
             remove => UISystem.OnPanelClosed -= value;
         }
@@ -65,7 +65,7 @@ namespace Blossom.Core.UI {
         /// <summary>
         /// 팝업이 열렸을 때의 이벤트.
         /// </summary>
-        public static event Action<UIPopup> OnPopupOpened {
+        public static event Action<UI_Popup> OnPopupOpened {
             add => UISystem.OnPopupOpened += value;
             remove => UISystem.OnPopupOpened -= value;
         }
@@ -73,7 +73,7 @@ namespace Blossom.Core.UI {
         /// <summary>
         /// 팝업이 닫혔을 때의 이벤트.
         /// </summary>
-        public static event Action<UIPopup> OnPopupClosed {
+        public static event Action<UI_Popup> OnPopupClosed {
             add => UISystem.OnPopupClosed += value;
             remove => UISystem.OnPopupClosed -= value;
         }
@@ -130,7 +130,7 @@ namespace Blossom.Core.UI {
         /// </summary>
         /// <typeparam name="T">열 씬 UI 타입</typeparam>
         /// <returns>생성된 씬 UI. 실패하면 null.</returns>
-        public static T OpenSceneUI<T>() where T : UIScene => UISystem.OpenSceneUI<T>();
+        public static T OpenSceneUI<T>() where T : UI_Scene => UISystem.OpenSceneUI<T>();
 
         #endregion
 
@@ -141,26 +141,26 @@ namespace Blossom.Core.UI {
         /// </summary>
         /// <typeparam name="T">찾을 패널 타입</typeparam>
         /// <returns>찾은 패널 인스턴스. 실패하면 null.</returns>
-        public static T GetPanel<T>() where T : UIPanel => UISystem.GetPanel<T>();
+        public static T GetPanel<T>() where T : UI_Panel => UISystem.GetPanel<T>();
         
         /// <summary>
         /// 지정한 타입의 패널 열기. 중복이 허용되지 않은 패널이 이미 열려있다면, 맨 앞으로 이동.
         /// </summary>
         /// <typeparam name="T">열 패널 타입</typeparam>
         /// <returns>열린 패널 인스턴스. 실패하면 null.</returns>
-        public static T OpenPanel<T>() where T : UIPanel => UISystem.OpenPanel<T>();
+        public static T OpenPanel<T>() where T : UI_Panel => UISystem.OpenPanel<T>();
 
         /// <summary>
         /// 지정한 패널 닫기.
         /// </summary>
         /// <param name="panel">닫을 패널</param>
-        public static void ClosePanel(UIPanel panel) => UISystem.ClosePanel(panel);
+        public static void ClosePanel(UI_Panel panel) => UISystem.ClosePanel(panel);
 
         /// <summary>
         /// 지정한 타입의 패널 모두 닫기.
         /// </summary>
         /// <typeparam name="T">닫을 패널 타입</typeparam>
-        public static void ClosePanels<T>() where T : UIPanel => UISystem.ClosePanels<T>();
+        public static void ClosePanels<T>() where T : UI_Panel => UISystem.ClosePanels<T>();
 
         /// <summary>
         /// 모든 패널 닫기.
@@ -171,7 +171,7 @@ namespace Blossom.Core.UI {
         /// 가장 마지막에 열린 패널 찾기.
         /// </summary>
         /// <returns>가장 위에 있는 패널. 없으면 null.</returns>
-        public static UIPanel GetLatestPanel() => UISystem.GetLatestPanel();
+        public static UI_Panel GetLatestPanel() => UISystem.GetLatestPanel();
 
         #endregion
 
@@ -182,26 +182,26 @@ namespace Blossom.Core.UI {
         /// </summary>
         /// <typeparam name="T">찾을 팝업 타입</typeparam>
         /// <returns>찾은 팝업 인스턴스. 실패하면 null.</returns>
-        public static T GetPopup<T>() where T : UIPopup => UISystem.GetPopup<T>();
+        public static T GetPopup<T>() where T : UI_Popup => UISystem.GetPopup<T>();
         
         /// <summary>
         /// 지정한 타입의 팝업 열기. 중복이 허용되지 않은 팝업이 이미 열려있다면, 맨 앞으로 이동.
         /// </summary>
         /// <typeparam name="T">열 팝업 타입</typeparam>
         /// <returns>열린 팝업 인스턴스. 실패하면 null.</returns>
-        public static T OpenPopup<T>() where T : UIPopup => UISystem.OpenPopup<T>();
+        public static T OpenPopup<T>() where T : UI_Popup => UISystem.OpenPopup<T>();
 
         /// <summary>
         /// 지정한 팝업 닫기.
         /// </summary>
         /// <param name="popup">닫을 팝업</param>
-        public static void ClosePopup(UIPopup popup) => UISystem.ClosePopup(popup);
+        public static void ClosePopup(UI_Popup popup) => UISystem.ClosePopup(popup);
 
         /// <summary>
         /// 지정한 타입의 팝업 모두 닫기.
         /// </summary>
         /// <typeparam name="T">닫을 팝업 타입</typeparam>
-        public static void ClosePopups<T>() where T : UIPopup => UISystem.ClosePopups<T>();
+        public static void ClosePopups<T>() where T : UI_Popup => UISystem.ClosePopups<T>();
 
         /// <summary>
         /// 모든 팝업 닫기.
@@ -212,7 +212,7 @@ namespace Blossom.Core.UI {
         /// 가장 마지막에 열린 팝업 찾기.
         /// </summary>
         /// <returns>가장 위에 있는 팝업. 없으면 null.</returns>
-        public static UIPopup GetLatestPopup() => UISystem.GetLatestPopup();
+        public static UI_Popup GetLatestPopup() => UISystem.GetLatestPopup();
 
         #endregion
         

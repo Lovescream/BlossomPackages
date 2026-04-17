@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Blossom.Core.UI {
-    public class UIButton : UIImage, IPointerDownHandler, IPointerUpHandler {
+    public class UI_Button : UI_Image, IPointerDownHandler, IPointerUpHandler {
 
         #region Const.
 
@@ -24,7 +24,7 @@ namespace Blossom.Core.UI {
             }
         }
 
-        public UIText ContextText {
+        public UI_Text ContextText {
             get {
                 Initialize();
                 return _contextText;
@@ -51,7 +51,7 @@ namespace Blossom.Core.UI {
         private Tween _tween;
         
         private Button _button;
-        private UIText _contextText;
+        private UI_Text _contextText;
 
         private event Action _cbOnButtonDown;
         private event Action _cbOnButtonUp;
@@ -63,7 +63,7 @@ namespace Blossom.Core.UI {
         protected override void OnInitialize() {
             base.OnInitialize();
             _button = this.GetComponent<Button>();
-            _contextText = this.GetComponentInChildren<UIText>();
+            _contextText = this.GetComponentInChildren<UI_Text>();
             _defaultScale = this.transform.localScale;
         }
 
@@ -85,7 +85,7 @@ namespace Blossom.Core.UI {
         
         #region Events
         
-        public UIButton SetEvent(UnityAction action) {
+        public UI_Button SetEvent(UnityAction action) {
             Initialize();
             if (_button == null || action == null) return this;
             _button.onClick.RemoveListener(action);
@@ -93,14 +93,14 @@ namespace Blossom.Core.UI {
             return this;
         }
 
-        public UIButton SetDownEvent(Action action) {
+        public UI_Button SetDownEvent(Action action) {
             if (action == null)  return this;
             _cbOnButtonDown -= action;
             _cbOnButtonDown += action;
             return this;
         }
         
-        public UIButton SetUpEvent(Action action) {
+        public UI_Button SetUpEvent(Action action) {
             if (action == null) return this;
             _cbOnButtonUp -= action;
             _cbOnButtonUp += action;
@@ -118,7 +118,7 @@ namespace Blossom.Core.UI {
 
         #region Active
 
-        public UIButton SetActive(bool active, bool setColor = true, Color? activeColor = null,
+        public UI_Button SetActive(bool active, bool setColor = true, Color? activeColor = null,
             Color? inactiveColor = null) {
             Initialize();
             if (_button != null) _button.interactable = active;

@@ -4,7 +4,7 @@ using System;
 using Blossom.Platform.Firebase.Internal;
 
 namespace Blossom.Platform.Firebase {
-    public class PlatformFirebaseCrashlytics {
+    public static class PlatformFirebaseCrashlytics {
         
         #region Properties
 

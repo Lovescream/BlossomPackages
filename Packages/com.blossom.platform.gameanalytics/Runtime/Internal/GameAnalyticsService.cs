@@ -1,6 +1,5 @@
 #if SDK_GAMEANALYTICS
 
-using System;
 using System.Collections.Generic;
 using Blossom.Analytics;
 using GameAnalyticsSDK;
@@ -76,4 +75,5 @@ namespace Blossom.Platform.GameAnalytics.Internal {
 
     }
 }
+
 #endif

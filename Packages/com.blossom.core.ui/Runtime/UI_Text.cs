@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 namespace Blossom.Core.UI {
-    public class UIText : UIBase {
+    public class UI_Text : UIBase {
 
         public TextMeshProUGUI TMP {
             get {
@@ -60,22 +60,22 @@ namespace Blossom.Core.UI {
             _text = this.GetComponent<TextMeshProUGUI>();
         }
 
-        public UIText SetText(string text) {
+        public UI_Text SetText(string text) {
             Text = text;
             return this;
         }
 
-        public UIText SetColor(Color color) {
+        public UI_Text SetColor(Color color) {
             Color = color;
             return this;
         }
 
-        public UIText SetAlignment(TextAlignmentOptions alignment) {
+        public UI_Text SetAlignment(TextAlignmentOptions alignment) {
             Alignment = alignment;
             return this;
         }
 
-        public UIText SetMaterial(Material material) {
+        public UI_Text SetMaterial(Material material) {
             SharedMaterial = material;
             return this;
         }

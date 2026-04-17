@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Blossom.Core.UI {
-    public class UIImage : UIBase{
+    public class UI_Image : UIBase{
 
         public Image Image {
             get {
@@ -42,18 +42,18 @@ namespace Blossom.Core.UI {
             _image = this.GetComponent<Image>();
         }
 
-        public UIImage SetSprite(Sprite sprite, bool resetColor = false) {
+        public UI_Image SetSprite(Sprite sprite, bool resetColor = false) {
             Sprite = sprite;
             if (resetColor) Color = sprite == null ? Color.clear : Color.white;
             return this;
         }
 
-        public UIImage SetColor(Color color) {
+        public UI_Image SetColor(Color color) {
             Color = color;
             return this;
         }
 
-        public UIImage SetAlpha(float alpha) {
+        public UI_Image SetAlpha(float alpha) {
             Initialize();
             if (_image == null) return this;
             
@@ -64,7 +64,7 @@ namespace Blossom.Core.UI {
             return this;
         }
 
-        public UIImage SetFill(float amount) {
+        public UI_Image SetFill(float amount) {
             Fill = amount;
             return this;
         }

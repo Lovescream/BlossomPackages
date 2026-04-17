@@ -1,5 +1,5 @@
 namespace Blossom.Core.UI {
-    public class UIScene : UICanvas {
+    public class UI_Scene : UICanvas {
         
     }
 }

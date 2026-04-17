@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Blossom.Core.UI {
-    public class UIToggle : UIImage, IPointerClickHandler {
+    public class UI_Toggle : UI_Image, IPointerClickHandler {
 
         public bool IsOn {
             get => _isOn;
@@ -22,7 +22,7 @@ namespace Blossom.Core.UI {
 
         private event Action<bool> _cbOnToggle;
 
-        public UIToggle SetEvent(Action<bool> callback) {
+        public UI_Toggle SetEvent(Action<bool> callback) {
             _cbOnToggle -= callback;
             _cbOnToggle += callback;
             return this;

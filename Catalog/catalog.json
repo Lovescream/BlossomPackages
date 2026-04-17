@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.2.8",
+  "defaultRef": "V0.2.9",
   "groups": [
     {
       "name": "Required",
@@ -103,7 +103,7 @@
     {
       "name": "com.blossom.core.ui",
       "displayName": "Core.UI",
-      "version": "0.0.4",
+      "version": "0.0.5",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.ui",
@@ -343,7 +343,7 @@
     {
       "name": "com.blossom.platform.firebase",
       "displayName": "Blossom-Firebase",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.firebase",
@@ -558,7 +558,7 @@
     {
       "name": "com.blossom.monetization.iap",
       "displayName": "Monetization.IAP",
-      "version": "0.0.3",
+      "version": "0.0.4",
       "group": "Monetization",
       "isRequired": false,
       "path": "Packages/com.blossom.monetization.iap",

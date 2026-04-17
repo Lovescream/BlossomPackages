@@ -12,8 +12,8 @@ namespace Blossom.Core.UI.Internal {
         
         internal static bool UIOpened => _panels.Count > 0 || _popups.Count > 0;
         
-        internal static IReadOnlyList<UIPanel> Panels => _panels;
-        internal static IReadOnlyList<UIPopup> Popups => _popups;
+        internal static IReadOnlyList<UI_Panel> Panels => _panels;
+        internal static IReadOnlyList<UI_Popup> Popups => _popups;
 
         internal static UISettings Settings { get; private set; }
 
@@ -36,18 +36,18 @@ namespace Blossom.Core.UI.Internal {
         private static IPrefabProvider _prefabProvider;
         private static IUISpawner _spawner;
 
-        private static readonly List<UIPanel> _panels = new();
-        private static readonly List<UIPopup> _popups = new();
+        private static readonly List<UI_Panel> _panels = new();
+        private static readonly List<UI_Popup> _popups = new();
         
         private static Transform _root;
         private static int _panelOrder;
         private static int _popupOrder;
 
         internal static event Action<bool> OnUIOpenedStateChanged;
-        internal static event Action<UIPanel> OnPanelOpened;
-        internal static event Action<UIPanel> OnPanelClosed;
-        internal static event Action<UIPopup> OnPopupOpened;
-        internal static event Action<UIPopup> OnPopupClosed;
+        internal static event Action<UI_Panel> OnPanelOpened;
+        internal static event Action<UI_Panel> OnPanelClosed;
+        internal static event Action<UI_Popup> OnPopupOpened;
+        internal static event Action<UI_Popup> OnPopupClosed;
 
         #endregion
 
@@ -143,7 +143,7 @@ namespace Blossom.Core.UI.Internal {
 
         #region Scene
 
-        internal static T OpenSceneUI<T>() where T : UIScene {
+        internal static T OpenSceneUI<T>() where T : UI_Scene {
             return Instantiate<T>(null, false);
         }
 
@@ -151,15 +151,15 @@ namespace Blossom.Core.UI.Internal {
 
         #region Panel
         
-        internal static T GetPanel<T>() where T : UIPanel {
-            foreach (UIPanel panel in _panels) if (panel is T p) return p;
+        internal static T GetPanel<T>() where T : UI_Panel {
+            foreach (UI_Panel panel in _panels) if (panel is T p) return p;
             return null;
         }
 
-        internal static T OpenPanel<T>() where T : UIPanel {
+        internal static T OpenPanel<T>() where T : UI_Panel {
             CheckInitialized();
 
-            foreach (UIPanel openedPanel in _panels) {
+            foreach (UI_Panel openedPanel in _panels) {
                 if (openedPanel is not T panel) continue;
                 if (panel.AllowDuplicate) break;
                 SetPanelToFront(panel);
@@ -178,7 +178,7 @@ namespace Blossom.Core.UI.Internal {
             return newPanel;
         }
 
-        internal static void ClosePanel(UIPanel panel) {
+        internal static void ClosePanel(UI_Panel panel) {
             if (panel == null) return;
             if (!_panels.Remove(panel)) return;
 
@@ -192,7 +192,7 @@ namespace Blossom.Core.UI.Internal {
             if (wasOpened != UIOpened) OnUIOpenedStateChanged?.Invoke(UIOpened);
         }
 
-        internal static void ClosePanels<T>() where T : UIPanel {
+        internal static void ClosePanels<T>() where T : UI_Panel {
             _panels.Where(p => p is T).ToList().ForEach(ClosePanel);
         }
 
@@ -201,7 +201,7 @@ namespace Blossom.Core.UI.Internal {
 
             bool wasOpened = UIOpened;
             for (int i = _panels.Count - 1; i >= 0; i--) {
-                UIPanel panel = _panels[i];
+                UI_Panel panel = _panels[i];
                 if (panel == null) continue;
                 Destroy(panel);
                 OnPanelClosed?.Invoke(panel);
@@ -213,7 +213,7 @@ namespace Blossom.Core.UI.Internal {
             if (wasOpened != UIOpened) OnUIOpenedStateChanged?.Invoke(UIOpened);
         }
 
-        internal static UIPanel GetLatestPanel() {
+        internal static UI_Panel GetLatestPanel() {
             return _panels.Count == 0 ? null : _panels[^1];
         }
 
@@ -222,7 +222,7 @@ namespace Blossom.Core.UI.Internal {
             _panels.ForEach(p => p.Order = _panelOrder++);
         }
 
-        internal static void SetPanelToFront(UIPanel panel) {
+        internal static void SetPanelToFront(UI_Panel panel) {
             if (!_panels.Remove(panel)) return;
             _panels.Add(panel);
             ReorderAllPanels();
@@ -232,15 +232,15 @@ namespace Blossom.Core.UI.Internal {
 
         #region Popup
         
-        internal static T GetPopup<T>() where T : UIPopup {
-            foreach (UIPopup popup in _popups) if (popup is T p) return p;
+        internal static T GetPopup<T>() where T : UI_Popup {
+            foreach (UI_Popup popup in _popups) if (popup is T p) return p;
             return null;
         }
 
-        internal static T OpenPopup<T>() where T : UIPopup {
+        internal static T OpenPopup<T>() where T : UI_Popup {
             CheckInitialized();
 
-            foreach (UIPopup openedPopup in _popups) {
+            foreach (UI_Popup openedPopup in _popups) {
                 if (openedPopup is not T popup) continue;
                 if (popup.AllowDuplicate) break;
                 SetPopupToFront(popup);
@@ -259,7 +259,7 @@ namespace Blossom.Core.UI.Internal {
             return newPopup;
         }
 
-        internal static void ClosePopup(UIPopup popup) {
+        internal static void ClosePopup(UI_Popup popup) {
             if (popup == null) return;
             if (!_popups.Remove(popup)) return;
 
@@ -273,7 +273,7 @@ namespace Blossom.Core.UI.Internal {
             if (wasOpened != UIOpened) OnUIOpenedStateChanged?.Invoke(UIOpened);
         }
 
-        internal static void ClosePopups<T>() where T : UIPopup {
+        internal static void ClosePopups<T>() where T : UI_Popup {
             _popups.Where(p => p is T).ToList().ForEach(ClosePopup);
         }
 
@@ -282,7 +282,7 @@ namespace Blossom.Core.UI.Internal {
 
             bool wasOpened = UIOpened;
             for (int i = _popups.Count - 1; i >= 0; i--) {
-                UIPopup popup = _popups[i];
+                UI_Popup popup = _popups[i];
                 if (popup == null) continue;
                 Destroy(popup);
                 OnPopupClosed?.Invoke(popup);
@@ -294,7 +294,7 @@ namespace Blossom.Core.UI.Internal {
             if (wasOpened != UIOpened) OnUIOpenedStateChanged?.Invoke(UIOpened);
         }
 
-        internal static UIPopup GetLatestPopup() {
+        internal static UI_Popup GetLatestPopup() {
             return _popups.Count == 0 ? null : _popups[^1];
         }
 
@@ -303,7 +303,7 @@ namespace Blossom.Core.UI.Internal {
             _popups.ForEach(p => p.Order = _popupOrder++);
         }
 
-        internal static void SetPopupToFront(UIPopup popup) {
+        internal static void SetPopupToFront(UI_Popup popup) {
             if (!_popups.Remove(popup)) return;
             _popups.Add(popup);
             ReorderAllPopups();

@@ -10,7 +10,7 @@ namespace Blossom.Monetization.IAP.Editor {
     using UnityEngine.Purchasing;
 
     [CustomEditor(typeof(IAPSettingsSO))]
-    public class IAPSettingEditor : UnityEditor.Editor {
+    public class IAPSettingEditor : Editor {
 
         #region Const.
 
@@ -37,7 +37,6 @@ namespace Blossom.Monetization.IAP.Editor {
         private SerializedProperty _tagDefinitionProperty;
 
         private ReorderableList _tagRegistryList;
-        private readonly Dictionary<string, ReorderableList> _productTagsLists = new();
 
         #endregion
 
@@ -46,8 +45,9 @@ namespace Blossom.Monetization.IAP.Editor {
         private void OnEnable() {
             _definitionProperty = serializedObject.FindProperty("definitions");
             _tagDefinitionProperty = serializedObject.FindProperty("tagDefinitions");
+
             _foldoutStates.Clear();
-            _productTagsLists.Clear();
+
             CheckDuplicateKeys();
             InitializeStyles();
             BuildTagRegistryList();
@@ -60,10 +60,14 @@ namespace Blossom.Monetization.IAP.Editor {
             Dictionary<string, int> keyCount = new();
             for (int i = 0; i < _definitionProperty.arraySize; i++) {
                 SerializedProperty property = _definitionProperty.GetArrayElementAtIndex(i);
-                string key = property.FindPropertyRelative("key").stringValue;
+                SerializedProperty keyProperty = property.FindPropertyRelative("key");
+                if (keyProperty == null) continue;
+
+                string key = keyProperty.stringValue;
                 if (string.IsNullOrEmpty(key)) continue;
 
                 if (keyCount.TryAdd(key, 1)) continue;
+
                 keyCount[key]++;
                 _duplicateKeys[key] = true;
             }
@@ -87,20 +91,45 @@ namespace Blossom.Monetization.IAP.Editor {
             if (_tagDefinitionProperty == null) return;
 
             _tagRegistryList = new ReorderableList(serializedObject, _tagDefinitionProperty, true, true, true, true);
+
             _tagRegistryList.drawHeaderCallback = rect => { EditorGUI.LabelField(rect, "IAP Tags"); };
+
             _tagRegistryList.elementHeight = EditorGUIUtility.singleLineHeight * 2 + 10;
+
+            _tagRegistryList.onAddCallback = list => {
+                int index = _tagDefinitionProperty.arraySize;
+                _tagDefinitionProperty.InsertArrayElementAtIndex(index);
+
+                SerializedProperty element = _tagDefinitionProperty.GetArrayElementAtIndex(index);
+                SerializedProperty guidProperty = element.FindPropertyRelative("guid");
+                SerializedProperty nameProperty = element.FindPropertyRelative("name");
+
+                guidProperty.stringValue = Guid.NewGuid().ToString("N");
+                nameProperty.stringValue = string.Empty;
+
+                serializedObject.ApplyModifiedProperties();
+            };
+
             _tagRegistryList.drawElementCallback = (rect, index, isActive, isFocused) => {
                 SerializedProperty element = _tagDefinitionProperty.GetArrayElementAtIndex(index);
                 SerializedProperty guidProperty = element.FindPropertyRelative("guid");
-                SerializedProperty keyProperty = element.FindPropertyRelative("key");
+                SerializedProperty nameProperty = element.FindPropertyRelative("name");
 
                 rect.y += 2;
-                Rect guidRect = new(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
-                Rect keyRect = new(rect.x, rect.y + EditorGUIUtility.singleLineHeight + 4, rect.width,
-                    EditorGUIUtility.singleLineHeight);
 
+                Rect guidRect = new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
+                Rect nameRect = new Rect(
+                    rect.x,
+                    rect.y + EditorGUIUtility.singleLineHeight + 4,
+                    rect.width,
+                    EditorGUIUtility.singleLineHeight
+                );
+
+                EditorGUI.BeginDisabledGroup(true);
                 EditorGUI.PropertyField(guidRect, guidProperty);
-                EditorGUI.PropertyField(keyRect, keyProperty);
+                EditorGUI.EndDisabledGroup();
+
+                EditorGUI.PropertyField(nameRect, nameProperty);
             };
         }
 
@@ -154,20 +183,41 @@ namespace Blossom.Monetization.IAP.Editor {
 
         private void DrawProductElement(SerializedProperty element, int index) {
             SerializedProperty keyProperty = element.FindPropertyRelative("key");
-            string key = keyProperty.stringValue;
+            SerializedProperty aosIdProperty = element.FindPropertyRelative("aosId");
+            SerializedProperty iosIdProperty = element.FindPropertyRelative("iosId");
+            SerializedProperty typeProperty = element.FindPropertyRelative("type");
+            SerializedProperty tagsProperty = element.FindPropertyRelative("tags");
+
+            string key = keyProperty != null ? keyProperty.stringValue : string.Empty;
             string title = string.IsNullOrEmpty(key) ? $"Product {index}" : key;
 
             bool isOpen = _foldoutStates.TryGetValue(index, out bool opened) && opened;
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
             _foldoutStates[index] = EditorGUILayout.Foldout(isOpen, title, true, _foldoutStyle);
 
-            if (_duplicateKeys.TryGetValue(key, out bool isDuplicate) && isDuplicate) {
+            if (!string.IsNullOrEmpty(key) && _duplicateKeys.TryGetValue(key, out bool isDuplicate) && isDuplicate) {
                 EditorGUILayout.HelpBox($"중복된 Key입니다: {key}", MessageType.Error);
             }
 
             if (_foldoutStates[index]) {
-                EditorGUILayout.PropertyField(element, true);
+                if (keyProperty != null) EditorGUILayout.PropertyField(keyProperty);
+                if (aosIdProperty != null) EditorGUILayout.PropertyField(aosIdProperty);
+                if (iosIdProperty != null) EditorGUILayout.PropertyField(iosIdProperty);
+                if (typeProperty != null) EditorGUILayout.PropertyField(typeProperty);
+
+                EditorGUILayout.Space(4f);
+
+                if (_tagDefinitionProperty == null || _tagDefinitionProperty.arraySize == 0) {
+                    EditorGUILayout.HelpBox("등록된 Tag Definition이 없습니다. 먼저 태그를 추가해주세요.", MessageType.Info);
+                }
+
+                if (tagsProperty != null) {
+                    EditorGUILayout.PropertyField(tagsProperty, true);
+                }
+
+                EditorGUILayout.Space(4f);
 
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
@@ -176,6 +226,7 @@ namespace Blossom.Monetization.IAP.Editor {
                     serializedObject.ApplyModifiedProperties();
                     GUIUtility.ExitGUI();
                 }
+
                 EditorGUILayout.EndHorizontal();
             }
 
@@ -240,12 +291,14 @@ namespace Blossom.Monetization.IAP.Editor {
 
             SerializedProperty newElement = _definitionProperty.GetArrayElementAtIndex(newIndex);
             newElement.FindPropertyRelative("key").stringValue = _newProductKey;
-            newElement.FindPropertyRelative("aosID").stringValue = string.Empty;
-            newElement.FindPropertyRelative("iosID").stringValue = string.Empty;
+            newElement.FindPropertyRelative("aosId").stringValue = string.Empty;
+            newElement.FindPropertyRelative("iosId").stringValue = string.Empty;
             newElement.FindPropertyRelative("type").enumValueIndex = (int)ProductType.Consumable;
 
             SerializedProperty tagsProperty = newElement.FindPropertyRelative("tags");
-            if (tagsProperty != null) tagsProperty.arraySize = 0;
+            if (tagsProperty != null) {
+                tagsProperty.arraySize = 0;
+            }
 
             _foldoutStates[newIndex] = true;
             _newProductKey = string.Empty;
@@ -276,7 +329,8 @@ namespace Blossom.Monetization.IAP.Editor {
 
                 for (int j = tags.arraySize - 1; j >= 0; j--) {
                     SerializedProperty element = tags.GetArrayElementAtIndex(j);
-                    string guid = element.FindPropertyRelative("guid").stringValue;
+                    SerializedProperty guidProperty = element.FindPropertyRelative("guid");
+                    string guid = guidProperty != null ? guidProperty.stringValue : string.Empty;
 
                     if (string.IsNullOrEmpty(guid)) {
                         tags.DeleteArrayElementAtIndex(j);

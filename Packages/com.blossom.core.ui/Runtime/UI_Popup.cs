@@ -2,28 +2,28 @@ using System;
 using UnityEngine;
 
 namespace Blossom.Core.UI {
-    public class UIPanel : UICanvas {
+    public class UI_Popup : UICanvas {
 
         /// <summary>
         /// 동일 타입 중복 열기 허용 여부.
         /// </summary>
-        public virtual bool AllowDuplicate => false;
-        
+        public virtual bool AllowDuplicate => true;
+
         /// <summary>
         /// 닫힐 때 호출되고, 닫히면 초기화됨.
         /// </summary>
         public event Action OnClosed;
-
+        
         protected override void OnInitialize() {
             base.OnInitialize();
 
-            _rect = this.gameObject.FindChild<RectTransform>("Panel");
+            _rect = this.gameObject.FindChild<RectTransform>("Popup");
         }
 
         public virtual void Close() {
             OnClosed?.Invoke();
             OnClosed = null;
-            UI.ClosePanel(this);
+            UI.ClosePopup(this);
         }
         
     }

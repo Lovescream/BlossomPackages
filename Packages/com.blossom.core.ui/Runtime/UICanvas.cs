@@ -85,7 +85,6 @@ namespace Blossom.Core.UI {
             _safeArea = this.gameObject.FindChild<RectTransform>("# SafeArea");
             
             SetCanvas();
-            ApplySafeArea();
         }
 
         protected virtual void SetCanvas() {
@@ -104,7 +103,7 @@ namespace Blossom.Core.UI {
 
         #region SafeArea
 
-        private void ApplySafeArea() {
+        protected void ApplySafeArea() {
             if (_safeArea == null) return;
             
             Rect safe = Screen.safeArea;

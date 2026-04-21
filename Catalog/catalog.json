@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.3.0",
+  "defaultRef": "V0.3.1",
   "groups": [
     {
       "name": "Required",
@@ -254,6 +254,16 @@
           ]
         },
         {
+          "name": "com.cysharp.unitask",
+          "displayName": "UniTask",
+          "installMode": "GitPackage",
+          "installId": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+          "autoInstall": true,
+          "note": ""
+        }
+      ],
+      "optionalDependencies": [
+        {
           "name": "com.gameanalytics.sdk",
           "displayName": "GameAnalytics",
           "installMode": "ScopedRegistry",
@@ -284,17 +294,8 @@
               ]
             }
           ]
-        },
-        {
-          "name": "com.cysharp.unitask",
-          "displayName": "UniTask",
-          "installMode": "GitPackage",
-          "installId": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
-          "autoInstall": true,
-          "note": ""
         }
-      ],
-      "optionalDependencies": []
+      ]
     },
     {
       "name": "com.blossom.platform.singular",

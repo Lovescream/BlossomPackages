@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.3.1",
+  "defaultRef": "V0.3.2",
   "groups": [
     {
       "name": "Required",
@@ -559,7 +559,7 @@
     {
       "name": "com.blossom.monetization.iap",
       "displayName": "Monetization.IAP",
-      "version": "0.0.4",
+      "version": "0.0.5",
       "group": "Monetization",
       "isRequired": false,
       "path": "Packages/com.blossom.monetization.iap",

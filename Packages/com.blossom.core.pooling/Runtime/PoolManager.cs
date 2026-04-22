@@ -10,6 +10,7 @@ namespace Blossom.Core.Pooling {
             get {
                 if (_root != null) return _root;
                 GameObject obj = new("[Pool_Root]");
+                Object.DontDestroyOnLoad(obj);
                 _root = obj.transform;
                 return _root;
             }

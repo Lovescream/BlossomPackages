@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.3.3",
+  "defaultRef": "V0.3.4",
   "groups": [
     {
       "name": "Required",
@@ -70,7 +70,7 @@
     {
       "name": "com.blossom.core.pooling",
       "displayName": "Core.Pooling",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.pooling",

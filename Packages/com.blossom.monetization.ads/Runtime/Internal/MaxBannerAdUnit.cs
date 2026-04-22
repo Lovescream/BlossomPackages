@@ -75,7 +75,7 @@ namespace Blossom.Monetization.Ads.Internal {
 
         public override void Hide() {
             if (!_isCreated) return;
-            if (!IsShowing) return;
+            //if (!IsShowing) return;
             
             MaxSdk.HideBanner(_adUnitId);
             IsShowing = false;

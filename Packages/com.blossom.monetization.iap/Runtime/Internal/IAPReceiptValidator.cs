@@ -29,6 +29,10 @@ namespace Blossom.Monetization.IAP.Internal {
 
         internal IAPReceiptValidationResult ValidateDetailed(string receipt, string productId) {
             try {
+#if UNITY_EDITOR
+                bool hasReceipt = !string.IsNullOrWhiteSpace(receipt);
+                return new IAPReceiptValidationResult(hasReceipt, false, null, string.Empty);
+#else
                 CrossPlatformValidator validator = new(_googleTangle, _appleTangle, Application.identifier);
                 IPurchaseReceipt[] receipts = validator.Validate(receipt);
 
@@ -72,6 +76,7 @@ namespace Blossom.Monetization.IAP.Internal {
                     latestAppleReceipt.transactionID ?? string.Empty);
 #else
                 return new IAPReceiptValidationResult(false, false, null, string.Empty);
+#endif
 #endif
             }
             catch (Exception e) {

@@ -180,9 +180,9 @@ namespace Blossom.Core.UI.Internal {
 
         internal static void ClosePanel(UI_Panel panel) {
             if (panel == null) return;
+            bool wasOpened = UIOpened;
             if (!_panels.Remove(panel)) return;
 
-            bool wasOpened = UIOpened;
             Destroy(panel);
 
             if (_panels.Count == 0) _panelOrder = Settings.initialPanelOrder;
@@ -261,9 +261,9 @@ namespace Blossom.Core.UI.Internal {
 
         internal static void ClosePopup(UI_Popup popup) {
             if (popup == null) return;
+            bool wasOpened = UIOpened;
             if (!_popups.Remove(popup)) return;
 
-            bool wasOpened = UIOpened;
             Destroy(popup);
 
             if (_popups.Count == 0) _popupOrder = Settings.initialPopupOrder;

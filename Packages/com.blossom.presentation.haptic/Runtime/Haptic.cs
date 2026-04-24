@@ -12,7 +12,7 @@ namespace Blossom.Presentation.Haptic {
 #elif UNITY_IOS && !UNITY_EDITOR
             HapticIOS.Play(type);
 #else
-            Handheld.Vibrate();
+            //Handheld.Vibrate();
 #endif
         }
     }

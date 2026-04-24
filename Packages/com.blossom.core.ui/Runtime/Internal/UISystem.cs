@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Blossom.Core.UI.Internal {
@@ -309,6 +310,80 @@ namespace Blossom.Core.UI.Internal {
             ReorderAllPopups();
         }
 
+        #endregion
+
+        #region Utility
+
+        internal static List<UIMotion> Collect(Transform root) {
+            List<UIMotion> result = new();
+            if (root == null) return result;
+            
+            UIMotion[] motions = root.GetComponentsInChildren<UIMotion>(true);
+            if (motions == null || motions.Length == 0) return result;
+
+            foreach (UIMotion motion in motions) {
+                if (motion == null) continue;
+                result.Add(motion);
+            }
+
+            result.Sort(CompareByHierarchy);
+            return result;
+        }
+
+        internal static Sequence GetOpenSequence(Transform root) {
+            List<UIMotion> motions = Collect(root);
+            Sequence sequence = DOTween.Sequence();
+            sequence.SetUpdate(true);
+
+            foreach (UIMotion motion in motions) {
+                sequence.Append(motion.PlayOpen());
+            }
+            
+            return sequence;
+        }
+
+        internal static Sequence GetCloseSequence(Transform root) {
+            List<UIMotion> motions = Collect(root);
+            Sequence sequence = DOTween.Sequence();
+            sequence.SetUpdate(true);
+
+            foreach (UIMotion motion in motions) {
+                sequence.Append(motion.PlayClose());
+            }
+            
+            return sequence;
+        }
+
+        private static int CompareByHierarchy(UIMotion left, UIMotion right) {
+            if (ReferenceEquals(left, right)) return 0;
+            if (left == null) return 1;
+            if (right == null) return -1;
+
+            List<int> leftPath = GetSiblingPath(left.transform);
+            List<int> rightPath = GetSiblingPath(right.transform);
+
+            int count = Mathf.Min(leftPath.Count, rightPath.Count);
+            for (int i = 0; i < count; i++) {
+                int compare = leftPath[i].CompareTo(rightPath[i]);
+                if (compare != 0) return compare;
+            }
+
+            return leftPath.Count.CompareTo(rightPath.Count);
+        }
+        
+        private static List<int> GetSiblingPath(Transform target) {
+            List<int> path = new List<int>();
+            Transform current = target;
+
+            while (current != null) {
+                path.Add(current.GetSiblingIndex());
+                current = current.parent;
+            }
+
+            path.Reverse();
+            return path;
+        }
+        
         #endregion
 
     }

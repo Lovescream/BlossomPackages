@@ -37,7 +37,7 @@ namespace Blossom.Core.UI {
             if (_isInitialized) return;
 
             _rect = this.GetComponent<RectTransform>();
-            if (this.TryGetComponent(out _canvasGroup)) _canvasGroup = this.gameObject.AddComponent<CanvasGroup>();
+            if (!this.TryGetComponent(out _canvasGroup)) _canvasGroup = this.gameObject.AddComponent<CanvasGroup>();
 
             _originScale = this.transform.localScale;
             _originAnchoredPosition = _rect.anchoredPosition;
@@ -91,8 +91,8 @@ namespace Blossom.Core.UI {
 
             if (delay > 0f) sequence.PrependInterval(delay);
 
-            sequence.OnComplete(Reset);
-            sequence.OnKill(Reset);
+            if (isOpen) sequence.OnComplete(Reset);
+            //sequence.OnKill(Reset);
 
             return sequence;
         }

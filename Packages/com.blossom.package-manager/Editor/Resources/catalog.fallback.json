@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.3.6",
+  "defaultRef": "V0.3.7",
   "groups": [
     {
       "name": "Required",
@@ -103,7 +103,7 @@
     {
       "name": "com.blossom.core.ui",
       "displayName": "Core.UI",
-      "version": "0.0.8",
+      "version": "0.0.9",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.ui",

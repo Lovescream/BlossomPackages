@@ -344,6 +344,7 @@ namespace Blossom.Core.UI.Internal {
 
         internal static Sequence GetCloseSequence(Transform root) {
             List<UIMotion> motions = Collect(root);
+            motions.Reverse();
             Sequence sequence = DOTween.Sequence();
             sequence.SetUpdate(true);
 

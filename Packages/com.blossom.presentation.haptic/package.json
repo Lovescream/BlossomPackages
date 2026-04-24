@@ -1,0 +1,16 @@
+{
+  "name": "com.blossom.presentation.haptic",
+  "displayName": "Blossom-Haptic",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom Haptic",
+  "keywords": [
+  ],
+  "dependencies": {
+  },
+  "category": "Blossom"
+}

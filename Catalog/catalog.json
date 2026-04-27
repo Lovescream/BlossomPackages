@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.4.2",
+  "defaultRef": "V0.4.3",
   "groups": [
     {
       "name": "Required",
@@ -636,7 +636,7 @@
     {
       "name": "com.blossom.presentation.review",
       "displayName": "Blossom-Review",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Presentation",
       "isRequired": false,
       "path": "Packages/com.blossom.presentation.review",

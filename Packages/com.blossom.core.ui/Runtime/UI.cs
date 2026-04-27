@@ -110,10 +110,11 @@ namespace Blossom.Core.UI {
         /// </summary>
         /// <typeparam name="T">생성할 UI 타입</typeparam>
         /// <param name="parent">생성 후 설정할 부모</param>
+        /// <param name="key">prefab 키(선택)</param>
         /// <param name="usePooling">풀링 사용 여부</param>
         /// <returns>생성된 UI. 실패하면 null.</returns>
-        public static T Instantiate<T>(Transform parent = null, bool usePooling = true) where T : UIBase =>
-            UISystem.Instantiate<T>(parent, usePooling);
+        public static T Instantiate<T>(Transform parent = null, string key = null, bool usePooling = true) where T : UIBase =>
+            UISystem.Instantiate<T>(parent, key, usePooling);
 
         /// <summary>
         /// 지정한 UI 인스턴스 반환 또는 제거
@@ -129,8 +130,9 @@ namespace Blossom.Core.UI {
         /// 지정한 타입의 씬 UI 열기.
         /// </summary>
         /// <typeparam name="T">열 씬 UI 타입</typeparam>
+        /// <param name="key">prefab 키(선택)</param>
         /// <returns>생성된 씬 UI. 실패하면 null.</returns>
-        public static T OpenSceneUI<T>() where T : UI_Scene => UISystem.OpenSceneUI<T>();
+        public static T OpenSceneUI<T>(string key = null) where T : UI_Scene => UISystem.OpenSceneUI<T>(key);
 
         #endregion
 
@@ -147,8 +149,9 @@ namespace Blossom.Core.UI {
         /// 지정한 타입의 패널 열기. 중복이 허용되지 않은 패널이 이미 열려있다면, 맨 앞으로 이동.
         /// </summary>
         /// <typeparam name="T">열 패널 타입</typeparam>
+        /// <param name="key">prefab 키(선택)</param>
         /// <returns>열린 패널 인스턴스. 실패하면 null.</returns>
-        public static T OpenPanel<T>() where T : UI_Panel => UISystem.OpenPanel<T>();
+        public static T OpenPanel<T>(string key = null) where T : UI_Panel => UISystem.OpenPanel<T>(key);
 
         /// <summary>
         /// 지정한 패널 닫기.
@@ -188,8 +191,9 @@ namespace Blossom.Core.UI {
         /// 지정한 타입의 팝업 열기. 중복이 허용되지 않은 팝업이 이미 열려있다면, 맨 앞으로 이동.
         /// </summary>
         /// <typeparam name="T">열 팝업 타입</typeparam>
+        /// <param name="key">prefab 키(선택)</param>
         /// <returns>열린 팝업 인스턴스. 실패하면 null.</returns>
-        public static T OpenPopup<T>() where T : UI_Popup => UISystem.OpenPopup<T>();
+        public static T OpenPopup<T>(string key = null) where T : UI_Popup => UISystem.OpenPopup<T>(key);
 
         /// <summary>
         /// 지정한 팝업 닫기.

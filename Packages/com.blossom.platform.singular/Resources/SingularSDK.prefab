@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SingularAPIKey: <YourAPIKey>
   SingularAPISecret: <YourAPISecret>
-  InitializeOnAwake: 1
+  InitializeOnAwake: 0
   enableLogging: 1
   logLevel: 3
   autoIAPComplete: 0

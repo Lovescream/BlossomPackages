@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.3.9",
+  "defaultRef": "V0.4.0",
   "groups": [
     {
       "name": "Required",
@@ -48,7 +48,7 @@
     {
       "name": "com.blossom.common",
       "displayName": "Blossom.Common",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "group": "Required",
       "isRequired": true,
       "path": "Packages/com.blossom.common",
@@ -103,7 +103,7 @@
     {
       "name": "com.blossom.core.ui",
       "displayName": "Core.UI",
-      "version": "0.0.9",
+      "version": "0.1.0",
       "group": "Core",
       "isRequired": false,
       "path": "Packages/com.blossom.core.ui",
@@ -300,7 +300,7 @@
     {
       "name": "com.blossom.platform.singular",
       "displayName": "Blossom-Singular",
-      "version": "0.0.4",
+      "version": "0.0.5",
       "group": "Platform",
       "isRequired": false,
       "path": "Packages/com.blossom.platform.singular",
@@ -601,6 +601,17 @@
       "optionalDependencies": []
     },
     {
+      "name": "com.blossom.presentation.haptic",
+      "displayName": "Presentation.Haptic",
+      "version": "0.0.2",
+      "group": "Presentation",
+      "isRequired": false,
+      "path": "Packages/com.blossom.presentation.haptic",
+      "refName": "",
+      "requiredDependencies": [],
+      "optionalDependencies": []
+    },
+    {
       "name": "com.blossom.presentation.receive",
       "displayName": "Presentation.Receive",
       "version": "0.0.2",
@@ -623,14 +634,42 @@
       "optionalDependencies": []
     },
     {
-      "name": "com.blossom.presentation.haptic",
-      "displayName": "Presentation.Haptic",
-      "version": "0.0.2",
+      "name": "com.blossom.presentation.review",
+      "displayName": "Blossom-Review",
+      "version": "0.0.1",
       "group": "Presentation",
       "isRequired": false,
-      "path": "Packages/com.blossom.presentation.haptic",
+      "path": "Packages/com.blossom.presentation.review",
       "refName": "",
-      "requiredDependencies": [],
+      "requiredDependencies": [
+        {
+          "name": "com.blossom.core.ui",
+          "displayName": "Blossom-UI",
+          "installMode": "CatalogPackage",
+          "installId": "",
+          "autoInstall": true,
+          "note": ""
+        },
+        {
+          "name": "com.google.play.review",
+          "displayName": "Google Play In-app Review",
+          "installMode": "ScopedRegistry",
+          "installId": "com.google.play.review",
+          "autoIntall": true,
+          "note": "Google Play In-app Review를 먼저 설치합니다. Google Play Common, Google Play Core가 함께 설치됩니다.",
+          "registries": [
+            {
+              "name": "package.openupm.com",
+              "url": "https://package.openupm.com",
+              "scopes": [
+                "com.google.play.common",
+                "com.google.play.core",
+                "com.google.play.review"
+              ]
+            }
+          ]
+        }
+      ],
       "optionalDependencies": []
     }
   ]

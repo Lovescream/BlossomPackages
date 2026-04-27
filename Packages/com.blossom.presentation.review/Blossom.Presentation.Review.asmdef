@@ -1,0 +1,9 @@
+{
+  "name": "Blossom.Presentation.Review",
+  "references": [
+    "Blossom.Common",
+    "Blossom.Core.UI",
+    "Google.Play.Common",
+    "Google.Play.Review"
+  ]
+}

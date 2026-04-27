@@ -94,10 +94,11 @@ namespace Blossom.Core.UI.Internal {
 
         #region Generals
 
-        internal static T Instantiate<T>(Transform parent = null, bool usePooling = true) where T : UIBase {
+        internal static T Instantiate<T>(Transform parent = null, string key = null, bool usePooling = true) where T : UIBase {
             CheckInitialized();
-
-            string key = typeof(T).Name;
+            
+            if (string.IsNullOrEmpty(key)) key = typeof(T).Name;
+            
             GameObject prefab = _prefabProvider.Provide(key);
             if (prefab == null) {
                 Debug.LogError($"[Blossom:UI] Instantiate<{key}>(): prefab not found.");
@@ -144,8 +145,8 @@ namespace Blossom.Core.UI.Internal {
 
         #region Scene
 
-        internal static T OpenSceneUI<T>() where T : UI_Scene {
-            return Instantiate<T>(null, false);
+        internal static T OpenSceneUI<T>(string key = null) where T : UI_Scene {
+            return Instantiate<T>(key: key, usePooling: false);
         }
 
         #endregion
@@ -157,7 +158,7 @@ namespace Blossom.Core.UI.Internal {
             return null;
         }
 
-        internal static T OpenPanel<T>() where T : UI_Panel {
+        internal static T OpenPanel<T>(string key = null) where T : UI_Panel {
             CheckInitialized();
 
             foreach (UI_Panel openedPanel in _panels) {
@@ -167,7 +168,7 @@ namespace Blossom.Core.UI.Internal {
                 return panel;
             }
 
-            T newPanel = Instantiate<T>();
+            T newPanel = Instantiate<T>(key: key);
             if (newPanel == null) return null;
 
             _panels.Add(newPanel);
@@ -238,7 +239,7 @@ namespace Blossom.Core.UI.Internal {
             return null;
         }
 
-        internal static T OpenPopup<T>() where T : UI_Popup {
+        internal static T OpenPopup<T>(string key = null) where T : UI_Popup {
             CheckInitialized();
 
             foreach (UI_Popup openedPopup in _popups) {
@@ -248,7 +249,7 @@ namespace Blossom.Core.UI.Internal {
                 return popup;
             }
 
-            T newPopup = Instantiate<T>();
+            T newPopup = Instantiate<T>(key: key);
             if (newPopup == null) return null;
 
             _popups.Add(newPopup);

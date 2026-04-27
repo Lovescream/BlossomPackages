@@ -1,0 +1,20 @@
+{
+  "name": "com.blossom.presentation.review",
+  "displayName": "Blossom-Review",
+  "author": {
+    "name": "Lovescream",
+    "url": ""
+  },
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Blossom Review",
+  "keywords": [
+  ],
+  "dependencies": {
+    "com.blossom.common": "0.0.0",
+    "com.blossom.core.ui": "0.0.0",
+    "com.google.play.common": "1.8.6",
+    "com.google.play.review": "1.8.4"
+  },
+  "category": "Blossom"
+}

@@ -16,8 +16,10 @@ namespace Blossom.Presentation.Review {
         #region Fields
 
         [Header("Stars"), SerializeField] private UI_ReviewStar[] stars;
-        [SerializeField] private Sprite activatedStar;
+        [SerializeField] private Sprite activeStar;
         [SerializeField] private Sprite inactiveStar;
+        [SerializeField] private Color activeColor;
+        [SerializeField] private Color inactiveColor;
         [Header("Buttons"), SerializeField] private UI_Button btnConfirm;
         [SerializeField] private UI_Button btnClose;
 
@@ -71,8 +73,8 @@ namespace Blossom.Presentation.Review {
             foreach (UI_ReviewStar star in stars) {
                 if (star == null) continue;
 
-                if (activatedStar != null && inactiveStar != null)
-                    star.Select(star.Rate <= _rate, activatedStar, inactiveStar);
+                if (activeStar != null && inactiveStar != null)
+                    star.Select(star.Rate <= _rate, activeStar, inactiveStar);
                 else
                     star.Select(star.Rate <= _rate, Color.white, Color.gray);
             }

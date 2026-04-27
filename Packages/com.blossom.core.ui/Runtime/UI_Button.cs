@@ -16,6 +16,8 @@ namespace Blossom.Core.UI {
         #endregion
         
         #region Properties
+
+		public bool UseGlobalEvent { get; set; } = true;
         
         public Button Button {
             get {
@@ -53,6 +55,7 @@ namespace Blossom.Core.UI {
         private Button _button;
         private UI_Text _contextText;
 
+        public static event Action<UI_Button> OnButtonDown;
         private event Action _cbOnButtonDown;
         private event Action _cbOnButtonUp;
 
@@ -137,6 +140,7 @@ namespace Blossom.Core.UI {
             if (!IsInteractable) return;
             PlayButtonDownEffect();
             _cbOnButtonDown?.Invoke();
+			if (UseGlobalEvent) OnButtonDown?.Invoke(this);
         }
 
         public void OnPointerUp(PointerEventData _) {

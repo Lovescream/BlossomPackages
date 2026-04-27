@@ -204,6 +204,7 @@ namespace Blossom.Presentation.Receive.Internal {
                     OnArrived = () => {
                         _rewardHandler?.ApplyDisplay(request.Key, amount);
                         target?.NotifyReceived(request.Key, amount);
+                        request.OnChunkArrived?.Invoke(request.Key, amount);
                         arrivedCount++;
                         obj.Release();
                     }

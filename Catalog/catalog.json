@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.4.1",
+  "defaultRef": "V0.4.2",
   "groups": [
     {
       "name": "Required",
@@ -655,7 +655,7 @@
           "displayName": "Google Play In-app Review",
           "installMode": "ScopedRegistry",
           "installId": "com.google.play.review",
-          "autoIntall": true,
+          "autoInstall": true,
           "note": "Google Play In-app Review를 먼저 설치합니다. Google Play Common, Google Play Core가 함께 설치됩니다.",
           "registries": [
             {

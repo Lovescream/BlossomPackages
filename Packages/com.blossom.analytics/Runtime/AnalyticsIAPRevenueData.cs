@@ -9,6 +9,7 @@ namespace Blossom.Analytics {
 
         #region Properties
 
+        public string EventName { get; }
         public string StoreKey { get; }
         public Product Product { get; }
         public string Revenue { get; }
@@ -19,7 +20,8 @@ namespace Blossom.Analytics {
         
         #region Constructor
 
-        public AnalyticsIAPRevenueData(string storeKey, Product product, string revenue, Dictionary<string, object> attributes = null) {
+        public AnalyticsIAPRevenueData(string eventName, string storeKey, Product product, string revenue, Dictionary<string, object> attributes = null) {
+            EventName = eventName ?? string.Empty;
             StoreKey = storeKey ?? string.Empty;
             Product = product;
             Revenue = revenue ?? string.Empty;
@@ -35,6 +37,7 @@ namespace Blossom.Analytics {
 
             #region Properties
 
+            public string EventName { get; private set; }
             public string StoreKey { get; private set; }
             public Product Product { get; private set; }
             public string Revenue { get; private set; }
@@ -44,7 +47,8 @@ namespace Blossom.Analytics {
 
             #region Constructor
 
-            public Builder(string storeKey, Product product) {
+            public Builder(string eventName, string storeKey, Product product) {
+                EventName = eventName ?? string.Empty;
                 StoreKey = storeKey ?? string.Empty;
                 Product = product;
                 Attributes = new();
@@ -75,7 +79,7 @@ namespace Blossom.Analytics {
             #region Build
 
             public AnalyticsIAPRevenueData Build() {
-                return new(StoreKey, Product, Revenue, Attributes);
+                return new(EventName, StoreKey, Product, Revenue, Attributes);
             }
 
             #endregion

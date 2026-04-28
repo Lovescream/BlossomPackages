@@ -42,7 +42,7 @@ namespace Blossom.Monetization.IAP {
                 attributes["Revenue"] = revenue;
             }
             
-            AnalyticsIAPRevenueData data = new AnalyticsIAPRevenueData.Builder(storeKey, args.Product)
+            AnalyticsIAPRevenueData data = new AnalyticsIAPRevenueData.Builder(null, storeKey, args.Product)
                 .SetRevenue(revenue).SetAttributes(attributes).Build();
 
             Analytics.LogIAPRevenue(data);

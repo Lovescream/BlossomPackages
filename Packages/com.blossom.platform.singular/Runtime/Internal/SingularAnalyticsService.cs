@@ -26,7 +26,8 @@ namespace Blossom.Platform.Singular.Internal {
         }
 
         public void LogIAPRevenue(AnalyticsIAPRevenueData data) {
-            SingularSDK.InAppPurchase(data.Product, data.Attributes);
+            if (string.IsNullOrWhiteSpace(data.EventName)) SingularSDK.InAppPurchase(data.Product, data.Attributes);
+            else SingularSDK.InAppPurchase(data.EventName, data.Product, data.Attributes);
         }
 
         public void LogAdRevenue(AnalyticsAdRevenueData data) {

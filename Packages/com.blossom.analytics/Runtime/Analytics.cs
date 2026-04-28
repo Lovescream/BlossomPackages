@@ -62,10 +62,11 @@ namespace Blossom.Analytics {
         /// </summary>
         public static void LogEvent(
             string eventName,
+            string paramName = null,
             string paramValue = null,
             IReadOnlyDictionary<string, object> attributes = null,
             params string[] targetServiceKeys) {
-            AnalyticsEventData data = new AnalyticsEventData(eventName, paramValue, attributes);
+            AnalyticsEventData data = new AnalyticsEventData(eventName, paramName, paramValue, attributes);
             AnalyticsSystem.LogEvent(data, targetServiceKeys);
         }
 

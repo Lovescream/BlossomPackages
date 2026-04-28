@@ -23,7 +23,7 @@ namespace Blossom.Platform.Firebase.Internal {
             string eventName = data.EventName.ToLowerInvariant();
 
             List<Parameter> parameters = new();
-            if (!string.IsNullOrWhiteSpace(data.ParamValue)) parameters.Add(new Parameter(eventName, data.ParamValue));
+            if (!string.IsNullOrWhiteSpace(data.ParamValue)) parameters.Add(new Parameter(data.ParamValue, data.ParamValue));
             AddAttributes(parameters, data.Attributes);
 
             if (parameters.Count > 0) PlatformFirebaseAnalytics.LogEvent(eventName, parameters.ToArray());

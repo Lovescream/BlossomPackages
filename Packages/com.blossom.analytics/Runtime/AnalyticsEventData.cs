@@ -8,6 +8,7 @@ namespace Blossom.Analytics {
         #region Properties
 
         public string EventName { get; }
+        public string ParamName { get; }
         public string ParamValue { get; }
         public IReadOnlyDictionary<string, object> Attributes => _attributes;
 
@@ -21,9 +22,10 @@ namespace Blossom.Analytics {
 
         #region Constructor
 
-        public AnalyticsEventData(string eventName, string paramValue = null,
+        public AnalyticsEventData(string eventName, string paramName = null, string paramValue = null,
             IReadOnlyDictionary<string, object> attributes = null) {
             EventName = eventName ?? string.Empty;
+            ParamName = paramName ?? string.Empty;
             ParamValue = paramValue ?? string.Empty;
             _attributes = attributes != null
                 ? new(attributes)
@@ -37,11 +39,17 @@ namespace Blossom.Analytics {
         public sealed class Builder {
 
             public string EventName { get; private set; }
+            public string ParamName { get; private set; }
             public string ParamValue { get; private set; }
             private readonly Dictionary<string, object> _attributes = new();
 
             public Builder(string eventName) {
                 EventName = eventName ?? string.Empty;
+            }
+
+            public Builder SetParamName(string paramName) {
+                ParamName = paramName ?? string.Empty;
+                return this;
             }
 
             public Builder SetParamValue(string paramValue) {
@@ -68,7 +76,7 @@ namespace Blossom.Analytics {
             }
 
             public AnalyticsEventData Build() {
-                return new(EventName, ParamValue, _attributes);
+                return new(EventName, ParamName, ParamValue, _attributes);
             }
 
         }

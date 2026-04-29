@@ -1,13 +1,14 @@
 #if SDK_SINGULAR
 
-using System;
-using Blossom.Common;
-using Cysharp.Threading.Tasks;
 using Singular;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Blossom.Platform.Singular.Internal {
+    using System;
+    using Common;
+    using Cysharp.Threading.Tasks;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+        
     internal static class SingularInitializer {
 
         #region Properties

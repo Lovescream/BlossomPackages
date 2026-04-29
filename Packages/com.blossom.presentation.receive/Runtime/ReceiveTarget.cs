@@ -1,8 +1,8 @@
-using Blossom.Presentation.Receive.Internal;
-using DG.Tweening;
-using UnityEngine;
-
 namespace Blossom.Presentation.Receive {
+    using Internal;
+    using DG.Tweening;
+    using UnityEngine;
+    
     public sealed class ReceiveTarget : MonoBehaviour, IReceiveTarget {
 
         #region Properties

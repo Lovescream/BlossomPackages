@@ -1,6 +1,6 @@
-using System;
-
 namespace Blossom.Monetization.Ads {
+    using System;
+    
     [Serializable]
     public readonly struct AdRevenueInfo {
         /// <summary>

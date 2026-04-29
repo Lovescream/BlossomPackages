@@ -1,9 +1,9 @@
-using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace Blossom.Persistence.Akiv.Internal {
+    using System;
+    using System.IO;
+    using System.Security.Cryptography;
+    using System.Text;
+    
     internal static class AkivEncrypt {
         private const string Key = "m71a12x28p94r6e5";
         private static readonly byte[] KeyBytes = Encoding.UTF8.GetBytes(Key);

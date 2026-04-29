@@ -1,7 +1,7 @@
-using UnityEngine;
-using UnityEngine.UI;
-
 namespace Blossom.Core.UI {
+    using UnityEngine;
+    using UnityEngine.UI;
+    
     public class UI_Image : UIBase{
 
         public Image Image {

@@ -1,7 +1,7 @@
-using System;
-using UnityEngine;
-
 namespace Blossom.Core.UI {
+    using System;
+    using UnityEngine;
+    
     /// <summary>
     /// UI 전반에서 사용하는 기본 설정값.
     /// </summary>

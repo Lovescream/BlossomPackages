@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using Blossom.Analytics.Internal;
-
 namespace Blossom.Analytics {
+    using System.Collections.Generic;
+    using Internal;
+    
     public static class Analytics {
 
         #region Properties

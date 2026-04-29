@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Blossom.Core.Pooling {
+    using System.Collections.Generic;
+    using UnityEngine;
+    
     internal sealed class Pool {
         
         private readonly GameObject _prefab;

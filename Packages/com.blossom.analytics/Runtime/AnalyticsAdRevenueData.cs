@@ -1,6 +1,5 @@
-using System;
-
 namespace Blossom.Analytics {
+    using System;
 
     [Serializable]
     public sealed class AnalyticsAdRevenueData {

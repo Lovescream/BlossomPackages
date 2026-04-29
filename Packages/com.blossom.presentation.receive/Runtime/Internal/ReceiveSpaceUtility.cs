@@ -1,6 +1,6 @@
-using UnityEngine;
-
 namespace Blossom.Presentation.Receive.Internal {
+    using UnityEngine;
+    
     internal static class ReceiveSpaceUtility {
         internal static Vector3 Convert(Vector3 position, ReceiveSpace from, ReceiveSpace to, Camera worldCamera,
             float worldDepth, Vector3? targetWorldPosition = null) {

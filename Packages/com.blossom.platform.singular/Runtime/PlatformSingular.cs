@@ -1,9 +1,9 @@
 #if SDK_SINGULAR
 
-using System;
-using Blossom.Platform.Singular.Internal;
-
 namespace Blossom.Platform.Singular {
+    using System;
+    using Internal;
+    
     public static class PlatformSingular {
         public static bool IsInitialized => SingularInitializer.IsInitialized;
 

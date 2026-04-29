@@ -1,7 +1,6 @@
-using System;
-using Blossom.Persistence.Akiv.Internal;
-
 namespace Blossom.Persistence.Akiv {
+    using System;
+    using Internal;
     public static class Akiv {
         public static bool IsInitialized { get; private set; }
         public static event Action OnBeforeSave;

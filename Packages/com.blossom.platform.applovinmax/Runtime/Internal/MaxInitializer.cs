@@ -1,12 +1,12 @@
 #if SDK_APPLOVINMAX
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Blossom.Common;
-using UnityEngine;
-
 namespace Blossom.Platform.AppLovinMax.Internal {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Common;
+    using UnityEngine;
+    
     internal static class MaxInitializer {
 
         #region Const.

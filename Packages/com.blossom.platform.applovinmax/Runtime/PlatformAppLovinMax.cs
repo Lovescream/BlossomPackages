@@ -1,9 +1,9 @@
 #if SDK_APPLOVINMAX
 
-using System;
-using Blossom.Platform.AppLovinMax.Internal;
-
 namespace Blossom.Platform.AppLovinMax {
+    using System;
+    using Internal;
+    
     public static class PlatformAppLovinMax {
 
         public static bool IsInitialized => MaxInitializer.IsInitialized;

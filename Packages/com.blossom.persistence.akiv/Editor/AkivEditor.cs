@@ -1,9 +1,9 @@
 #if UNITY_EDITOR
-using System.IO;
-using UnityEditor;
-using UnityEngine.Device;
-
 namespace Blossom.Persistence.Akiv.Editor {
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine.Device;
+    
     internal static class AkivEditor {
         [MenuItem("Blossom/Akiv/Delete All Akiv")]
         private static void DeleteAllAkivData() {
@@ -20,5 +20,4 @@ namespace Blossom.Persistence.Akiv.Editor {
         }
     }
 }
-
 #endif

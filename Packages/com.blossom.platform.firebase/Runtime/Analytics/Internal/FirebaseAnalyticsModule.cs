@@ -1,10 +1,11 @@
 #if SDK_FIREBASE && SDK_FIREBASE_ANALYTICS
 
-using Cysharp.Threading.Tasks;
 using Firebase;
 using Firebase.Analytics;
 
 namespace Blossom.Platform.Firebase.Internal {
+    using Cysharp.Threading.Tasks;
+    
     internal sealed class FirebaseAnalyticsModule : IFirebaseModule {
 
         #region Properties

@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
 namespace Blossom.Core.Resource {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+    
     public static class Res {
 
         public static bool IsInitialized { get; private set; }

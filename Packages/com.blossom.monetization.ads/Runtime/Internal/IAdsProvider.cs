@@ -1,6 +1,6 @@
-using Cysharp.Threading.Tasks;
-
 namespace Blossom.Monetization.Ads.Internal {
+    using Cysharp.Threading.Tasks;
+    
     internal interface IAdsProvider {
         AdProviderType ProviderType { get; }
         bool IsInitialized { get; }

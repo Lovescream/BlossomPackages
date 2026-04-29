@@ -1,11 +1,11 @@
 #if SDK_GAMEANALYTICS
 
-using System;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
 namespace Blossom.Platform.GameAnalytics.Internal {
+    using System;
+    using Cysharp.Threading.Tasks;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+    
     internal static class GameAnalyticsInitializer {
 
         #region Properties

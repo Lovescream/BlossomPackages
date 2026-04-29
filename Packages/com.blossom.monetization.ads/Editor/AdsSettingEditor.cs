@@ -6,7 +6,7 @@ namespace Blossom.Monetization.Ads.Editor {
     using UnityEngine;
 
     [CustomEditor(typeof(AdsSettingsSO))]
-    internal sealed class AdsSettingEditor : UnityEditor.Editor {
+    internal sealed class AdsSettingEditor : Editor {
 
         #region Const.
 

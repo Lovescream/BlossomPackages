@@ -1,8 +1,8 @@
 #if SDK_FIREBASE && SDK_FIREBASE_ANALYTICS
 
-using Blossom.Platform.Firebase.Internal;
-
 namespace Blossom.Platform.Firebase {
+    using Internal;
+    
     public static class PlatformFirebaseAnalyticsService {
 
         private static bool _registered;

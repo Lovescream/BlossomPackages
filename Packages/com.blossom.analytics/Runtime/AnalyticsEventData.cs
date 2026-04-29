@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
-
 namespace Blossom.Analytics {
+    using System;
+    using System.Collections.Generic;
+    
     [Serializable]
     public sealed class AnalyticsEventData {
 

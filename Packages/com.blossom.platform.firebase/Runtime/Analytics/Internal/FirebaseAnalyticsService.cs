@@ -1,10 +1,11 @@
 #if SDK_FIREBASE && SDK_FIREBASE_ANALYTICS
 
-using System.Collections.Generic;
-using Blossom.Analytics;
 using Firebase.Analytics;
 
 namespace Blossom.Platform.Firebase.Internal {
+    using System.Collections.Generic;
+    using Analytics;
+    
     internal sealed class FirebaseAnalyticsService : IAnalyticsService {
 
         #region Properties
@@ -117,4 +118,5 @@ namespace Blossom.Platform.Firebase.Internal {
 
     }
 }
+
 #endif

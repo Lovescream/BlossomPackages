@@ -8,7 +8,7 @@ namespace Blossom.Platform.AppLovinMax.Editor {
     using UnityEngine;
 
     [CustomEditor(typeof(AppLovinMaxSettingsSO))]
-    public sealed class AppLovinMaxSettingsSOEditor : UnityEditor.Editor {
+    public sealed class AppLovinMaxSettingsSOEditor : Editor {
 
         #region Const.
 

@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-
 namespace Blossom.Presentation.Receive.Internal {
+    using System.Collections.Generic;
+    
     internal static class ReceiveTargetRegistry {
         // 활성 ReceiveTarget 레지스트리.
         // 같은 Key를 가진 대상이 여러 개라면, 가장 마지막 활성 대상을 우선 사용.

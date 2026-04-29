@@ -1,11 +1,11 @@
 #if SDK_APPLOVINMAX
 
-using System;
-using System.Threading;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
-
 namespace Blossom.Monetization.Ads.Internal {
+    using System;
+    using System.Threading;
+    using Cysharp.Threading.Tasks;
+    using UnityEngine;
+    
     internal sealed class MaxRewardedAdUnit : AdUnitBase {
 
         #region Properties
@@ -191,8 +191,6 @@ namespace Blossom.Monetization.Ads.Internal {
         }
 
         #endregion
-        
-        
 
         #region Retry
 

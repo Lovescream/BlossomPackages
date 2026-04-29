@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Blossom.Presentation.Receive {
+    using System.Collections.Generic;
+    using UnityEngine;
+    
     /// <summary>
     /// 실제 반영 핸들러.
     /// Currency 증가, Life 증가, Item 증가 등의 책임을 이 곳에서 구현. 

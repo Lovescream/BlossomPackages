@@ -1,6 +1,6 @@
-using Blossom.Analytics;
-
 namespace Blossom.Monetization.Ads {
+    using Analytics;
+    
     public static class AdsAnalytics {
 
         private static bool _registered;
@@ -35,7 +35,7 @@ namespace Blossom.Monetization.Ads {
                 .SetAdType(info.AdType.ToString())
                 .Build();
 
-            Analytics.Analytics.LogAdRevenue(data);
+            Analytics.LogAdRevenue(data);
         }
 
     }

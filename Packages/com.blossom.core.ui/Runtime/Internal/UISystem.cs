@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DG.Tweening;
-using UnityEngine;
-
 namespace Blossom.Core.UI.Internal {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using DG.Tweening;
+    using UnityEngine;
+    
     internal static class UISystem {
 
         #region Properties

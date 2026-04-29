@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Blossom.Core.UI.Internal;
-using UnityEngine;
-
 namespace Blossom.Core.UI {
+    using System;
+    using System.Collections.Generic;
+    using Internal;
+    using UnityEngine;
+    
     public static class UI {
         
         #region Properties

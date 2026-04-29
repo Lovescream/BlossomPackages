@@ -1,7 +1,7 @@
-using System;
-using Blossom.Monetization.Ads.Internal;
-
 namespace Blossom.Monetization.Ads {
+    using System;
+    using Internal;
+    
     public static class Ads {
 
         #region Properties

@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine.Purchasing;
-
 namespace Blossom.Analytics {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine.Purchasing;
     
     [Serializable]
     public sealed class AnalyticsIAPRevenueData {

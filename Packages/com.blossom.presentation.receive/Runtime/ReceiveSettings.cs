@@ -1,7 +1,7 @@
-using System;
-using UnityEngine;
-
 namespace Blossom.Presentation.Receive {
+    using System;
+    using UnityEngine;
+    
     [Serializable]
     public sealed class ReceiveSettings {
         public Camera WorldCamera => worldCamera;

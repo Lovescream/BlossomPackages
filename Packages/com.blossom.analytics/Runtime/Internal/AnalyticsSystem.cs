@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Blossom.Analytics.Internal {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    
     internal static class AnalyticsSystem {
 
         #region Properties

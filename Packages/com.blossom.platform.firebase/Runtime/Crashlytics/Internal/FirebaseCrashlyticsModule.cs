@@ -1,11 +1,12 @@
 #if SDK_FIREBASE && SDK_FIREBASE_CRASHLYTICS
 
-using System;
-using Cysharp.Threading.Tasks;
 using Firebase;
 using Firebase.Crashlytics;
 
 namespace Blossom.Platform.Firebase.Internal {
+    using System;
+    using Cysharp.Threading.Tasks;
+    
     internal sealed class FirebaseCrashlyticsModule : IFirebaseModule {
 
         #region Properties

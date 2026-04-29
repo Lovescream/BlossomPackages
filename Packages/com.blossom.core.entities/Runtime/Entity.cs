@@ -1,8 +1,7 @@
-using UnityEngine;
-
 // TODO:: SetVisible(bool)과 같은 API 제공하기.
 
 namespace Blossom.Core.Entities {
+    using UnityEngine;
     
     /// <summary>
     /// 게임 내에서 관리되는 엔티티의 범용 베이스 클래스.

@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using Blossom.Persistence.Akiv.Internal;
-using Newtonsoft.Json;
-using UnityEngine;
-
 namespace Blossom.Persistence.Akiv {
+    using System;
+    using System.Collections.Generic;
+    using Internal;
+    using Newtonsoft.Json;
+    using UnityEngine;
+    
     [Serializable]
     public class AkivRef<T> : IAkivWrapper where T : class {
 

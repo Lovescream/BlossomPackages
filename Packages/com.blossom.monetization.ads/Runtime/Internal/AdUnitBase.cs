@@ -1,6 +1,6 @@
-using System;
-
 namespace Blossom.Monetization.Ads.Internal {
+    using System;
+    
     internal abstract class AdUnitBase {
         public abstract AdType AdType { get; }
         public bool IsLoaded { get; protected set; }

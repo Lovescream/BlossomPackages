@@ -1,11 +1,12 @@
 #if SDK_FIREBASE
 
-using System;
-using Cysharp.Threading.Tasks;
 using Firebase;
-using Blossom.Platform.Firebase.Internal;
 
 namespace Blossom.Platform.Firebase {
+    using System;
+    using Cysharp.Threading.Tasks;
+    using Internal;
+    
     public static class PlatformFirebase {
 
         #region Properties

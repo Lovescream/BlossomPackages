@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using Blossom.Common;
-using Blossom.Networking.Online;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
-
 namespace Blossom.Monetization.Ads.Internal {
+    using System;
+    using System.Collections.Generic;
+    using Common;
+    using Networking.Online;
+    using Cysharp.Threading.Tasks;
+    using UnityEngine;
+    
     internal static class AdsSystem {
         
         #region Properties

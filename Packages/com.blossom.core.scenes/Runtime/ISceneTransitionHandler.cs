@@ -1,7 +1,7 @@
-using System.Collections;
-using UnityEngine.SceneManagement;
-
 namespace Blossom.Core.Scenes {
+    using System.Collections;
+    using UnityEngine.SceneManagement;
+    
     /// <summary>
     /// 씬 전환 시점에 프로젝트가 개입할 수 있도록 하는 핸들러.
     /// 로딩 UI 표시, 매니저 정리, 특정 씬 유지 여부 등을 담당할 수 있음.

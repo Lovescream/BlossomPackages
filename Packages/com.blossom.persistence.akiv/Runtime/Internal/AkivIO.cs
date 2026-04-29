@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using UnityEngine;
-
 namespace Blossom.Persistence.Akiv.Internal {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
+    using UnityEngine;
+    
     internal static class AkivIO {
 
         #region Const.

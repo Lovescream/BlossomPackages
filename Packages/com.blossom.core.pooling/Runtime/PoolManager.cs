@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Blossom.Core.Pooling {
+    using System.Collections.Generic;
+    using UnityEngine;
+    
     internal static class PoolManager {
         
         private static readonly Dictionary<string, Pool> _pools = new();

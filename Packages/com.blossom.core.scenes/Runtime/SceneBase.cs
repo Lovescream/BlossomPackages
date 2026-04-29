@@ -1,8 +1,8 @@
-using System.Collections;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
 namespace Blossom.Core.Scenes {
+    using System.Collections;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+    
     public abstract class SceneBase : MonoBehaviour {
 
         private bool _initialized;

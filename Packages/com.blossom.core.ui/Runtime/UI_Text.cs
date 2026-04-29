@@ -1,7 +1,7 @@
-using TMPro;
-using UnityEngine;
-
 namespace Blossom.Core.UI {
+    using TMPro;
+    using UnityEngine;
+    
     public class UI_Text : UIBase {
 
         public TextMeshProUGUI TMP {

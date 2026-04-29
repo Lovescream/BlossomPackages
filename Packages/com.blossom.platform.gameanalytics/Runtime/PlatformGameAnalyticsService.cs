@@ -1,8 +1,9 @@
 #if SDK_GAMEANALYTICS
 
-using Blossom.Platform.GameAnalytics.Internal;
 
 namespace Blossom.Platform.GameAnalytics {
+    using Internal;
+    
     public static class PlatformGameAnalyticsService {
 
         private static bool _registered;

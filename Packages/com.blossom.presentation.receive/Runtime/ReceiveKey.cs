@@ -1,7 +1,6 @@
-using System;
-
 namespace Blossom.Presentation.Receive {
-
+    using System;
+    
     /// <summary>
     /// 보상 식별자.
     /// Ex: (Group: Currency, Key: Gold), (Group: Life, Key: Heart) (Group: Item, Key: Magnet)

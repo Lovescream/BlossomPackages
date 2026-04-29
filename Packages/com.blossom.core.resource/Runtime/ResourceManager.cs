@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Object = UnityEngine.Object;
-
 namespace Blossom.Core.Resource {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
+    
     internal static class ResourceManager {
 
         private static readonly Dictionary<Type, Dictionary<string, Object>> _cache = new();

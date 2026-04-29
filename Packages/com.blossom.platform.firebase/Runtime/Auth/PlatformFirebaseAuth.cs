@@ -1,11 +1,12 @@
 #if SDK_FIREBASE && SDK_FIREBASE_AUTH
 
-using System;
-using Cysharp.Threading.Tasks;
 using Firebase.Auth;
-using Blossom.Platform.Firebase.Internal;
 
 namespace Blossom.Platform.Firebase {
+    using System;
+    using Cysharp.Threading.Tasks;
+    using Internal;
+    
     public static class PlatformFirebaseAuth {
 
         #region Properties

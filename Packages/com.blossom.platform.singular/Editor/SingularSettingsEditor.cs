@@ -4,7 +4,7 @@ namespace Blossom.Platform.Singular.Editor {
     using UnityEditor;
     using Blossom.Common.Editor;
     
-    public class SingularSettingsEditor : UnityEditor.Editor {
+    public class SingularSettingsEditor : Editor {
 
         #region Const.
 

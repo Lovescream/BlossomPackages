@@ -1,6 +1,6 @@
-using UnityEngine;
-
 namespace Blossom.Core.Pooling {
+    using UnityEngine;
+    
     public static class Pools {
 
         /// <summary>

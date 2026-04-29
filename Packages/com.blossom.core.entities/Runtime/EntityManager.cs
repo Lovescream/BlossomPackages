@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Blossom.Core.Entities {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    
     internal static class EntityManager {
 
         private static IPrefabProvider _provider;

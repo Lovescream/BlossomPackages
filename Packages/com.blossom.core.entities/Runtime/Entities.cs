@@ -1,6 +1,6 @@
-using UnityEngine;
-
 namespace Blossom.Core.Entities {
+    using UnityEngine;
+
     public static class Entities {
 
         public static bool IsInitialized { get; private set; }

@@ -1,7 +1,7 @@
-using System;
-using UnityEngine;
-
 namespace Blossom.Presentation.Receive {
+    using System;
+    using UnityEngine;
+    
     public readonly struct ReceiveRequest {
 
         public ReceiveKey Key { get; }

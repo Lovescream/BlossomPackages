@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
-
 namespace Blossom.Presentation.Receive.Internal {
+    using System;
+    using System.Collections.Generic;
+    
     internal sealed class DefaultReceiveAmountSplitter : IReceiveAmountSplitter {
         public List<int> Split(ReceiveKey key, int amount) {
             List<int> result = new();

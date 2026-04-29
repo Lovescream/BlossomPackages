@@ -1,6 +1,5 @@
 namespace Blossom.Analytics {
     public sealed class AnalyticsSettings {
-
         public bool AutoSendAdRevenue { get; }
         public bool AutoSendIAPRevenue { get; }
 
@@ -8,6 +7,5 @@ namespace Blossom.Analytics {
             AutoSendAdRevenue = autoSendAdRevenue;
             AutoSendIAPRevenue = autoSendIAPRevenue;
         }
-
     }
 }

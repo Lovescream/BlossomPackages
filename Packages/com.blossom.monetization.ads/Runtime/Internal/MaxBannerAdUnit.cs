@@ -1,9 +1,9 @@
 #if SDK_APPLOVINMAX
 
-using System;
-using UnityEngine;
-
 namespace Blossom.Monetization.Ads.Internal {
+    using System;
+    using UnityEngine;
+    
     internal sealed class MaxBannerAdUnit : AdUnitBase {
         
         #region Properties

@@ -1,6 +1,6 @@
-using System;
-
 namespace Blossom.Persistence.Akiv {
+    using System;
+    
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class AkivAttribute : Attribute {
         public string Key { get; }

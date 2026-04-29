@@ -1,8 +1,7 @@
-using System;
-using Blossom.Common;
-using UnityEngine;
-
 namespace Blossom.Monetization.Ads {
+    using System;
+    using Common;
+    using UnityEngine;
 
     public sealed class AdsSettingsSO : SettingsSOBase {
         public AdProviderSettings Providers => providers;

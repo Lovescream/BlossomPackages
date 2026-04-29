@@ -1,7 +1,7 @@
-using System.Linq;
-using UnityEngine;
-
 namespace Blossom.Core {
+    using System.Linq;
+    using UnityEngine;
+
     public static class Utilities {
 
         public static T GetOrAddComponent<T>(this GameObject obj) where T : Component {

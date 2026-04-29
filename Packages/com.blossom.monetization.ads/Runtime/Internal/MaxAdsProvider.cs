@@ -1,9 +1,9 @@
 #if SDK_APPLOVINMAX
 
-using Cysharp.Threading.Tasks;
-using UnityEngine;
-
 namespace Blossom.Monetization.Ads.Internal {
+    using Cysharp.Threading.Tasks;
+    using UnityEngine;
+    
     internal sealed class MaxAdsProvider : IAdsProvider {
 
         #region Properties

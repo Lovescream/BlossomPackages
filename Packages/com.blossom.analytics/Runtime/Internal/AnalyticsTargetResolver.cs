@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
-
 namespace Blossom.Analytics.Internal {
+    using System;
+    using System.Collections.Generic;
+    
     internal static class AnalyticsTargetResolver {
         internal static IReadOnlyList<IAnalyticsService> Resolve(List<IAnalyticsService> allServices,
             Dictionary<string, IAnalyticsService> serviceMap, params string[] targetServiceKeys) {

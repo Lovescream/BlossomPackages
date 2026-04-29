@@ -1,7 +1,7 @@
-using Blossom.Presentation.Receive.Internal;
-using UnityEngine;
-
 namespace Blossom.Presentation.Receive {
+    using Internal;
+    using UnityEngine;
+    
     public static class Receive {
 
         public static Transform ReceiveUIParent => ReceiveSystem.ReceiveUIParent;

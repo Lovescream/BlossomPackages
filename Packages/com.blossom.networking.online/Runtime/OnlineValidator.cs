@@ -1,11 +1,10 @@
-using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.Networking;
-
 namespace Blossom.Networking.Online {
+    using System;
+    using System.Diagnostics;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using UnityEngine;
+    using UnityEngine.Networking;
     
     internal interface IOnlineAccessValidator {
         Task<bool> Validate(CancellationToken token = default);

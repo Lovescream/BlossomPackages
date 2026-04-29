@@ -1,9 +1,9 @@
 #if SDK_GAMEANALYTICS
 
-using System;
-using Blossom.Platform.GameAnalytics.Internal;
-
 namespace Blossom.Platform.GameAnalytics {
+    using System;
+    using Internal;
+    
     public static class PlatformGameAnalytics {
         public static bool IsInitialized => GameAnalyticsInitializer.IsInitialized;
 

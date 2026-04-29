@@ -1,9 +1,10 @@
 #if SDK_FIREBASE && SDK_FIREBASE_ANALYTICS
 
 using Firebase.Analytics;
-using Blossom.Platform.Firebase.Internal;
 
 namespace Blossom.Platform.Firebase {
+    using Internal;
+    
     public static class PlatformFirebaseAnalytics {
 
         #region Properties

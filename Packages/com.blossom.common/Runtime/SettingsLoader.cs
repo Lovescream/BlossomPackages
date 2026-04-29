@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-
 namespace Blossom.Common {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using UnityEngine;
+    
     public static class SettingsLoader {
 
         private const string SettingsResourcePath = "@Blossom/Settings/";

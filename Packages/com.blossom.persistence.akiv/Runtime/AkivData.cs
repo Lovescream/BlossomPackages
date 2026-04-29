@@ -1,9 +1,9 @@
-using System;
-using System.Reflection;
-using System.Runtime.Serialization;
-using Blossom.Persistence.Akiv.Internal;
-
 namespace Blossom.Persistence.Akiv {
+    using System;
+    using System.Reflection;
+    using System.Runtime.Serialization;
+    using Internal;
+    
     [Serializable]
     public class AkivData : IAkivData {
         public string Key {

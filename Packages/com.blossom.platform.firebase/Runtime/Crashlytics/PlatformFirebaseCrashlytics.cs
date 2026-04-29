@@ -1,9 +1,9 @@
 #if SDK_FIREBASE && SDK_FIREBASE_CRASHLYTICS
 
-using System;
-using Blossom.Platform.Firebase.Internal;
-
 namespace Blossom.Platform.Firebase {
+    using System;
+    using Internal;
+    
     public static class PlatformFirebaseCrashlytics {
         
         #region Properties

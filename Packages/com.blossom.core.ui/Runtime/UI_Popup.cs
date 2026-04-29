@@ -1,6 +1,6 @@
 namespace Blossom.Core.UI {
     using System;
-    using Blossom.Core.UI.Internal;
+    using Internal;
     using DG.Tweening;
     using UnityEngine;
 

@@ -1,12 +1,11 @@
 #if UNITY_EDITOR
 
-using System;
-using System.Collections.Generic;
-using Blossom.Common.Editor;
-using UnityEditor;
-using UnityEngine;
-
 namespace Blossom.Monetization.IAP.Editor {
+    using System;
+    using System.Collections.Generic;
+    using Blossom.Common.Editor;
+    using UnityEditor;
+    using UnityEngine;
 
     [CustomPropertyDrawer(typeof(IAPTagAttribute))]
     public sealed class IAPTagNameAttributeDrawer : PropertyDrawer {
@@ -81,7 +80,6 @@ namespace Blossom.Monetization.IAP.Editor {
         }
 
     }
-
 }
 
 #endif

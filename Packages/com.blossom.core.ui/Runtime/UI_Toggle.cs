@@ -1,8 +1,8 @@
-using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
 namespace Blossom.Core.UI {
+    using System;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    
     public class UI_Toggle : UI_Image, IPointerClickHandler {
 
         public bool IsOn {

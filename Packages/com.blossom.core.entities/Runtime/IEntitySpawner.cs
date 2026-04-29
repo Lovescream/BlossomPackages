@@ -1,6 +1,6 @@
-using UnityEngine;
-
 namespace Blossom.Core.Entities {
+    using UnityEngine;
+    
     public interface IEntitySpawner {
         /// <summary>
         /// prefab을 기반으로 인스턴스를 생성.

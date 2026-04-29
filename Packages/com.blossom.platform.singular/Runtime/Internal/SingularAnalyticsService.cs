@@ -1,9 +1,10 @@
 #if SDK_SINGULAR
 
-using Blossom.Analytics;
 using Singular;
 
 namespace Blossom.Platform.Singular.Internal {
+    using Analytics;
+    
     internal sealed class SingularAnalyticsService : IAnalyticsService {
 
         #region Properties
@@ -54,4 +55,5 @@ namespace Blossom.Platform.Singular.Internal {
 
     }
 }
+
 #endif

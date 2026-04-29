@@ -1,10 +1,10 @@
 #if SDK_GAMEANALYTICS
 
-using System.Collections.Generic;
-using Blossom.Analytics;
-using GameAnalyticsSDK;
-
 namespace Blossom.Platform.GameAnalytics.Internal {
+    using System.Collections.Generic;
+    using Analytics;
+    using GameAnalyticsSDK;
+    
     internal sealed class GameAnalyticsService : IAnalyticsService {
 
         #region Properties

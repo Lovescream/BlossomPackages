@@ -1,6 +1,6 @@
-using UnityEngine;
-
 namespace Blossom.Core.UI {
+    using UnityEngine;
+    
     public abstract class UIBase : MonoBehaviour {
 
         internal string PoolKey { get; private set; }

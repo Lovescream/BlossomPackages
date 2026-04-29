@@ -1,8 +1,8 @@
 #if SDK_SINGULAR
 
-using Blossom.Platform.Singular.Internal;
-
 namespace Blossom.Platform.Singular {
+    using Internal;
+    
     public static class PlatformSingularAnalyticsService {
 
         private static bool _registered;

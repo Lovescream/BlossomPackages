@@ -1,12 +1,13 @@
 #if SDK_FIREBASE
 
-using System;
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using Firebase;
-using UnityEngine;
 
 namespace Blossom.Platform.Firebase.Internal {
+    using System;
+    using System.Collections.Generic;
+    using Cysharp.Threading.Tasks;
+    using UnityEngine;
+    
     internal static class FirebaseInitializer {
 
         #region Const.

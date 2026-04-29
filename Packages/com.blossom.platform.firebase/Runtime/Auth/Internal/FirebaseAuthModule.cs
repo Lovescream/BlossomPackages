@@ -1,12 +1,13 @@
 #if SDK_FIREBASE && SDK_FIREBASE_AUTH
 
-using System;
-using Cysharp.Threading.Tasks;
 using Firebase;
 using Firebase.Auth;
-using UnityEngine;
 
 namespace Blossom.Platform.Firebase.Internal {
+    using System;
+    using Cysharp.Threading.Tasks;
+    using UnityEngine;
+    
     internal sealed class FirebaseAuthModule : IFirebaseModule {
 
         #region Properties

@@ -1,7 +1,7 @@
-using DG.Tweening;
-using UnityEngine;
-
 namespace Blossom.Presentation.Receive.Internal {
+    using DG.Tweening;
+    using UnityEngine;
+    
     internal sealed class DefaultBurstArcEffect : IReceiveEffect {
 
         #region Const.

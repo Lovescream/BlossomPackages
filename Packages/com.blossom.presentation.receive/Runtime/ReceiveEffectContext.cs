@@ -1,7 +1,7 @@
-using System;
-using UnityEngine;
-
 namespace Blossom.Presentation.Receive {
+    using System;
+    using UnityEngine;
+    
     public sealed class ReceiveEffectContext {
         public IReceiveObject Object;
         public Vector3 StartPosition;

@@ -1,12 +1,12 @@
 #if SDK_APPLOVINMAX
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Blossom.Common;
-using UnityEngine;
-
 namespace Blossom.Platform.AppLovinMax {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Common;
+    using UnityEngine;
+    
     public class AppLovinMaxSettingsSO : SettingsSOBase {
 
         #region Properties

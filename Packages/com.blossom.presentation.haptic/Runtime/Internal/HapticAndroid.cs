@@ -1,4 +1,5 @@
 namespace Blossom.Presentation.Haptic.Internal {
+    #if UNITY_ANDROID && !UNITY_EDITOR
     using UnityEngine;
     
     internal static class HapticAndroid {
@@ -77,4 +78,5 @@ namespace Blossom.Presentation.Haptic.Internal {
             }
         }
     }
+    #endif
 }

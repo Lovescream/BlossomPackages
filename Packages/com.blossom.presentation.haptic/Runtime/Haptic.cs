@@ -1,5 +1,5 @@
 namespace Blossom.Presentation.Haptic {
-    using Blossom.Presentation.Haptic.Internal;
+    using Internal;
     using UnityEngine;
     
     public static class Haptic {

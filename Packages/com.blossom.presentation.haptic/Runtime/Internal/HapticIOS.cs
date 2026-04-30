@@ -1,4 +1,5 @@
 namespace Blossom.Presentation.Haptic.Internal {
+#if UNITY_IOS && !UNITY_EDITOR
     using System.Runtime.InteropServices;
     using UnityEngine;
 
@@ -16,4 +17,5 @@ namespace Blossom.Presentation.Haptic.Internal {
 #endif
         }
     }
+#endif
 }

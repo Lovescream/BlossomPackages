@@ -124,6 +124,8 @@ namespace Blossom.PackageManager.Editor {
                             return;
                         }
 
+                        ApplyPackagePostInstallActions(package);
+
                         SessionState.SetInt(SessionKey_Index, index + 1);
                         EditorApplication.delayCall += Continue;
                     });
@@ -131,6 +133,15 @@ namespace Blossom.PackageManager.Editor {
             });
         }
 
+        private static void ApplyPackagePostInstallActions(BlossomPackageInfo package) {
+            if (package == null || package.InstallDefineSymbols == null) return;
+
+            foreach (string symbol in package.InstallDefineSymbols) {
+                if (string.IsNullOrWhiteSpace(symbol)) continue;
+                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget(symbol);
+            }
+        }
+        
         private static List<BlossomPackageDependencyInfo> RestoreDependencies() {
             string[] names = Split(SessionState.GetString(SessionKey_DependencyNames, ""));
             string[] modes = Split(SessionState.GetString(SessionKey_DependencyModes, ""));

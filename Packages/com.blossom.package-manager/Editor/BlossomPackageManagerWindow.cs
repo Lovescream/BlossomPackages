@@ -841,43 +841,15 @@ namespace Blossom.PackageManager.Editor {
         }
 
         private void InstallSinglePackage(BlossomPackageInfo package) {
-            string installId = package.BuildInstallId(
-                BlossomPackageCatalog.Owner,
-                BlossomPackageCatalog.Repo,
-                BlossomPackageCatalog.DefaultRef);
+            if (package == null) return;
 
-            _isRefreshing = true;
-            _statusMessage = $"Installing {package.DisplayName}...";
+            BlossomInstallRunner.Start(
+                new List<BlossomPackageDependencyInfo>(),
+                new List<BlossomPackageInfo> { package });
 
-            BlossomPackageInstaller.Install(installId, (success, error) => {
-                if (!success) {
-                    _isRefreshing = false;
-                    EditorUtility.DisplayDialog(
-                        "Install Failed",
-                        error ?? $"Failed to install {package.DisplayName}.",
-                        "OK");
-                    Refresh();
-                    return;
-                }
-
-                ApplyPackagePostInstallActions(package);
-
-                BlossomPackageInstaller.Resolve(() => {
-                    _isRefreshing = false;
-                    Refresh();
-                });
-            });
+            Refresh();
         }
         
-        private void ApplyPackagePostInstallActions(BlossomPackageInfo package) {
-            if (package == null || package.InstallDefineSymbols == null) return;
-
-            foreach (string symbol in package.InstallDefineSymbols) {
-                if (string.IsNullOrWhiteSpace(symbol)) continue;
-                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget(symbol);
-            }
-        }
-
         private bool IsDependencyAutoInstallable(BlossomPackageDependencyInfo dependency) {
             if (dependency == null || !dependency.AutoInstall) return false;
 

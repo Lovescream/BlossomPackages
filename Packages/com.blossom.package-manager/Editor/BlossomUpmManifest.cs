@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 namespace Blossom.PackageManager.Editor {
+    
     internal sealed class BlossomUpmManifest {
 
         private const string KeyName = "name";

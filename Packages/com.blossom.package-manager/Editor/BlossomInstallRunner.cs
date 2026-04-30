@@ -138,7 +138,7 @@ namespace Blossom.PackageManager.Editor {
 
             foreach (string symbol in package.InstallDefineSymbols) {
                 if (string.IsNullOrWhiteSpace(symbol)) continue;
-                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget(symbol);
+                BlossomDefineSymbolUtility.AddSymbolToSupportedTargets(symbol);
             }
         }
         

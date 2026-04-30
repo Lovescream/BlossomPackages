@@ -6,21 +6,42 @@ using UnityEditor.Build;
 namespace Blossom.PackageManager.Editor {
     internal static class BlossomDefineSymbolUtility {
 
-        public static void AddSymbolToCurrentTarget(string symbol) {
+        private static readonly BuildTargetGroup[] SupportedGroups = {
+            BuildTargetGroup.Standalone,
+            BuildTargetGroup.Android,
+            BuildTargetGroup.iOS
+        };
+
+        public static void AddSymbolToSupportedTargets(string symbol) {
             if (string.IsNullOrWhiteSpace(symbol)) return;
 
+            foreach (BuildTargetGroup group in SupportedGroups) {
+                AddSymbolToGroup(group, symbol);
+            }
+        }
+
+        public static void RemoveSymbolFromSupportedTargets(string symbol) {
+            if (string.IsNullOrWhiteSpace(symbol)) return;
+
+            foreach (BuildTargetGroup group in SupportedGroups) {
+                RemoveSymbolFromGroup(group, symbol);
+            }
+        }
+
+        private static void AddSymbolToGroup(BuildTargetGroup group, string symbol) {
 #if UNITY_2021_2_OR_NEWER
-            NamedBuildTarget namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-            string defines = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
+            NamedBuildTarget target = NamedBuildTarget.FromBuildTargetGroup(group);
+            string defines = PlayerSettings.GetScriptingDefineSymbols(target);
             string updated = AddSymbol(defines, symbol);
+
             if (defines != updated) {
-                PlayerSettings.SetScriptingDefineSymbols(namedBuildTarget, updated);
+                PlayerSettings.SetScriptingDefineSymbols(target, updated);
             }
 #else
 #pragma warning disable CS0618
-            BuildTargetGroup group = EditorUserBuildSettings.selectedBuildTargetGroup;
             string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
             string updated = AddSymbol(defines, symbol);
+
             if (defines != updated) {
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(group, updated);
             }
@@ -28,21 +49,20 @@ namespace Blossom.PackageManager.Editor {
 #endif
         }
 
-        public static void RemoveSymbolFromCurrentTarget(string symbol) {
-            if (string.IsNullOrWhiteSpace(symbol)) return;
-
+        private static void RemoveSymbolFromGroup(BuildTargetGroup group, string symbol) {
 #if UNITY_2021_2_OR_NEWER
-            NamedBuildTarget namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-            string defines = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
+            NamedBuildTarget target = NamedBuildTarget.FromBuildTargetGroup(group);
+            string defines = PlayerSettings.GetScriptingDefineSymbols(target);
             string updated = RemoveSymbol(defines, symbol);
+
             if (defines != updated) {
-                PlayerSettings.SetScriptingDefineSymbols(namedBuildTarget, updated);
+                PlayerSettings.SetScriptingDefineSymbols(target, updated);
             }
 #else
 #pragma warning disable CS0618
-            BuildTargetGroup group = EditorUserBuildSettings.selectedBuildTargetGroup;
             string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
             string updated = RemoveSymbol(defines, symbol);
+
             if (defines != updated) {
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(group, updated);
             }

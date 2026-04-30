@@ -1,7 +1,7 @@
 {
   "owner": "Lovescream",
   "repo": "BlossomPackages",
-  "defaultRef": "V0.4.9",
+  "defaultRef": "V0.5.0",
   "groups": [
     {
       "name": "Required",
@@ -349,15 +349,6 @@
       "isRequired": false,
       "path": "Packages/com.blossom.platform.firebase",
       "refName": "",
-      "installDefineSymbols": [
-        "SDK_FIREBASE"
-      ],
-      "removeDefineSymbols": [
-        "SDK_FIREBASE",
-        "SDK_FIREBASE_ANALYTICS",
-        "SDK_FIREBASE_AUTH",
-        "SDK_FIREBASE_CRASHLYTICS"
-      ],
       "requiredDependencies": [
         {
           "name": "com.blossom.analytics",
@@ -376,8 +367,15 @@
           "note": "Firebase 설치 전에 EDM4U를 먼저 설치합니다.",
           "detectMode": "PackageList",
           "detectValue": "",
-          "installDefineSymbols": [],
-          "removeDefineSymbols": [],
+          "installDefineSymbols": [
+            "SDK_FIREBASE"
+          ],
+          "removeDefineSymbols": [
+            "SDK_FIREBASE",
+            "SDK_FIREBASE_ANALYTICS",
+            "SDK_FIREBASE_AUTH",
+            "SDK_FIREBASE_CRASHLYTICS"
+          ],
           "registries": [
             {
               "name": "package.openupm.com",

@@ -480,6 +480,13 @@ namespace Blossom.PackageManager.Editor {
                 BlossomPackageInstaller.Resolve(() => {
                     _isRefreshing = false;
                     Refresh();
+
+                    EditorApplication.delayCall += () => {
+                        EditorUtility.DisplayDialog(
+                            "Remove Complete",
+                            $"{dependency.DisplayName} 제거가 완료되었습니다.",
+                            "OK");
+                    };
                 });
             });
         }
@@ -922,6 +929,13 @@ namespace Blossom.PackageManager.Editor {
                 BlossomPackageInstaller.Resolve(() => {
                     _isRefreshing = false;
                     Refresh();
+
+                    EditorApplication.delayCall += () => {
+                        EditorUtility.DisplayDialog(
+                            "Remove Complete",
+                            $"{package.DisplayName} 패키지 제거가 완료되었습니다.",
+                            "OK");
+                    };
                 });
             });
         }
@@ -931,7 +945,7 @@ namespace Blossom.PackageManager.Editor {
 
             foreach (string symbol in package.RemoveDefineSymbols) {
                 if (string.IsNullOrWhiteSpace(symbol)) continue;
-                BlossomDefineSymbolUtility.RemoveSymbolFromCurrentTarget(symbol);
+                BlossomDefineSymbolUtility.RemoveSymbolFromSupportedTargets(symbol);
             }
         }
         

@@ -90,7 +90,7 @@ namespace Blossom.PackageManager.Editor {
 
             foreach (string symbol in dependency.InstallDefineSymbols) {
                 if (string.IsNullOrWhiteSpace(symbol)) continue;
-                BlossomDefineSymbolUtility.AddSymbolToCurrentTarget(symbol);
+                BlossomDefineSymbolUtility.AddSymbolToSupportedTargets(symbol);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Blossom.PackageManager.Editor {
 
             foreach (string symbol in dependency.RemoveDefineSymbols) {
                 if (string.IsNullOrWhiteSpace(symbol)) continue;
-                BlossomDefineSymbolUtility.RemoveSymbolFromCurrentTarget(symbol);
+                BlossomDefineSymbolUtility.RemoveSymbolFromSupportedTargets(symbol);
             }
         }
     }
